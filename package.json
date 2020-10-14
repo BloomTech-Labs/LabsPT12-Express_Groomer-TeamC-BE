@@ -29,7 +29,8 @@
     "exec": "npm run start",
     "watch": [
       "api/*",
-      "public/*"
+      "public/*",
+      "data/Model.js"
     ],
     "ignore": [
       "**/__tests__/**",
@@ -53,7 +54,8 @@
     "morgan": "~1.9.1",
     "pg": "^8.2.1",
     "swagger-jsdoc": "^4.0.0",
-    "swagger-ui-express": "^4.1.4"
+    "swagger-ui-express": "^4.1.4",
+    "uuid": "^8.3.1"
   },
   "devDependencies": {
     "cross-env": "^7.0.2",

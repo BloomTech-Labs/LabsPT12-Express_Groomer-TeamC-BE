@@ -4,6 +4,16 @@ class Profile extends Model {
   constructor() {
     super();
     this.tableName = 'profiles';
+    /** VALIDATION */
+    const fullNameSchema = {
+      id: '/fullName',
+      type: 'object',
+      properties: {
+        first_name: { type: 'string' },
+        last_name: { type: 'string' },
+      },
+    };
+    this.validator.addSchema(fullNameSchema, '/fullName');
     this.validationSchema = {
       id: '/Profile',
       type: 'object',
