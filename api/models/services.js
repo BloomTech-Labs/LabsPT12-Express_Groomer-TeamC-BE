@@ -1,6 +1,6 @@
 const Model = require('./Model');
 
-class Services extends Model {
+class Service extends Model {
   constructor() {
     super();
     this.tableName = 'services';
@@ -17,4 +17,4 @@ class Services extends Model {
   }
 }
 
-module.exports = Services;
+module.exports = new Service();
