@@ -1,5 +1,5 @@
 const db = require('./db-config');
-const { Validator } = require('jsonschema');
+const { Validator, SchemaError } = require('jsonschema');
 
 class ValidationError extends Error {
   constructor(data, ...params) {
@@ -19,20 +19,60 @@ class Model {
     this.tableName = null; // table name as in the databases
     this.validationSchema = {}; // validation schema to validate data
     this.validator = new Validator(); // validator instance
+    /** custom validations handler **/
+    // validate full name
+    const fullNameSchema = {
+      id: '/fullName',
+      type: 'object',
+      properties: {
+        first_name: { type: 'string' },
+        last_name: { type: 'string' },
+      },
+    };
+    this.validator.addSchema(fullNameSchema, '/fullName');
+    // check if constraint foreign key exist in target table
+    this.validator.attributes.oneOf = async (
+      instance,
+      schema,
+      options,
+      ctx
+    ) => {
+      // check type if instance
+      if (typeof instance !== 'object') return;
+      // check type of index
+      if (typeof schema.oneOf !== 'object')
+        throw new SchemaError("'oneOf' expects an object", schema);
+      if (
+        'key' in schema.oneOf &&
+        'value' in schema.oneOf &&
+        'target' in schema.oneOf
+      ) {
+        // check the key value pair exits in target table
+        const response = await db(schema.oneOf.target).where({
+          [schema.oneOf.key]: schema.oneOf.value,
+        });
+        // if not exists return error
+        if (!response)
+          return `${schema.oneOf.key} does not exist in ${schema.oneOf.target}`;
+      } else {
+        // throw error if schema missed of this attributes "key", "value", or "target"
+        throw new SchemaError('"key", "value" or "target" are missing', schema);
+      }
+    };
   }
 
   /**
    * @returns {array} of rows in the table
    */
-  query() {
-    return db(this.tableName);
+  async query() {
+    return await db(this.tableName);
   }
 
   /**
    * @returns {array} of rows in the table
    */
-  findAll() {
-    return this.query();
+  async findAll() {
+    return await this.query();
   }
 
   /**
@@ -40,8 +80,8 @@ class Model {
    * @param {string} id table primary key
    * @returns {object} first row corresponding to the id
    */
-  findById(id) {
-    return this.query().where({ id }).first();
+  async findById(id) {
+    return await this.query().where({ id }).first();
   }
 
   /**
@@ -49,12 +89,12 @@ class Model {
    * @param {object} payload data to be persist
    * @returns {object} created data
    */
-  create(payload) {
+  async create(payload) {
     const validated = this.validator.validate(payload, this.validationSchema);
 
     if (validated.errors.length) throw new ValidationError(v.errors);
 
-    return this.query().insert(payload).returning('*');
+    return await this.query().insert(payload).returning('*');
   }
 
   /**
@@ -63,12 +103,12 @@ class Model {
    * @param {object} payload  new data to persist
    * @returns {object} updated data
    */
-  update(id, payload) {
+  async update(id, payload) {
     const validated = this.validator.validate(payload, this.validationSchema);
 
     if (validated.errors.length) throw new ValidationError(v.errors);
 
-    return this.query().where({ id }).update(payload).returning('*');
+    return await this.query().where({ id }).update(payload).returning('*');
   }
 
   /**
@@ -76,8 +116,8 @@ class Model {
    * @param {string} id row reference to be deleted
    * @returns {string} deleted id
    */
-  remove(id) {
-    return this.query().where({ id }).del();
+  async remove(id) {
+    return await this.query().where({ id }).del();
   }
 }
 
