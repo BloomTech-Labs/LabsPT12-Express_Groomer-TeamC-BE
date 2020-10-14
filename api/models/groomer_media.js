@@ -11,7 +11,7 @@ class GroomerMedia extends Model {
       properties: {
         groomer_id: {
           type: 'string',
-          oneOf: { key: 'id', target: 'groomers' },
+          oneOf: { key: 'profile_id', target: 'groomers' },
         },
         url: { type: 'string' },
         description: { type: 'string' },

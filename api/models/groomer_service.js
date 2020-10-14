@@ -11,7 +11,7 @@ class GroomerService extends Model {
       properties: {
         groomer_id: {
           type: 'string',
-          oneOf: { key: 'id', target: 'groomers' },
+          oneOf: { key: 'profile_id', target: 'groomers' },
         },
         service_id: {
           type: 'string',

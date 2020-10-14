@@ -12,7 +12,7 @@ class Comment extends Model {
         author: { type: 'string', oneOf: { key: 'id', target: 'profiles' } },
         groomer_id: {
           type: 'string',
-          oneOf: { key: 'id', target: 'groomers' },
+          oneOf: { key: 'profile_id', target: 'groomers' },
         },
         body: { type: 'string' },
       },
