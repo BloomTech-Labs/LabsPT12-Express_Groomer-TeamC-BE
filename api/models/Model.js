@@ -1,5 +1,5 @@
 const uuid = require('uuid');
-const knex = require('./db-config');
+const knex = require('../../data/db-config');
 const Validator = require('./Validator');
 
 class Model {

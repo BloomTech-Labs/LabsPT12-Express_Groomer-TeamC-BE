@@ -1,4 +1,4 @@
-const Model = require('../Model');
+const Model = require('./Model');
 
 class Profile extends Model {
   constructor() {
@@ -19,7 +19,7 @@ class Profile extends Model {
       type: 'object',
       required: ['email', 'name', 'user_type'],
       properties: {
-        email: { type: 'email' },
+        email: { type: 'email', unique: { target: this.tableName } },
         name: { $ref: '/fullName' },
         user_type: { type: 'string' },
         avatarUrl: { type: 'string' },
