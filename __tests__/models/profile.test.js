@@ -4,11 +4,7 @@ const Profile = require('./../../api/models/profile');
 const UserType = require('../../api/models/userType');
 const Validator = require('./../../api/models/Validator');
 
-describe('profile model test', () => {
-  afterAll(async () => {
-    await Profile.query().del()
-  })
-
+describe('testing model "Profile"', () => {
   describe('retrieve data', () => {
     it("findAll: should return all entries", async() => {
       const result = await Profile.findAll();

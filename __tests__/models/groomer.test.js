@@ -4,10 +4,7 @@ const Groomer = require('./../../api/models/groomer');
 const Profile = require('./../../api/models/profile');
 const Validator = require('./../../api/models/Validator');
 
-describe('groomer model test', () => {
-    afterAll(async () => {
-        await Groomer.query().del()
-    })
+describe('testing model "Groomer"', () => {
 
     describe("persist data", () => {
         it("should successful create new groomer", async () => {
@@ -53,7 +50,7 @@ describe('groomer model test', () => {
     })
 
     describe("delete data", () => {
-        it("should row in the database table corresponding with the specified ID", async () => {
+        it("should delete row in the database table corresponding with the specified ID", async () => {
             const groomer = (await Groomer.findAll())[0]
             const result = await Groomer.remove(groomer.id);
 
