@@ -50,7 +50,7 @@ class Validator {
     };
   }
 
-  async validate(data, schema) {
+  async validate(data, schema, params = {context: null, method: null}) {
     this._validate(data, schema);
     if (this.errors.length > 0) return false;
     /**
@@ -71,12 +71,12 @@ class Validator {
             break;
           case 'unique':
             obj = schema.properties[key][attr];
-            await this._unique(obj.target, key, this.validatedData[key]);
+            await this._unique(obj.target, key, this.validatedData[key], params.method);
             break;
         }
       }
     }
-
+    if (this.errors.length > 0) return false;
     return true;
   }
 
@@ -90,8 +90,8 @@ class Validator {
 
   async _oneOf(target, key, value, field) {
     const response = await this.knex(target).where({ [key]: value });
-
-    if (!response.length) {
+  
+    if (!response.length) { 
       this.errors = [
         ...this.errors,
         {
@@ -102,10 +102,10 @@ class Validator {
     }
   }
 
-  async _unique(target, key, value) {
+  async _unique(target, key, value, method = null) {
     const response = await this.knex(target).where({ [key]: value });
 
-    if (response.length > 0) {
+    if (response.length > 0 && method !== "update") {
       this.errors = [
         ...this.errors,
         {

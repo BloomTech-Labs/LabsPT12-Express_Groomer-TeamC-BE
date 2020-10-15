@@ -13,8 +13,8 @@ class Model {
   /** knex root query
    * @returns {array} of rows in the table
    */
-  async query() {
-    return await knex(this.tableName);
+  query() {
+    return knex(this.tableName);
   }
 
   /**
@@ -56,7 +56,7 @@ class Model {
    * @returns {object} updated data
    */
   async update(id, payload) {
-    if (!(await this.validator.validate(payload, this.validationSchema)))
+    if (!(await this.validator.validate(payload, this.validationSchema, { context: this, method: "update" })))
       return this.validator.errors;
     const data = this.validator.validatedData;
     return await this.query().where({ id }).update(payload).returning('*');

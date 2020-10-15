@@ -9,7 +9,7 @@ const profiles = [...new Array(5)].map((i, idx) => ({
   id: idx === 0 ? '00ulthapbErVUwVJy4x6' : faker.random.alphaNumeric(20),
   user_type: userTypeIds[Math.round(Math.random())],
   avatarUrl: faker.image.avatar(),
-  email: idx === 0 ? 'llama001@maildrop.cc"' : faker.internet.email(),
+  email: idx === 0 ? 'llama001@maildrop.cc' : faker.internet.email(),
   name:
     idx === 0
       ? 'Test001 User'
