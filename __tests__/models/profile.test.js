@@ -6,7 +6,7 @@ const Validator = require('./../../api/models/Validator');
 
 describe('profile model test', () => {
   afterAll(async () => {
-    // await knex.del()
+    await Profile.query().del()
   })
 
   describe('retrieve data', () => {

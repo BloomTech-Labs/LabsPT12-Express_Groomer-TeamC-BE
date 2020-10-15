@@ -5,6 +5,9 @@ const Profile = require('./../../api/models/profile');
 const Validator = require('./../../api/models/Validator');
 
 describe('groomer model test', () => {
+    afterAll(async () => {
+        await Groomer.query().del()
+    })
 
     describe("persist data", () => {
         it("should successful create new groomer", async () => {
