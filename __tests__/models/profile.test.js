@@ -5,9 +5,9 @@ const UserType = require('../../api/models/userType');
 const Validator = require('./../../api/models/Validator');
 
 describe('profile model test', () => {
-  //   beforeEach(async () => {
-  //     await knex.seed.run();
-  //   });
+  afterAll(async () => {
+    // await knex.del()
+  })
 
   describe('retrieve data', () => {
     it("findAll: should return all entries", async() => {
@@ -94,7 +94,7 @@ describe('profile model test', () => {
   })
 
   describe("data type validation",  () => {
-    it("should failed", async () => { 
+    it("should failed if invalid data type", async () => { 
       const data = { email: "add", address: 5, city: 6, state: 4, zip_code: "8888" }
       const result = await Profile.create(data)
 

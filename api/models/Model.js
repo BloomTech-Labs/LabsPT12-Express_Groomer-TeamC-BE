@@ -68,7 +68,8 @@ class Model {
    * @returns {string} deleted id
    */
   async remove(id) {
-    return await this.query().where({ id }).del();
+    await this.query().where({ id }).del();
+    return id
   }
 }
 
