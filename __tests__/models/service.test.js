@@ -37,7 +37,7 @@ describe('testing model "Service"', () => {
 
     describe("retrieve data", () => {
         it("should return all rows", async () => {
-            expect((await Service.findAll()).length).toBe(1)
+            expect((await Service.findAll()).length).toBe(2)
         })
         it("should return row corresponding to the specified ID", async () => {
             const service = (await Service.findAll())[0]
@@ -51,7 +51,7 @@ describe('testing model "Service"', () => {
             const result = await Service.remove(service.id)
 
             expect((await Service.findById(service.id))).toBeUndefined()
-            expect((await Service.findAll()).length).toBe(0)
+            expect((await Service.findAll()).length).toBe(1)
         })
     })
 

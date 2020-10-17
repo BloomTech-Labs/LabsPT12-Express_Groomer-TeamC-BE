@@ -8,7 +8,7 @@ describe('testing model "Groomer"', () => {
 
     describe("persist data", () => {
         it("should successful create new groomer", async () => {
-            const profile = (await Profile.findAll())[0]
+            const profile = (await Profile.findAll())[1]
             const data = {
                 profile_id: profile.id,
                 travel: true,
@@ -41,7 +41,7 @@ describe('testing model "Groomer"', () => {
 
     describe('retrieve data', () => {
         it("findAll: should return all entries in the database table", async () => {
-            expect((await Groomer.findAll()).length).toBe(1)
+            expect((await Groomer.findAll()).length).toBe(2)
         })
         it("findById: should return row entry corresponding to the specified ID in this case 'undefined'", async () => {
             const groomer = (await Groomer.findAll())[0]
@@ -52,10 +52,11 @@ describe('testing model "Groomer"', () => {
     describe("delete data", () => {
         it("should delete row in the database table corresponding with the specified ID", async () => {
             const groomer = (await Groomer.findAll())[0]
+            // console.log(groomer)
             const result = await Groomer.remove(groomer.id);
 
             expect((await Groomer.findById(groomer.id))).toBeUndefined()
-            expect((await Groomer.findAll()).length).toBe(0)
+            expect((await Groomer.findAll()).length).toBe(1)
         })
     })
 
