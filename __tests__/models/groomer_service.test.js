@@ -42,7 +42,7 @@ describe('testing model "GroomerService"', () => {
         it("findAll: should return all entries in the database table", async () => {
             expect((await GroomerService.findAll()).length).toBe(1)
         })
-        it("findById: should return row entry corresponding to the specified ID in this case 'undefined'", async () => {
+        it("findById: should return row entry corresponding to the specified ID", async () => {
             const groomerService = (await GroomerService.findAll())[0]
             expect((await GroomerService.findById(groomerService.id))).toEqual(groomerService)
         })
