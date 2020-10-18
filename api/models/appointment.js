@@ -1,3 +1,4 @@
+const { format } = require('morgan');
 const Model = require('./Model');
 
 class Appointment extends Model {
@@ -19,14 +20,14 @@ class Appointment extends Model {
         client_id: { type: 'string', oneOf: { key: 'id', target: 'profiles' } },
         groomer_id: {
           type: 'string',
-          oneOf: { key: 'profile_id', target: 'groomers' },
+          oneOf: { key: 'id', target: 'profiles' },
         },
         service_id: {
           type: 'string',
           oneOf: { key: 'id', target: 'groomer_services' },
         },
         animal_id: { type: 'string', oneOf: { key: 'id', target: 'animals' } },
-        appointment_date: { type: 'string' },
+        appointment_date: { type: 'string', format: 'date-time'}, // 2018-11-13T20:20:39+00:00
         location: { type: 'string' },
       },
     };
