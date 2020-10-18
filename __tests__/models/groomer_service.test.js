@@ -6,7 +6,7 @@ const Validator = require('./../../api/models/Validator');
 
 describe('testing model "GroomerService"', () => {
     afterAll(async () => {
-        GroomerService.del()
+        // GroomerService.del()
     })
     describe("persist data", () => {
         it("should successful create new groomer service", async () => {

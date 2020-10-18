@@ -9,7 +9,7 @@ class Rating extends Model {
       required: ['user_id', 'rating'],
       properties: {
         user_id: { type: 'string', oneOf: { key: 'id', target: 'profiles' } },
-        ratings: { type: 'number' },
+        rating: { type: 'number' },
       },
     };
   }
