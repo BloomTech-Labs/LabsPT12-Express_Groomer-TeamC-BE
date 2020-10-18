@@ -14,7 +14,7 @@ class Animal extends Model {
         animal_type: { type: 'string' },
         breed: { type: 'string' },
         weight: { type: 'string' },
-        picture: { type: 'string' },
+        picture: { type: 'string', format: 'uri' },
         comment: { type: 'string' },
       },
     };
