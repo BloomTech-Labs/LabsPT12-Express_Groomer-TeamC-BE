@@ -11,13 +11,13 @@ class GroomerService extends Model {
       properties: {
         groomer_id: {
           type: 'string',
-          oneOf: { key: 'profile_id', target: 'groomers' },
+          oneOf: { key: 'id', target: 'groomers' },
         },
         service_id: {
           type: 'string',
           oneOf: { key: 'id', target: 'services' },
         },
-        service_hours: { type: 'string' },
+        service_hours: { type: 'string'},
       },
     };
   }

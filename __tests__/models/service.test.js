@@ -4,9 +4,6 @@ const Service = require('./../../api/models/services');
 const Validator = require('./../../api/models/Validator');
 
 describe('testing model "Service"', () => {
-    afterAll(async () => {
-        await Service.query().del()
-    })
 
     describe("persist data", () => {
         it("should successful create new service", async () => {
