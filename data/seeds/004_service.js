@@ -7,7 +7,7 @@ exports.seed = function (knex) {
       // Inserts seed entries
       return knex('services').insert([
         {
-          id: faker.random.alphaNumeric(20),
+          id: '11ulthapbErVUwVJt58x0',
           name: 'Bath & Full Haircut',
           description: faker.lorem.sentence(),
           cost: 19.99,

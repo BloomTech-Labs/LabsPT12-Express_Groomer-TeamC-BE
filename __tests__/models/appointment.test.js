@@ -2,8 +2,8 @@ const faker = require('faker');
 const knex = require('./../../data/db-config');
 const Appointment = require('./../../api/models/appointment');
 const Profile = require('./../../api/models/profile');
-const Service = require('./../../api/models/services');
-const Groomer = require('./../../api/models/groomer');
+// const Service = require('./../../api/models/services');
+// const Groomer = require('./../../api/models/groomer');
 const GroomerService = require('./../../api/models/groomer_service');
 const Animal = require('./../../api/models/animal');
 const Validator = require('./../../api/models/Validator');
@@ -15,13 +15,13 @@ describe('testing model "Appointment"', () => {
       const groomer = (await Profile.findAll())[0];
       const animal = (await Animal.findAll())[0];
 
-      // create groomer service
-      const serviceData = {
-        groomer_id: (await Groomer.findAll())[0].id,
-        service_id: (await Service.findAll())[0].id,
-        service_hours: 'Mon-Fri 9am - 5pm',
-      };
-      await GroomerService.create(serviceData);
+      // // create groomer service
+      // const serviceData = {
+      //   groomer_id: (await Groomer.findAll())[0].id,
+      //   service_id: (await Service.findAll())[0].id,
+      //   service_hours: 'Mon-Fri 9am - 5pm',
+      // };
+      // await GroomerService.create(serviceData);
 
       const groomerService = (await GroomerService.findAll())[0];
 

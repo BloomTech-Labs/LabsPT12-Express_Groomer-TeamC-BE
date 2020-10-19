@@ -26,7 +26,7 @@ describe('testing model "GroomerService"', () => {
     });
 
     it('should successful update groomer service entry corresponding to the specified ID', async () => {
-      const groomerService = (await GroomerService.findAll())[0];
+      const groomerService = (await GroomerService.findAll())[1];
 
       const result = await GroomerService.update(groomerService.id, {
         ...groomerService,
@@ -40,7 +40,7 @@ describe('testing model "GroomerService"', () => {
 
   describe('retrieve data', () => {
     it('findAll: should return all entries in the database table', async () => {
-      expect((await GroomerService.findAll()).length).toBe(1);
+      expect((await GroomerService.findAll()).length).toBe(2);
     });
     it('findById: should return row entry corresponding to the specified ID', async () => {
       const groomerService = (await GroomerService.findAll())[0];
@@ -52,12 +52,12 @@ describe('testing model "GroomerService"', () => {
 
   describe('delete data', () => {
     it('should delete row in the database table corresponding with the specified ID', async () => {
-      const groomerService = (await GroomerService.findAll())[0];
+      const groomerService = (await GroomerService.findAll())[1];
       // console.log(groomer)
       await GroomerService.remove(groomerService.id);
 
       expect(await GroomerService.findById(groomerService.id)).toBeUndefined();
-      expect((await GroomerService.findAll()).length).toBe(0);
+      expect((await GroomerService.findAll()).length).toBe(1);
     });
   });
 
