@@ -15,12 +15,7 @@ class Validator {
 
   setAttributes() {
     // check if constraint foreign key exist in target table
-    this.validator.attributes.oneOf = async (
-      instance,
-      schema,
-      options,
-      ctx
-    ) => {
+    this.validator.attributes.oneOf = async (instance, schema) => {
       // check type of index
       if (typeof schema.oneOf !== 'object')
         throw new jsonschema.SchemaError("'oneOf' expects an object", schema);
@@ -35,12 +30,7 @@ class Validator {
       }
     };
     // check if the instance value is unique
-    this.validator.attributes.unique = async (
-      instance,
-      schema,
-      options,
-      ctx
-    ) => {
+    this.validator.attributes.unique = async (instance, schema) => {
       // check type of index
       if (typeof schema.unique !== 'object')
         throw new jsonschema.SchemaError("'oneOf' expects an object", schema);
