@@ -23,12 +23,15 @@ class Validator {
     ) => {
       // check type of index
       if (typeof schema.oneOf !== 'object')
-        throw new SchemaError("'oneOf' expects an object", schema);
+        throw new jsonschema.SchemaError("'oneOf' expects an object", schema);
       if ('key' in schema.oneOf && 'target' in schema.oneOf) {
         return true;
       } else {
         // throw error if schema missed of this attributes "key" or "target"
-        throw new SchemaError('"key" or "target" are missing', schema);
+        throw new jsonschema.SchemaError(
+          '"key" or "target" are missing',
+          schema
+        );
       }
     };
     // check if the instance value is unique
@@ -40,17 +43,20 @@ class Validator {
     ) => {
       // check type of index
       if (typeof schema.unique !== 'object')
-        throw new SchemaError("'oneOf' expects an object", schema);
+        throw new jsonschema.SchemaError("'oneOf' expects an object", schema);
       if ('target' in schema.unique) {
         return true;
       } else {
         // throw error if schema missed of this attributes "key" or "target"
-        throw new SchemaError('"key" or "target" are missing', schema);
+        throw new jsonschema.SchemaError(
+          '"key" or "target" are missing',
+          schema
+        );
       }
     };
   }
 
-  async validate(data, schema, params = {context: null, method: null}) {
+  async validate(data, schema, params = { context: null, method: null }) {
     this._validate(data, schema);
     if (this.errors.length > 0) return false;
     /**
@@ -71,7 +77,12 @@ class Validator {
             break;
           case 'unique':
             obj = schema.properties[key][attr];
-            await this._unique(obj.target, key, this.validatedData[key], params.method);
+            await this._unique(
+              obj.target,
+              key,
+              this.validatedData[key],
+              params.method
+            );
             break;
         }
       }
@@ -90,8 +101,8 @@ class Validator {
 
   async _oneOf(target, key, value, field) {
     const response = await this.knex(target).where({ [key]: value });
-  
-    if (!response.length) { 
+
+    if (!response.length) {
       this.errors = [
         ...this.errors,
         {
@@ -105,7 +116,7 @@ class Validator {
   async _unique(target, key, value, method = null) {
     const response = await this.knex(target).where({ [key]: value });
 
-    if (response.length > 0 && method !== "update") {
+    if (response.length > 0 && method !== 'update') {
       this.errors = [
         ...this.errors,
         {

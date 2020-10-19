@@ -56,10 +56,15 @@ class Model {
    * @returns {object} updated data
    */
   async update(id, payload) {
-    if (!(await this.validator.validate(payload, this.validationSchema, { context: this, method: "update" })))
+    if (
+      !(await this.validator.validate(payload, this.validationSchema, {
+        context: this,
+        method: 'update',
+      }))
+    )
       return this.validator.errors;
     const data = this.validator.validatedData;
-    return await this.query().where({ id }).update(payload).returning('*');
+    return await this.query().where({ id }).update(data).returning('*');
   }
 
   /**
@@ -69,7 +74,7 @@ class Model {
    */
   async remove(id) {
     await this.query().where({ id }).del();
-    return id
+    return id;
   }
 }
 

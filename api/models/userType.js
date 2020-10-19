@@ -2,7 +2,7 @@ const Model = require('./Model');
 
 class UserType extends Model {
   constructor() {
-    super()
+    super();
     this.tableName = 'user_types';
     /** VALIDATION */
     this.validationSchema = {

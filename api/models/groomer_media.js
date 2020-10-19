@@ -1,4 +1,3 @@
-const { format } = require('morgan');
 const Model = require('./Model');
 
 class GroomerMedia extends Model {
@@ -14,7 +13,7 @@ class GroomerMedia extends Model {
           type: 'string',
           oneOf: { key: 'id', target: 'groomers' },
         },
-        url: { type: 'string', format: "uri"},
+        url: { type: 'string', format: 'uri' },
         description: { type: 'string' },
       },
     };

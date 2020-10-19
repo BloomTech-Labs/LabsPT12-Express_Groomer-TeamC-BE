@@ -17,7 +17,7 @@ class GroomerService extends Model {
           type: 'string',
           oneOf: { key: 'id', target: 'services' },
         },
-        service_hours: { type: 'string'},
+        service_hours: { type: 'string' },
       },
     };
   }
