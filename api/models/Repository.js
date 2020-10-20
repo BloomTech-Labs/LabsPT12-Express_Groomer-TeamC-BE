@@ -1,3 +1,5 @@
+const NotFound = require('../errors/NotFound');
+
 class Repository {
   constructor() {
     this.model = null;
@@ -17,7 +19,14 @@ class Repository {
    * @param {object} param1 request context and other needed param in the repo | optional
    */
   async getOne(id) {
-    return await this.model.findById(id);
+    const row = await this.getOne(id);
+    // find model class name
+    const modelName = this.model.constructor.name.toLowerCase();
+    // throw error if specified does not exists
+    if (!row)
+      throw new NotFound(`Could not find "${modelName}" with id [${id}]`);
+    // return row if founded
+    return row;
   }
 
   /**
@@ -56,8 +65,12 @@ class Repository {
    * @param {object} payload data to save
    * @param {object} param2 request context and other needed param in the repo | optional
    */
-  async beforeUpdate(payload) {
-    return payload;
+  async beforeUpdate(id, payload) {
+    const row = await this.getOne(id);
+    return {
+      ...payload,
+      ...row,
+    };
   }
 
   /**
@@ -69,7 +82,7 @@ class Repository {
   async update(id, payload, param) {
     const data = await this.beforeUpdate(id, payload, param);
     const result = await this.model.update(id, data);
-    return await this.afterUpdate(id, result, param);
+    return await this.afterUpdate(result, param);
   }
 
   /**
@@ -88,7 +101,8 @@ class Repository {
    * @param {*} param1 request context and other needed param in the repo | optional
    */
   async beforeRemove(id) {
-    return id;
+    const row = await this.getOne(id);
+    return row.id;
   }
 
   /**
