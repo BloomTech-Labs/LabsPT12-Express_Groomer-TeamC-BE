@@ -73,6 +73,19 @@ router.get('/', authRequired, function (req, res) {
     });
 });
 
+// temp endpoint for testing while we get login to work
+router.get('/temp', function (req, res) {
+  Profiles.findAll()
+    .then((profiles) => {
+      res.status(200).json(profiles);
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(500).json({ message: err.message });
+    });
+});
+
+
 /**
  * @swagger
  * components:
