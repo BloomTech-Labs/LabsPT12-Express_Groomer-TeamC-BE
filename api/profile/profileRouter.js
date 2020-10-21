@@ -3,6 +3,7 @@ const authRequired = require('../middleware/authRequired');
 const ProfileRepository = require('./profileRepository');
 const router = express.Router();
 const NotFound = require('./../errors/NotFound');
+const fileUploadHandler = require('../middleware/multer-s3');
 
 /**
  * @swagger
@@ -22,8 +23,8 @@ const NotFound = require('./../errors/NotFound');
  *        user_type:
  *          type: string
  *          description: id ref user type. GroomerTypeID 'dc885650-0de0-11eb-8250-a5697c93ae91' ClientTypeID '035f3a60-0de0-11eb-93e6-ddb47fc994e4'
- *        avatarUrl:
- *          type: string
+ *        avatar:
+ *          type: object
  *          description: public url of profile avatar
  *        phone:
  *          type: string
@@ -41,7 +42,7 @@ const NotFound = require('./../errors/NotFound');
  *      example:
  *        email: 'frank@example.com'
  *        name: 'Frank Martinez'
- *        avatarUrl: 'https://s3.amazonaws.com/uifaces/faces/twitter/hermanobrother/128.jpg'
+ *        avatar: {file: []}
  *        phone: '336-615-0548'
  *        address: '365 Melbourne St'
  *        city: 'Burlington'
@@ -71,7 +72,7 @@ const NotFound = require('./../errors/NotFound');
  *                - id: '035f3a60-056e0-11eb-93e6-ddb47fc994e4'
  *                  email: 'frank@example.com'
  *                  name: 'Frank Martinez'
- *                  avatarUrl: 'https://s3.amazonaws.com/uifaces/faces/twitter/hermanobrother/128.jpg'
+ *                  avatarUrl: {file: []}
  *                  phone: 336-615-0548
  *                  address: '365 Melbourne St'
  *                  city: 'Burlington'
@@ -81,7 +82,7 @@ const NotFound = require('./../errors/NotFound');
  *                - id: '035f3a60-056e0-11eb-93e6-ddb47fc994e4'
  *                  email: 'frank@example.com'
  *                  name: 'Derek Martinez'
- *                  avatarUrl: 'https://s3.amazonaws.com/uifaces/faces/twitter/hermanobrother/128.jpg'
+ *                  avatarUrl: {file: []}
  *                  phone: 336-615-0548
  *                  address: '365 Melbourne St'
  *                  city: 'Burlington'
@@ -186,11 +187,12 @@ router.get('/:id', authRequired, async function (req, res) {
  *                profile:
  *                  $ref: '#/components/schemas/Profile'
  */
-router.post('/', authRequired, async (req, res) => {
+router.post('/', fileUploadHandler.single("avatar"), async (req, res) => {
   const profile = req.body;
   try {
-    const result = await ProfileRepository.create(profile);
-    res.status(200).json({ message: 'profile created', profile: result });
+    const result = await ProfileRepository.create(profile, { context: req });
+    if (!("id" in result)) return res.status(400).json(result)
+    return res.status(200).json({ message: 'profile created', profile: result });
   } catch (error) {
     console.log(error);
     res.status(500).json({ message: error.message });
