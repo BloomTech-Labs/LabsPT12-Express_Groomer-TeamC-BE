@@ -36,8 +36,8 @@ const NotFound = require('./../errors/NotFound');
  *        zip_code:
  *          type: integer
  *        country:
- *          type: string       
- *          description: by default US 
+ *          type: string
+ *          description: by default US
  *      example:
  *        email: 'frank@example.com'
  *        name: 'Frank Martinez'
@@ -48,7 +48,7 @@ const NotFound = require('./../errors/NotFound');
  *        state: 'NC'
  *        zip_code: 23568
  *        country: 'US'
- *        
+ *
  *
  * /profiles:
  *  get:
@@ -103,7 +103,6 @@ router.get('/', authRequired, function (req, res) {
       res.status(500).json({ message: err.message });
     });
 });
-
 
 /**
  * @swagger
