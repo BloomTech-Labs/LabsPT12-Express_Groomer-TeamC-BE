@@ -11,26 +11,44 @@ const NotFound = require('./../errors/NotFound');
  *    Profile:
  *      type: object
  *      required:
- *        - id
  *        - email
  *        - name
- *        - avatarUrl
+ *        - user_type
  *      properties:
- *        id:
- *          type: string
- *          description: This is a foreign key (the okta user ID)
  *        email:
  *          type: string
  *        name:
  *          type: string
+ *        user_type:
+ *          type: string
+ *          description: id ref user type. GroomerTypeID 'dc885650-0de0-11eb-8250-a5697c93ae91' ClientTypeID '035f3a60-0de0-11eb-93e6-ddb47fc994e4'
  *        avatarUrl:
  *          type: string
  *          description: public url of profile avatar
+ *        phone:
+ *          type: string
+ *        address:
+ *          type: string
+ *        city:
+ *          type: string
+ *        state:
+ *          type: string
+ *        zip_code:
+ *          type: integer
+ *        country:
+ *          type: string
+ *          description: by default US
  *      example:
- *        id: '00uhjfrwdWAQvD8JV4x6'
  *        email: 'frank@example.com'
  *        name: 'Frank Martinez'
  *        avatarUrl: 'https://s3.amazonaws.com/uifaces/faces/twitter/hermanobrother/128.jpg'
+ *        phone: '336-615-0548'
+ *        address: '365 Melbourne St'
+ *        city: 'Burlington'
+ *        state: 'NC'
+ *        zip_code: 23568
+ *        country: 'US'
+ *
  *
  * /profiles:
  *  get:
@@ -50,14 +68,26 @@ const NotFound = require('./../errors/NotFound');
  *              items:
  *                $ref: '#/components/schemas/Profile'
  *              example:
- *                - id: '00uhjfrwdWAQvD8JV4x6'
+ *                - id: '035f3a60-056e0-11eb-93e6-ddb47fc994e4'
  *                  email: 'frank@example.com'
  *                  name: 'Frank Martinez'
  *                  avatarUrl: 'https://s3.amazonaws.com/uifaces/faces/twitter/hermanobrother/128.jpg'
- *                - id: '013e4ab94d96542e791f'
- *                  email: 'cathy@example.com'
- *                  name: 'Cathy Warmund'
- *                  avatarUrl: 'https://s3.amazonaws.com/uifaces/faces/twitter/geneseleznev/128.jpg'
+ *                  phone: 336-615-0548
+ *                  address: '365 Melbourne St'
+ *                  city: 'Burlington'
+ *                  state: 'NC'
+ *                  zip_code: 23568
+ *                  country: 'US'
+ *                - id: '035f3a60-056e0-11eb-93e6-ddb47fc994e4'
+ *                  email: 'frank@example.com'
+ *                  name: 'Derek Martinez'
+ *                  avatarUrl: 'https://s3.amazonaws.com/uifaces/faces/twitter/hermanobrother/128.jpg'
+ *                  phone: 336-615-0548
+ *                  address: '365 Melbourne St'
+ *                  city: 'Burlington'
+ *                  state: 'NC'
+ *                  zip_code: 23568
+ *                  country: 'US'
  *      401:
  *        $ref: '#/components/responses/UnauthorizedError'
  *      403:
@@ -74,19 +104,6 @@ router.get('/', authRequired, function (req, res) {
     });
 });
 
-// temp endpoint for testing while we get login to work
-router.get('/temp', function (req, res) {
-  Profiles.findAll()
-    .then((profiles) => {
-      res.status(200).json(profiles);
-    })
-    .catch((err) => {
-      console.log(err);
-      res.status(500).json({ message: err.message });
-    });
-});
-
-
 /**
  * @swagger
  * components:
@@ -96,7 +113,7 @@ router.get('/temp', function (req, res) {
  *      in: path
  *      description: ID of the profile to return
  *      required: true
- *      example: 00uhjfrwdWAQvD8JV4x6
+ *      example: 035f3a60-0de0-11eb-93e6-ddb47fc994e4
  *      schema:
  *        type: string
  *

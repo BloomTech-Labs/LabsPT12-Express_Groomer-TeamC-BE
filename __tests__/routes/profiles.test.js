@@ -6,7 +6,6 @@ const NotFound = require('../../api/errors/NotFound');
 const server = express();
 server.use(express.json());
 
-jest.mock('../../api/profile/profileModel');
 jest.mock('../../api/profile/profileRepository');
 // mock the auth middleware completely
 jest.mock('../../api/middleware/authRequired', () =>
