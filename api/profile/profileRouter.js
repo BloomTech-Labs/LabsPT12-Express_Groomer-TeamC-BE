@@ -187,17 +187,24 @@ router.get('/:id', authRequired, async function (req, res) {
  *                profile:
  *                  $ref: '#/components/schemas/Profile'
  */
-router.post('/', fileUploadHandler.single("avatar"), async (req, res) => {
-  const profile = req.body;
-  try {
-    const result = await ProfileRepository.create(profile, { context: req });
-    if (!("id" in result)) return res.status(400).json(result)
-    return res.status(200).json({ message: 'profile created', profile: result });
-  } catch (error) {
-    console.log(error);
-    res.status(500).json({ message: error.message });
+router.post(
+  '/',
+  authRequired,
+  fileUploadHandler.single('avatar'),
+  async (req, res) => {
+    const profile = req.body;
+    try {
+      const result = await ProfileRepository.create(profile, { context: req });
+      if (!('id' in result)) return res.status(400).json(result);
+      return res
+        .status(200)
+        .json({ message: 'profile created', profile: result });
+    } catch (error) {
+      console.log(error);
+      res.status(500).json({ message: error.message });
+    }
   }
-});
+);
 
 /**
  * @swagger
