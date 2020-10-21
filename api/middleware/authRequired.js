@@ -1,7 +1,7 @@
 /*
  * This is an example of using middleware to secure routers.
  */
-const Profiles = require('../profile/profileModel');
+// const Profiles = require('../profile/profileModel');
 const createError = require('http-errors');
 const OktaJwtVerifier = require('@okta/jwt-verifier');
 const oktaVerifierConfig = require('../../config/okta');
