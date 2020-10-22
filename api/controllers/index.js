@@ -23,12 +23,12 @@ class Controller {
       // return the result if success with the status code 200
       return res.status(200).json(result);
     } catch (error) {
-        console.log(error);
-        // get the correct error status code
-        // by checking the instance of the error
-        const statusCode = error.errorCode || 500
-        // return error if error with status 404 or 500
-        return res.status(statusCode).json({ message: error.message });
+      console.log(error);
+      // get the correct error status code
+      // by checking the instance of the error
+      const statusCode = error.errorCode || 500;
+      // return error if error with status 404 or 500
+      return res.status(statusCode).json({ message: error.message });
     }
   }
 
@@ -50,7 +50,7 @@ class Controller {
       console.log(error);
       // get the correct error status code
       // by checking the instance of the error
-      const statusCode = error.errorCode || 500
+      const statusCode = error.errorCode || 500;
       // return error if error with status 404 or 500
       return res.status(statusCode).json({ message: error.message });
     }
@@ -84,7 +84,7 @@ class Controller {
       console.log(error);
       // get the correct error status code
       // by checking the instance of the error
-      const statusCode = error.errorCode || 500
+      const statusCode = error.errorCode || 500;
       // return error if error with status 404 or 500
       return res.status(statusCode).json({ message: error.message });
     }
@@ -120,9 +120,9 @@ class Controller {
       console.log(error);
       // get the correct error status code
       // by checking the instance of the error
-      const statusCode = error.errorCode || 500
-     // return error if error with status 404 or 500
-     return res.status(statusCode).json({ message: error.message });
+      const statusCode = error.errorCode || 500;
+      // return error if error with status 404 or 500
+      return res.status(statusCode).json({ message: error.message });
     }
   }
 
@@ -141,12 +141,12 @@ class Controller {
       // return result if success
       res.status(200).json(result);
     } catch (error) {
-        console.log(error);
-        // get the correct error status code
-        // by checking the instance of the error
-        const statusCode = error.errorCode || 500
-        // return error if error with status 404 or 500
-        return res.status(statusCode).json({ message: error.message });
+      console.log(error);
+      // get the correct error status code
+      // by checking the instance of the error
+      const statusCode = error.errorCode || 500;
+      // return error if error with status 404 or 500
+      return res.status(statusCode).json({ message: error.message });
     }
   }
 }

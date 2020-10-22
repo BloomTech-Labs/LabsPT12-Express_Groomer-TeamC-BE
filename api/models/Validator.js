@@ -58,12 +58,7 @@ class Validator {
         switch (attr) {
           case 'oneOf':
             obj = schema.properties[key][attr];
-            await this._oneOf(
-              obj.target,
-              obj.key,
-              data[key],
-              key
-            );
+            await this._oneOf(obj.target, obj.key, data[key], key);
             break;
           case 'unique':
             obj = schema.properties[key][attr];
@@ -105,7 +100,7 @@ class Validator {
 
   async _unique(target, key, value, method = null) {
     const response = await this.knex(target).where({ [key]: value });
-    
+
     if (response.length > 0 && method !== 'update') {
       this.errors = [
         ...this.errors,

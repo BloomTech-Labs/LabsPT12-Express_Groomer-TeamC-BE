@@ -1,8 +1,8 @@
-const express = require("express")
-const GroomerController = require("./groomerController")
-const authRequired = require("./../middleware/authRequired")
+const express = require('express');
+const GroomerController = require('./groomerController');
+const authRequired = require('./../middleware/authRequired');
 
-const router = express.Router()
+const router = express.Router();
 
 /**
  * @swagger
@@ -88,7 +88,7 @@ const router = express.Router()
  *                                country: 'United States'
  *                                travel: true
  *                                travel_distance: 100
- *                                bio: 'Pet lovers'                             
+ *                                bio: 'Pet lovers'
  *                              - id: '750dd31c-9d2f-48c0-b5ca-a8d487863456'
  *                                profile_id": 'd7yl1rzs0w0rhavhvyec'
  *                                name: 'Matt Jason'
@@ -106,9 +106,9 @@ const router = express.Router()
  *              401:
  *                  $ref: '#/components/responses/UnauthorizedError'
  *              403:
- *                  $ref: '#/components/responses/UnauthorizedError' 
+ *                  $ref: '#/components/responses/UnauthorizedError'
  */
-router.get("/", authRequired, GroomerController.index.bind(GroomerController))
+router.get('/', authRequired, GroomerController.index.bind(GroomerController));
 
 /**
  * @swagger
@@ -122,8 +122,8 @@ router.get("/", authRequired, GroomerController.index.bind(GroomerController))
  *          example: 750dd31c-9d2f-48c0-b5ca-a8d487863456
  *          schema:
  *              type: string
- * 
- * 
+ *
+ *
  * /groomers/{id}:
  *  get:
  *      description: Find groomer by ID
@@ -137,18 +137,18 @@ router.get("/", authRequired, GroomerController.index.bind(GroomerController))
  *      response:
  *          200:
  *              description: A groomer object
- *              content: 
+ *              content:
  *                  application/json:
  *                      schema:
  *                          $ref: '#components/schemas/GroomerProfile'
  *          401:
  *              $ref: '#/components/responses/UnauthorizedError'
  *          403:
- *              $ref: '#/components/responses/UnauthorizedError' 
+ *              $ref: '#/components/responses/UnauthorizedError'
  */
-router.get("/:id", authRequired, GroomerController.get.bind(GroomerController))
+router.get('/:id', authRequired, GroomerController.get.bind(GroomerController));
 
- /**
+/**
  * @swagger
  * /groomers:
  *  post:
@@ -184,7 +184,7 @@ router.get("/:id", authRequired, GroomerController.get.bind(GroomerController))
  *                profile:
  *                  $ref: '#/components/schemas/Groomer'
  */
-router.post("/", authRequired, GroomerController.post.bind(GroomerController));
+router.post('/', authRequired, GroomerController.post.bind(GroomerController));
 
 /**
  * @swagger
@@ -220,7 +220,7 @@ router.post("/", authRequired, GroomerController.post.bind(GroomerController));
  *                profile:
  *                  $ref: '#/components/schemas/Groomer'
  */
-router.put("/", authRequired, GroomerController.put.bind(GroomerController));
+router.put('/', authRequired, GroomerController.put.bind(GroomerController));
 
 /**
  * @swagger
@@ -252,6 +252,10 @@ router.put("/", authRequired, GroomerController.put.bind(GroomerController));
  *                groomer:
  *                  $ref: '#/components/schemas/Groomer'
  */
-router.delete("/:id", authRequired, GroomerController.del.bind(GroomerController))
+router.delete(
+  '/:id',
+  authRequired,
+  GroomerController.del.bind(GroomerController)
+);
 
-module.exports = router
+module.exports = router;

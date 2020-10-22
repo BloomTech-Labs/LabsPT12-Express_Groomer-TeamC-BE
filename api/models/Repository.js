@@ -3,7 +3,7 @@ const NotFound = require('../errors/NotFound');
 class Repository {
   constructor() {
     this.model = null;
-    this.properties = []
+    this.properties = [];
   }
 
   /**
@@ -69,7 +69,9 @@ class Repository {
   async beforeUpdate(id, payload) {
     const row = await this.model.findById(id);
     if (!row)
-      throw new NotFound(`Could not update ${this.model.constructor.name.toLowerCase()} with the specified ID. [id: ${id}] not found.`)
+      throw new NotFound(
+        `Could not update ${this.model.constructor.name.toLowerCase()} with the specified ID. [id: ${id}] not found.`
+      );
     return {
       ...row,
       ...payload,
@@ -134,27 +136,27 @@ class Repository {
    * @param {string} related foreign key on the current model
    * @param {string} type relationship type
    */
-  async relatedAll(ref, related, type="hasOne") {
-    return await this._related(ref, related, type)
+  async relatedAll(ref, related, type = 'hasOne') {
+    return await this._related(ref, related, type);
   }
 
   /**
    * Return the first row as specified if the filer
    * @param {string} ref table and row ref ex. table.id
    * @param {string} related foreign key on the current model
-   * @param {function} filter function used to filter the data 
+   * @param {function} filter function used to filter the data
    * @param {string} type relationship type
    */
-  async relatedOne(ref, related, filter, type="hasOne") {
-    return (await this._related(ref, related, type)).find(filter)
+  async relatedOne(ref, related, filter, type = 'hasOne') {
+    return (await this._related(ref, related, type)).find(filter);
   }
 
-
-  async _related(ref, related, type="hasOne") {
-    if (type === "hasOne") 
-        return await this.model.query()
-          .join(ref.split(".")[0], ref, `${this.model.tableName}.${related}`)
-          .select(...this.properties)
+  async _related(ref, related, type = 'hasOne') {
+    if (type === 'hasOne')
+      return await this.model
+        .query()
+        .join(ref.split('.')[0], ref, `${this.model.tableName}.${related}`)
+        .select(...this.properties);
   }
 }
 

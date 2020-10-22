@@ -68,7 +68,7 @@ class Model {
     )
       return this.validator.errors;
     const data = this.validator.validatedData;
-    console.log(id)
+    console.log(id);
     return await this.query().where({ id }).update(data).returning('*');
   }
 
