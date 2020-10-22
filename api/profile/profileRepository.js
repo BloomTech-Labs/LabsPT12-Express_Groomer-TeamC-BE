@@ -7,6 +7,13 @@ class ProfileRepository extends Repository {
     this.model = Profile;
   }
 
+  async beforeCreate(payload, param) {
+    const { context } = param;
+    payload.avatarUrl = context.file.Location;
+
+    return payload;
+  }
+
   async afterCreate(result) {
     return result[0];
   }
