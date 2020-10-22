@@ -38,7 +38,10 @@ const authRequired = async (req, res, next) => {
         //   throw new Error('Unable to process idToken');
         // }
         next();
-      });
+      })
+      .catch(err => {
+        next(createError(401, err.message));
+      })
   } catch (err) {
     next(createError(401, err.message));
   }
