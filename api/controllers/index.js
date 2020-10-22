@@ -1,5 +1,3 @@
-const NotFound = require('./../errors/NotFound');
-
 /**
  * This is the base controller class to handle requests
  */
@@ -25,9 +23,12 @@ class Controller {
       // return the result if success with the status code 200
       return res.status(200).json(result);
     } catch (error) {
-      console.log(error);
-      // return error if error with status code 500
-      return res.status(500).json({ message: error.message });
+        console.log(error);
+        // get the correct error status code
+        // by checking the instance of the error
+        const statusCode = error.errorCode || 500
+        // return error if error with status 404 or 500
+        return res.status(statusCode).json({ message: error.message });
     }
   }
 
@@ -49,7 +50,7 @@ class Controller {
       console.log(error);
       // get the correct error status code
       // by checking the instance of the error
-      const statusCode = error instanceof NotFound ? 404 : 500;
+      const statusCode = error.errorCode || 500
       // return error if error with status 404 or 500
       return res.status(statusCode).json({ message: error.message });
     }
@@ -81,8 +82,11 @@ class Controller {
       return res.status(400).json({ message: 'Request does not contain body' });
     } catch (error) {
       console.log(error);
-      // return error if error with status code 500
-      return res.status(500).json({ message: error.message });
+      // get the correct error status code
+      // by checking the instance of the error
+      const statusCode = error.errorCode || 500
+      // return error if error with status 404 or 500
+      return res.status(statusCode).json({ message: error.message });
     }
   }
 
@@ -96,6 +100,7 @@ class Controller {
     try {
       // retrieve request body or set it to undefined
       const { body } = req || undefined;
+      const { id } = req.params || undefined;
 
       // check if the body is set, and the ID to be updated exists is the body
       // if not, return the error with the status code 400
@@ -103,6 +108,9 @@ class Controller {
         return res.status(400).json({
           message: 'Request does not contain body or "id" is undefined',
         });
+      // check the id in the request params
+      if (!id || (id && id !== body.id))
+          return res.status(400).json({message: 'Body request [id] and param request [id] does not match.'})
 
       // call the update method from the repository
       const result = await this.repository.update(body.id, body, {
@@ -114,8 +122,11 @@ class Controller {
       return res.status(200).json(result);
     } catch (error) {
       console.log(error);
-      // return error if error with status code 500
-      return res.status(500).json({ message: error.message });
+      // get the correct error status code
+      // by checking the instance of the error
+      const statusCode = error.errorCode || 500
+     // return error if error with status 404 or 500
+     return res.status(statusCode).json({ message: error.message });
     }
   }
 
@@ -125,7 +136,7 @@ class Controller {
    * @param {object} req express request object
    * @param {object} res express response object
    */
-  async delete(req, res) {
+  async del(req, res) {
     try {
       // Get id to be deleted from params
       const id = req.params.id;
@@ -134,9 +145,12 @@ class Controller {
       // return result if success
       res.status(200).json(result);
     } catch (error) {
-      console.log(error);
-      // return error if error with status code 500
-      return res.status(500).json({ message: error.message });
+        console.log(error);
+        // get the correct error status code
+        // by checking the instance of the error
+        const statusCode = error.errorCode || 500
+        // return error if error with status 404 or 500
+        return res.status(statusCode).json({ message: error.message });
     }
   }
 }

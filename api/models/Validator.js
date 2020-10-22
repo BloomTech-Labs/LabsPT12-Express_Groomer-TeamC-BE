@@ -61,7 +61,7 @@ class Validator {
             await this._oneOf(
               obj.target,
               obj.key,
-              this.validatedData[key],
+              data[key],
               key
             );
             break;
@@ -105,7 +105,7 @@ class Validator {
 
   async _unique(target, key, value, method = null) {
     const response = await this.knex(target).where({ [key]: value });
-
+    
     if (response.length > 0 && method !== 'update') {
       this.errors = [
         ...this.errors,

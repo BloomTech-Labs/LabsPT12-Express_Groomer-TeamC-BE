@@ -40,6 +40,8 @@ class Model {
    * @returns {object} created data
    */
   async create(payload) {
+    // reset validator
+    this.validator = new Validator(knex);
     if (!(await this.validator.validate(payload, this.validationSchema)))
       return this.validator.errors;
     const data = {
@@ -56,6 +58,8 @@ class Model {
    * @returns {object} updated data
    */
   async update(id, payload) {
+    // reset validator
+    this.validator = new Validator(knex);
     if (
       !(await this.validator.validate(payload, this.validationSchema, {
         context: this,
@@ -64,6 +68,7 @@ class Model {
     )
       return this.validator.errors;
     const data = this.validator.validatedData;
+    console.log(id)
     return await this.query().where({ id }).update(data).returning('*');
   }
 
