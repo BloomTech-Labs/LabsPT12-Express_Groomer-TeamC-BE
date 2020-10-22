@@ -18,6 +18,8 @@ const swaggerUIOptions = {
   explorer: true,
 };
 
+// console.log(swaggerSpec)
+
 //###[  Routers ]###
 const indexRouter = require('./index/indexRouter');
 const profileRouter = require('./profile/profileRouter');

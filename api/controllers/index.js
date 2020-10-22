@@ -100,7 +100,6 @@ class Controller {
     try {
       // retrieve request body or set it to undefined
       const { body } = req || undefined;
-      const { id } = req.params || undefined;
 
       // check if the body is set, and the ID to be updated exists is the body
       // if not, return the error with the status code 400
@@ -108,9 +107,6 @@ class Controller {
         return res.status(400).json({
           message: 'Request does not contain body or "id" is undefined',
         });
-      // check the id in the request params
-      if (!id || (id && id !== body.id))
-          return res.status(400).json({message: 'Body request [id] and param request [id] does not match.'})
 
       // call the update method from the repository
       const result = await this.repository.update(body.id, body, {
