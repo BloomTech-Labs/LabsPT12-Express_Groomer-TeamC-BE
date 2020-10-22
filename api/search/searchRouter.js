@@ -4,6 +4,6 @@ const authRequired = require('./../middleware/authRequired')
 
 const router = express.Router();
 
-router.get('/groomers', SearchController.searchGroomers.bind(SearchController));
+router.get('/groomers', authRequired, SearchController.searchGroomers.bind(SearchController));
 
 module.exports = router;
