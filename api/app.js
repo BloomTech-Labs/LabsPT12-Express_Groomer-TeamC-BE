@@ -24,7 +24,7 @@ const swaggerUIOptions = {
 const indexRouter = require('./index/indexRouter');
 const profileRouter = require('./profile/profileRouter');
 const groomerRouter = require('./groomer/groomerRouter');
-const searchRouter = require('./search/searchRouter')
+const searchRouter = require('./search/searchRouter');
 
 const app = express();
 

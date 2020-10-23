@@ -1,6 +1,6 @@
-const express = require('express')
-const SearchController = require('./searchController')
-const authRequired = require('./../middleware/authRequired')
+const express = require('express');
+const SearchController = require('./searchController');
+const authRequired = require('./../middleware/authRequired');
 
 const router = express.Router();
 
@@ -45,8 +45,8 @@ const router = express.Router();
  *              type: string
  *          description: The string to search
  *          example: /search/groomers?q=NC
- * 
- * 
+ *
+ *
  * /search/groomers:
  *  get:
  *      description: return list of groomers corresponding to the query
@@ -100,6 +100,10 @@ const router = express.Router();
  *              403:
  *                  $ref: '#/components/responses/UnauthorizedError'
  */
-router.get('/groomers', authRequired, SearchController.searchGroomers.bind(SearchController));
+router.get(
+  '/groomers',
+  authRequired,
+  SearchController.searchGroomers.bind(SearchController)
+);
 
 module.exports = router;
