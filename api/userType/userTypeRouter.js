@@ -4,7 +4,7 @@ const UserTypeController = require("./userTypeController");
 
 const router = express.Router()
 
-router.get("/", UserTypeController.index.bind(UserTypeController));
-router.get("/:id", UserTypeController.get.bind(UserTypeController));
+router.get("/", authRequired, UserTypeController.index.bind(UserTypeController));
+router.get("/:id", authRequired, UserTypeController.get.bind(UserTypeController));
 
 module.exports = router
