@@ -58,12 +58,7 @@ class Validator {
         switch (attr) {
           case 'oneOf':
             obj = schema.properties[key][attr];
-            await this._oneOf(
-              obj.target,
-              obj.key,
-              this.validatedData[key],
-              key
-            );
+            await this._oneOf(obj.target, obj.key, data[key], key);
             break;
           case 'unique':
             obj = schema.properties[key][attr];

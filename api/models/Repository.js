@@ -3,6 +3,7 @@ const NotFound = require('../errors/NotFound');
 class Repository {
   constructor() {
     this.model = null;
+    this.properties = [];
   }
 
   /**
@@ -66,10 +67,14 @@ class Repository {
    * @param {object} param2 request context and other needed param in the repo | optional
    */
   async beforeUpdate(id, payload) {
-    const row = await this.getOne(id);
+    const row = await this.model.findById(id);
+    if (!row)
+      throw new NotFound(
+        `Could not update ${this.model.constructor.name.toLowerCase()} with the specified ID. [id: ${id}] not found.`
+      );
     return {
-      ...payload,
       ...row,
+      ...payload,
     };
   }
 
@@ -123,6 +128,35 @@ class Repository {
    */
   async afterRemove(result) {
     return result;
+  }
+
+  /**
+   * Return alls related as specifies in properties var
+   * @param {string} ref table and row ref ex. table.id
+   * @param {string} related foreign key on the current model
+   * @param {string} type relationship type
+   */
+  async relatedAll(ref, related, type = 'hasOne') {
+    return await this._related(ref, related, type);
+  }
+
+  /**
+   * Return the first row as specified if the filer
+   * @param {string} ref table and row ref ex. table.id
+   * @param {string} related foreign key on the current model
+   * @param {function} filter function used to filter the data
+   * @param {string} type relationship type
+   */
+  async relatedOne(ref, related, filter, type = 'hasOne') {
+    return (await this._related(ref, related, type)).find(filter);
+  }
+
+  async _related(ref, related, type = 'hasOne') {
+    if (type === 'hasOne')
+      return await this.model
+        .query()
+        .join(ref.split('.')[0], ref, `${this.model.tableName}.${related}`)
+        .select(...this.properties);
   }
 }
 

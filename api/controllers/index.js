@@ -1,5 +1,3 @@
-const NotFound = require('./../errors/NotFound');
-
 /**
  * This is the base controller class to handle requests
  */
@@ -26,8 +24,11 @@ class Controller {
       return res.status(200).json(result);
     } catch (error) {
       console.log(error);
-      // return error if error with status code 500
-      return res.status(500).json({ message: error.message });
+      // get the correct error status code
+      // by checking the instance of the error
+      const statusCode = error.errorCode || 500;
+      // return error if error with status 404 or 500
+      return res.status(statusCode).json({ message: error.message });
     }
   }
 
@@ -49,7 +50,7 @@ class Controller {
       console.log(error);
       // get the correct error status code
       // by checking the instance of the error
-      const statusCode = error instanceof NotFound ? 404 : 500;
+      const statusCode = error.errorCode || 500;
       // return error if error with status 404 or 500
       return res.status(statusCode).json({ message: error.message });
     }
@@ -81,8 +82,11 @@ class Controller {
       return res.status(400).json({ message: 'Request does not contain body' });
     } catch (error) {
       console.log(error);
-      // return error if error with status code 500
-      return res.status(500).json({ message: error.message });
+      // get the correct error status code
+      // by checking the instance of the error
+      const statusCode = error.errorCode || 500;
+      // return error if error with status 404 or 500
+      return res.status(statusCode).json({ message: error.message });
     }
   }
 
@@ -114,8 +118,11 @@ class Controller {
       return res.status(200).json(result);
     } catch (error) {
       console.log(error);
-      // return error if error with status code 500
-      return res.status(500).json({ message: error.message });
+      // get the correct error status code
+      // by checking the instance of the error
+      const statusCode = error.errorCode || 500;
+      // return error if error with status 404 or 500
+      return res.status(statusCode).json({ message: error.message });
     }
   }
 
@@ -125,7 +132,7 @@ class Controller {
    * @param {object} req express request object
    * @param {object} res express response object
    */
-  async delete(req, res) {
+  async del(req, res) {
     try {
       // Get id to be deleted from params
       const id = req.params.id;
@@ -135,8 +142,11 @@ class Controller {
       res.status(200).json(result);
     } catch (error) {
       console.log(error);
-      // return error if error with status code 500
-      return res.status(500).json({ message: error.message });
+      // get the correct error status code
+      // by checking the instance of the error
+      const statusCode = error.errorCode || 500;
+      // return error if error with status 404 or 500
+      return res.status(statusCode).json({ message: error.message });
     }
   }
 }
