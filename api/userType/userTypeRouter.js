@@ -1,8 +1,8 @@
-const express = require("express");
-const authRequired = require("./../middleware/authRequired");
-const UserTypeController = require("./userTypeController");
+const express = require('express');
+const authRequired = require('./../middleware/authRequired');
+const UserTypeController = require('./userTypeController');
 
-const router = express.Router()
+const router = express.Router();
 
 /**
  * @swagger
@@ -10,7 +10,7 @@ const router = express.Router()
  *  schemas:
  *      UserType:
  *          type: object
- *          required: 
+ *          required:
  *              - name
  *          properties:
  *              id:
@@ -21,7 +21,7 @@ const router = express.Router()
  *                  type: date-time
  *              updated_at:
  *                  type: date-time
- * 
+ *
  *
  * /user-types:
  *  get:
@@ -49,13 +49,17 @@ const router = express.Router()
  *                                name: 'groomer'
  *                                created_at: '2020-10-22T02:41:53.648Z'
  *                                updated_at: '2020-10-22T02:41:53.648Z'
- * 
-*              401:
+ *
+ *              401:
  *                  $ref: '#/components/responses/UnauthorizedError'
  *              403:
  *                  $ref: '#/components/responses/UnauthorizedError'
  */
-router.get("/", authRequired, UserTypeController.index.bind(UserTypeController));
+router.get(
+  '/',
+  authRequired,
+  UserTypeController.index.bind(UserTypeController)
+);
 /**
  * @swagger
  * components:
@@ -68,11 +72,11 @@ router.get("/", authRequired, UserTypeController.index.bind(UserTypeController))
  *          example: /user-types/035f3a60-0de0-11eb-93e6-ddb47fc994e4
  *          schema:
  *              type: string
- * 
- * 
+ *
+ *
  * /user-types/{id}:
  *  get:
-*      description: Find userType by ID
+ *      description: Find userType by ID
  *      summary: Returns a single userType
  *      security:
  *          - okta: []
@@ -92,6 +96,10 @@ router.get("/", authRequired, UserTypeController.index.bind(UserTypeController))
  *          403:
  *              $ref: '#/components/responses/UnauthorizedError'
  */
-router.get("/:id", authRequired, UserTypeController.get.bind(UserTypeController));
+router.get(
+  '/:id',
+  authRequired,
+  UserTypeController.get.bind(UserTypeController)
+);
 
-module.exports = router
+module.exports = router;
