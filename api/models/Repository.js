@@ -20,7 +20,7 @@ class Repository {
    * @param {object} param1 request context and other needed param in the repo | optional
    */
   async getOne(id) {
-    const row = await this.getOne(id);
+    const row = await this.model.findById(id);
     // find model class name
     const modelName = this.model.constructor.name.toLowerCase();
     // throw error if specified does not exists
