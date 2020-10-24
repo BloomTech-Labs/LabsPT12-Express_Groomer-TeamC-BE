@@ -4,6 +4,7 @@ const ProfileRepository = require('./profileRepository');
 const router = express.Router();
 const NotFound = require('./../errors/NotFound');
 const fileUploadHandler = require('../middleware/multer-s3');
+const createHttpError = require('http-errors');
 
 /**
  * @swagger
@@ -205,6 +206,18 @@ router.post(
     }
   }
 );
+
+router.post('/fetch-profile', async (req, res, next) => {
+  const { email } = req.body || undefined
+  
+  if (!email) return next(createHttpError(400, '"email" is required.'))
+
+  const result = await ProfileRepository.model.query().where({ email }).first()
+
+  if (!result) return next(createHttpError.NotFound('"email" not found.'))
+
+  res.status(200).json(result)
+})
 
 /**
  * @swagger
