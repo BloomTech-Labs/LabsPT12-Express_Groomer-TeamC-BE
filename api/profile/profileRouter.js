@@ -4,6 +4,7 @@ const ProfileRepository = require('./profileRepository');
 const router = express.Router();
 const NotFound = require('./../errors/NotFound');
 const fileUploadHandler = require('../middleware/multer-s3');
+const createHttpError = require('http-errors');
 
 /**
  * @swagger
@@ -205,6 +206,59 @@ router.post(
     }
   }
 );
+
+/**
+ * @swagger
+ * /profile/fetch-by-email:
+ *  post:
+ *    summary: Fetch one profile by email
+ *    security:
+ *      - okta: []
+ *    tags:
+ *      - profile
+ *    requestBody:
+ *      description: Profile object to to be added
+ *      content:
+ *        application/json:
+ *          schema:
+ *            type: objects
+ *            required:
+ *                - email
+ *            properties:
+ *                email:
+ *                  type: string
+ *    responses:
+ *      400:
+ *        $ref: '#/components/responses/BadRequest'
+ *      401:
+ *        $ref: '#/components/responses/UnauthorizedError'
+ *      404:
+ *        description: 'Profile not found'
+ *      200:
+ *        description: A profile object
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: object
+ *              properties:
+ *                message:
+ *                  type: string
+ *                  description: A message about the result
+ *                  example: profile created
+ *                profile:
+ *                  $ref: '#/components/schemas/Profile'
+ */
+router.post('/fetch-by-email', authRequired, async (req, res, next) => {
+  const { email } = req.body || undefined;
+
+  if (!email) return next(createHttpError(400, '"email" is required.'));
+
+  const result = await ProfileRepository.model.query().where({ email }).first();
+
+  if (!result) return next(createHttpError.NotFound('"email" not found.'));
+
+  res.status(200).json(result);
+});
 
 /**
  * @swagger
