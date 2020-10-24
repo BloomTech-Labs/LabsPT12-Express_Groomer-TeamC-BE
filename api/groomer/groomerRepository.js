@@ -35,7 +35,7 @@ class GroomerRepository extends Repository {
     const result = await this.relatedOne(
       'profiles.id',
       'profile_id',
-      (obj) => obj.id === id
+      (obj) => obj.profile_id === id
     );
     if (!result) throw new NotFound('Cloud find groomer with the specified id');
     return result;
