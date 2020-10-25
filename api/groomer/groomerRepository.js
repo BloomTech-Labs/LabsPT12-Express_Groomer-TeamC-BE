@@ -67,7 +67,7 @@ class GroomerRepository extends Repository {
   }
 
   async afterUpdate(result) {
-    return result[0]
+    return result[0];
   }
 }
 

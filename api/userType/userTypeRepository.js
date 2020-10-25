@@ -8,11 +8,11 @@ class UserTypeRepository extends Repository {
   }
 
   async afterCreate(result) {
-    return result[0]
+    return result[0];
   }
 
   async afterUpdate(result) {
-    return result[0]
+    return result[0];
   }
 }
 
