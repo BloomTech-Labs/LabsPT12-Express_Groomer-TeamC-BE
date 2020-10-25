@@ -65,6 +65,10 @@ class GroomerRepository extends Repository {
   async afterCreate(result) {
     return result[0];
   }
+
+  async afterUpdate(result) {
+    return result[0]
+  }
 }
 
 module.exports = new GroomerRepository();

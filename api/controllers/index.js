@@ -72,7 +72,7 @@ class Controller {
         const result = await this.repository.create(body, { context: req });
         // check if the insert operation are success,
         // if not return the error with the status code 400
-        // if (!('id' in result)) return res.status(400).json(result);
+        if (!('id' in result)) return res.status(400).json(result);
         // return the result if success with the status code 200
         return res.status(201).json({
           message: `${this.repository.model.constructor.name.toLowerCase()} has been created.`,

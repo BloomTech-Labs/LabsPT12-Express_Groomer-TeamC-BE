@@ -6,6 +6,14 @@ class UserTypeRepository extends Repository {
     super();
     this.model = UserType;
   }
+
+  async afterCreate(result) {
+    return result[0]
+  }
+
+  async afterUpdate(result) {
+    return result[0]
+  }
 }
 
 module.exports = new UserTypeRepository();
