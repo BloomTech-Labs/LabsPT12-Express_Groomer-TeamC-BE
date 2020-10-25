@@ -7,9 +7,10 @@ class ServiceRepository extends Repository {
     this.model = Service;
   }
 
-  //   async beforeCreate(payload, param) {
-  //     console.log(pram);
-  //   }
+    async beforeCreate(payload, param) {
+    //   console.log(param.context);
+      return {}
+    }
 }
 
 module.exports = new ServiceRepository();

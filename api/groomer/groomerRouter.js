@@ -126,7 +126,7 @@ router.get('/', authRequired, GroomerController.index.bind(GroomerController));
  *
  * /groomers/{id}:
  *  get:
- *      description: Find groomer by ID
+ *      description: Find groomer by profile ID
  *      summary: Returns a single groomer
  *      security:
  *          - okta: []
