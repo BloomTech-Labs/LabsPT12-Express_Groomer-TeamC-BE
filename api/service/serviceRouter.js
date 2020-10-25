@@ -60,7 +60,7 @@ router.get('/', authRequired, ServiceController.index.bind(ServiceController));
  * @swagger
  * components:
  *  parameters:
- *      serviceID:
+ *      serviceId:
  *          name: id
  *          in: path
  *          description: ID of service to return
@@ -79,7 +79,7 @@ router.get('/', authRequired, ServiceController.index.bind(ServiceController));
  *      tags:
  *          - service
  *      parameters:
- *          - $ref: '#/components/parameters/serviceID'
+ *          - $ref: '#/components/parameters/serviceId'
  *      response:
  *          200:
  *              description: A service object
