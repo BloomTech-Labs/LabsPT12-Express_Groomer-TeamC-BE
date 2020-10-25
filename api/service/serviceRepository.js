@@ -17,12 +17,15 @@ class ServiceRepository extends Repository {
          */
         try {
             const userType  = (await UserType.findById(param.context.profile.user_type))
-            console.log(userType);
+            
+            if (!userType || (userType && userType.name !== 'groomer')) throw createHttpError(403, 'Access denied. Only groomer can create services')
             
         } catch (error) {
-            throw createHttpError(500, "An error occurred while trying to create a service")
+            const message = error.message || "An error occurred while trying to create a service"
+            const statusCode = error.statusCode || 500
+            throw createHttpError(statusCode, message)
         }
-      return {}
+        return payload
     }
 }
 

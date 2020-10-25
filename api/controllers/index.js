@@ -72,9 +72,9 @@ class Controller {
         const result = await this.repository.create(body, { context: req });
         // check if the insert operation are success,
         // if not return the error with the status code 400
-        if (!('id' in result)) return res.status(400).json(result);
+        // if (!('id' in result)) return res.status(400).json(result);
         // return the result if success with the status code 200
-        return res.status(200).json({
+        return res.status(201).json({
           message: `${this.repository.model.constructor.name.toLowerCase()} has been created.`,
           result,
         });
@@ -84,7 +84,7 @@ class Controller {
       console.log(error);
       // get the correct error status code
       // by checking the instance of the error
-      const statusCode = error.errorCode || 500;
+      const statusCode = error.statusCode || 500;
       // return error if error with status 404 or 500
       return res.status(statusCode).json({ message: error.message });
     }
