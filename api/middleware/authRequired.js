@@ -5,6 +5,7 @@ const createError = require('http-errors');
 const OktaJwtVerifier = require('@okta/jwt-verifier');
 const oktaVerifierConfig = require('../../config/okta');
 const oktaJwtVerifier = new OktaJwtVerifier(oktaVerifierConfig.config);
+const Profile = require('./../models/profile');
 
 const makeProfileObj = (claims) => {
   return {
@@ -30,7 +31,9 @@ const authRequired = async (req, res, next) => {
       .verifyAccessToken(idToken, oktaVerifierConfig.expectedAudience)
       .then(async (data) => {
         const jwtUserObj = makeProfileObj(data.claims);
-        req.profile = jwtUserObj;
+        const { id, email } = jwtUserObj;
+        const profile = (await Profile.query().where({ email }).first()) || {};
+        req.profile = { ...profile, oktaId: id };
         // const profile = await Profiles.findOrCreateProfile(jwtUserObj);
         // if (profile) {
         //   req.profile = profile;
