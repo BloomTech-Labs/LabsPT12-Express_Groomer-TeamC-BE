@@ -24,8 +24,8 @@ const GSController = require('./GroomerServiceController');
  *              groomer_id: '4a0dd31d-9d2f-48c0-b5ca-a8d307863404'
  *              service_id: '231863f2-fcac-4ab3-92fe-c1c1e322ca19'
  *              service_hours: 'Mon-Fri 10am-8pm'
- * 
- * 
+ *
+ *
  * /groomers/{id}/services:
  *  get:
  *      description: return list of groomer services
@@ -141,7 +141,7 @@ router.put(
 
 /**
  * @swagger
-*  parameters:
+ *  parameters:
  *      groomerServiceId:
  *          name: groomerServiceId
  *          in: path
@@ -150,8 +150,8 @@ router.put(
  *          example: 750dd31c-9d2f-48c0-b5ca-a8d487863456
  *          schema:
  *              type: string
- * 
- * 
+ *
+ *
  * /groomers/{id}/services/{groomerServiceId}:
  *  delete:
  *    summary: Remove a groomer service

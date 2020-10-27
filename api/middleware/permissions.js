@@ -46,7 +46,8 @@ const canPerform = async (req, res, next) => {
     // if is is PUT or DELETE request, verify that id in the params is equal to the authenticated user;
     // verify the owner of the data by verifying the ID to be updated to be deleted is the same with the
     // authenticated user
-    if ((req.method === 'PUT') &&
+    if (
+      req.method === 'PUT' &&
       (groomer_id !== authGroomer.id ||
         authGroomer.id !== req.body.groomer_id ||
         groomer_id !== req.body.groomer_id)
@@ -55,8 +56,8 @@ const canPerform = async (req, res, next) => {
         403,
         'Access denied. You cannot perform the update operation on this row.'
       );
-    
-    if ((req.method === 'DELETE') && (groomer_id !== authGroomer.id))
+
+    if (req.method === 'DELETE' && groomer_id !== authGroomer.id)
       throw createHttpError(
         403,
         'Access denied. You cannot perform the delete operation on this row.'

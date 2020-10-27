@@ -35,11 +35,15 @@ class GSRepository extends Repository {
     const baseUrlArr = param.context.baseUrl.split('/');
     const groomer_id = baseUrlArr[2];
     const groomerServiceId = param.context.params.groomerServiceId;
-    const result = (await this.model.query().where({ groomer_id, id: groomerServiceId }).first())
+    const result = await this.model
+      .query()
+      .where({ groomer_id, id: groomerServiceId })
+      .first();
 
-    if (!result) throw createHttpError(404, 'Cannot found the row to be deleted.')
- 
-    return result.id
+    if (!result)
+      throw createHttpError(404, 'Cannot found the row to be deleted.');
+
+    return result.id;
   }
 }
 
