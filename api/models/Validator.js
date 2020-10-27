@@ -44,6 +44,18 @@ class Validator {
         );
       }
     };
+    // unique combined keys as primary key
+    this.validator.attributes.uniqueTogether = async (instance, schema) => {
+      // check the type of schema is object
+      if (typeof schema.uniqueTogether !== 'object')
+        throw new jsonschema.SchemaError('"uniqueTogether expects an object"', schema);
+      // check if target, attrs properties exists in uniqueTogether object
+      if (!('target' in schema.uniqueTogether) || !('attrs' in schema.uniqueTogether))
+        throw new jsonschema.SchemaError('"target" and "attrs" are missing.')
+
+      return true
+    }
+
   }
 
   async validate(data, schema, params = { context: null, method: null }) {
@@ -69,6 +81,10 @@ class Validator {
               params.method
             );
             break;
+          case 'uniqueTogether':
+            obj = schema.properties[key][attr];
+            await this._uniqueTogether(obj.target, obj.attrs[0], obj.attrs[1], data[obj.attrs[0]], data[obj.attrs[1]], params.method)
+            break
         }
       }
     }
@@ -109,6 +125,20 @@ class Validator {
         },
       ];
       return false;
+    }
+  }
+
+  async _uniqueTogether(target, key0, key1, value0, value1, method = null) {
+    const result = await this.knex(target).where({ [key0]: value0, [key1]: value1 });
+
+    if (result.length && method !== 'update') {
+      this.errors = [
+        ...this.errors,
+        {
+          detail: `The keys [${key0}], [${key1}] values already exists in ${target}.`
+        }
+      ];
+      return false
     }
   }
 }
