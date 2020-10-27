@@ -12,7 +12,7 @@ class GSRepository extends Repository {
         try {
             const baseUrlArr = args.context.baseUrl.split('/');
             const groomer_id = baseUrlArr[2];
-
+            
             return (await this.model.query().select("*").where({ groomer_id }));
         } catch (error) {
             console.log(error)
