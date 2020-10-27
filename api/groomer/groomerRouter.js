@@ -1,7 +1,7 @@
 const express = require('express');
 const GroomerController = require('./groomerController');
 const authRequired = require('./../middleware/authRequired');
-const gsRouter = require('./GroomerServiceRouter') // Groomer service router
+const gsRouter = require('./GroomerServiceRouter'); // Groomer service router
 
 const router = express.Router();
 router.use('/:id/services', gsRouter);

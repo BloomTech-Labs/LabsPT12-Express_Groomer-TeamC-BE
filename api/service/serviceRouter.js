@@ -131,7 +131,12 @@ router.get('/:id', authRequired, ServiceController.get.bind(ServiceController));
  *                profile:
  *                  $ref: '#/components/schemas/Service'
  */
-router.post('/', authRequired, permissions.isGroomer, ServiceController.post.bind(ServiceController));
+router.post(
+  '/',
+  authRequired,
+  permissions.isGroomer,
+  ServiceController.post.bind(ServiceController)
+);
 /**
  * @swagger
  * /services:
@@ -166,7 +171,12 @@ router.post('/', authRequired, permissions.isGroomer, ServiceController.post.bin
  *                profile:
  *                  $ref: '#/components/schemas/Service'
  */
-router.put('/', authRequired, permissions.isGroomer, ServiceController.put.bind(ServiceController));
+router.put(
+  '/',
+  authRequired,
+  permissions.isGroomer,
+  ServiceController.put.bind(ServiceController)
+);
 
 /**
  * @swagger
@@ -198,6 +208,11 @@ router.put('/', authRequired, permissions.isGroomer, ServiceController.put.bind(
  *                service:
  *                  $ref: '#/components/schemas/Service'
  */
-router.delete('/', authRequired, permissions.isGroomer, ServiceController.del.bind(ServiceController));
+router.delete(
+  '/',
+  authRequired,
+  permissions.isGroomer,
+  ServiceController.del.bind(ServiceController)
+);
 
 module.exports = router;

@@ -1,5 +1,6 @@
 const Repository = require('../models/Repository');
 const Profile = require('../models/profile');
+const createHttpError = require('http-errors');
 
 class ProfileRepository extends Repository {
   constructor() {
@@ -19,8 +20,8 @@ class ProfileRepository extends Repository {
       'profiles.zip_code',
       'profiles.country',
       'profiles.created_at',
-      'profiles.updated_at'
-    ]
+      'profiles.updated_at',
+    ];
   }
 
   async get() {
