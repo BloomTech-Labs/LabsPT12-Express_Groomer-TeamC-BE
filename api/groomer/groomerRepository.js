@@ -37,7 +37,7 @@ class GroomerRepository extends Repository {
       'profile_id',
       (obj) => obj.profile_id === id
     );
-    if (!result) throw new NotFound('Cloud find groomer with the specified id');
+    if (!result) throw new NotFound('Could find groomer with the specified id');
     return result;
   }
 
