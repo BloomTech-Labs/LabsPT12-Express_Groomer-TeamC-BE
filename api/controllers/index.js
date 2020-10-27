@@ -139,7 +139,7 @@ class Controller {
       // Get id to be deleted from params
       const id = req.params.id;
       // call the remove function from the repository
-      const result = await this.repository.remove(id);
+      const result = await this.repository.remove(id, { context: req });
       // return result if success
       res.status(200).json(result);
     } catch (error) {

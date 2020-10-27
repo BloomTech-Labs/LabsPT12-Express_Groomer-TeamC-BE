@@ -182,7 +182,7 @@ router.put(
  *                  $ref: '#/components/schemas/GroomerService'
  */
 router.delete(
-  '/',
+  '/:groomerServiceId',
   authRequired,
   permissions.isGroomer,
   permissions.canPerform,

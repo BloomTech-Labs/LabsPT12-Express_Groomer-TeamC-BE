@@ -218,7 +218,7 @@ router.post('/', authRequired, GroomerController.post.bind(GroomerController));
  *                message:
  *                  type: string
  *                  description: A message about the result
- *                  example: groomer created
+ *                  example: groomer updated
  *                profile:
  *                  $ref: '#/components/schemas/Groomer'
  */
