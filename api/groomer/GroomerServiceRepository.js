@@ -1,11 +1,34 @@
 const Repository = require('../models/Repository');
 const GroomerService = require('../models/groomer_service');
 const createHttpError = require('http-errors');
+const ServiceRepository = require('./../service/serviceRepository');
 
 class GSRepository extends Repository {
+
+  relationMappings = {
+    service: {
+      relation: 'hasOne',
+      repositoryClass: ServiceRepository,
+      join: {
+        from: 'groomer_services.service_id',
+        to: 'services.id'
+      }
+    }
+  }
+
   constructor() {
     super();
     this.model = GroomerService;
+    this.properties = [
+      'groomer_services.id',
+      'services.id as serviceId',
+      'services.name',
+      'services.description',
+      'services.cost',
+      'groomer_services.service_hours',
+      'groomer_services.created_at',
+      'groomer_services.updated_at',
+    ]
   }
 
   async get(args) {
@@ -21,6 +44,10 @@ class GSRepository extends Repository {
         'An unknown error occurred while trying to retrieve groomers.'
       );
     }
+  }
+
+  async getWhere(whereClose) {
+    return await this.relatedAll(whereClose);
   }
 
   async afterCreate(result) {
