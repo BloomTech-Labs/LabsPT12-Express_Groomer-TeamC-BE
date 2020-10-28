@@ -109,6 +109,9 @@ class Controller {
           message: 'Request does not contain body or "id" is undefined',
         });
 
+      // check if the id exists
+      await this.repository.getOne(req.body.id);
+
       // call the update method from the repository
       const result = await this.repository.update(body.id, body, {
         context: req,
@@ -122,7 +125,7 @@ class Controller {
       console.log(error);
       // get the correct error status code
       // by checking the instance of the error
-      const statusCode = error.errorCode || 500;
+      const statusCode = error.errorCode || error.statusCode || 500;
       // return error if error with status 404 or 500
       return res.status(statusCode).json({ message: error.message });
     }
@@ -146,7 +149,7 @@ class Controller {
       console.log(error);
       // get the correct error status code
       // by checking the instance of the error
-      const statusCode = error.errorCode || 500;
+      const statusCode = error.errorCode || error.statusCode || 500;
       // return error if error with status 404 or 500
       return res.status(statusCode).json({ message: error.message });
     }
