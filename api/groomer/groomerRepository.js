@@ -3,8 +3,29 @@ const Groomer = require('../models/groomer');
 const NotFound = require('../errors/NotFound');
 const UnauthorizedUser = require('../errors/UnauthorizedUser');
 const Profile = require('../models/profile');
+const GSRepository = require('./GroomerServiceRepository');
+const ProfileRepository = require('./../profile/profileRepository');
 
 class GroomerRepository extends Repository {
+  relationMappings = {
+    profile: {
+      relation: 'hasOne',
+      repositoryClass: ProfileRepository,
+      join: {
+        from: 'groomers.profile_id',
+        to: 'profiles.id',
+      },
+    },
+    services: {
+      relation: 'hasMany',
+      repositoryClass: GSRepository,
+      join: {
+        from: 'groomers.id',
+        to: 'groomer_services.groomer_id',
+      },
+    },
+  };
+
   constructor() {
     super();
     this.model = Groomer;
@@ -28,16 +49,12 @@ class GroomerRepository extends Repository {
   }
 
   async get() {
-    return await this.relatedAll('profiles.id', 'profile_id');
+    return await this.relatedAll();
   }
 
   async getOne(id) {
-    const result = await this.relatedOne(
-      'profiles.id',
-      'profile_id',
-      (obj) => obj.profile_id === id
-    );
-    if (!result) throw new NotFound('Cloud find groomer with the specified id');
+    const result = await this.relatedOne({ profile_id: id });
+    if (!result) throw new NotFound('Could find groomer with the specified id');
     return result;
   }
 

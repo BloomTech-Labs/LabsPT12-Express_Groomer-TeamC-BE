@@ -19,7 +19,7 @@ class Controller {
   async index(req, res) {
     try {
       // call get method from repository to get all rows
-      const result = await this.repository.get();
+      const result = await this.repository.get({ context: req });
       // return the result if success with the status code 200
       return res.status(200).json(result);
     } catch (error) {
@@ -43,7 +43,7 @@ class Controller {
       // get the ID to be retrieve from the request params
       const id = String(req.params.id);
       // call getOne method from repository to retrieve the corresponding row
-      const result = await this.repository.getOne(id);
+      const result = await this.repository.getOne(id, { context: req });
       // return the result if success with the status code 200
       return res.status(200).json(result);
     } catch (error) {
@@ -72,7 +72,8 @@ class Controller {
         const result = await this.repository.create(body, { context: req });
         // check if the insert operation are success,
         // if not return the error with the status code 400
-        if (!('id' in result)) return res.status(400).json(result);
+        if (!result || (result && !('id' in result)))
+          return res.status(400).json(result);
         // return the result if success with the status code 200
         return res.status(201).json({
           message: `${this.repository.model.constructor.name.toLowerCase()} has been created.`,
@@ -113,7 +114,8 @@ class Controller {
         context: req,
       });
       // if data validation failed, return the error if the status code 400
-      if (!('id' in result)) return res.status(400).json(result);
+      if (!result || (result && !('id' in result)))
+        return res.status(400).json(result);
       // return the result if success with the status code 200
       return res.status(200).json(result);
     } catch (error) {
@@ -137,7 +139,7 @@ class Controller {
       // Get id to be deleted from params
       const id = req.params.id;
       // call the remove function from the repository
-      const result = await this.repository.remove(id);
+      const result = await this.repository.remove(id, { context: req });
       // return result if success
       res.status(200).json(result);
     } catch (error) {

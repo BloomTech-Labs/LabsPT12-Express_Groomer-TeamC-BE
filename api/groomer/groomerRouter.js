@@ -1,8 +1,10 @@
 const express = require('express');
 const GroomerController = require('./groomerController');
 const authRequired = require('./../middleware/authRequired');
+const gsRouter = require('./GroomerServiceRouter'); // Groomer service router
 
 const router = express.Router();
+router.use('/:id/services', gsRouter);
 
 /**
  * @swagger
@@ -62,7 +64,6 @@ const router = express.Router();
  *      description: return list of groomers
  *      summary: Get a list of groomers
  *      security:
- *          - okta: []
  *      tags:
  *          - groomer
  *      responses:
@@ -108,7 +109,7 @@ const router = express.Router();
  *              403:
  *                  $ref: '#/components/responses/UnauthorizedError'
  */
-router.get('/', authRequired, GroomerController.index.bind(GroomerController));
+router.get('/', GroomerController.index.bind(GroomerController));
 
 /**
  * @swagger
@@ -216,7 +217,7 @@ router.post('/', authRequired, GroomerController.post.bind(GroomerController));
  *                message:
  *                  type: string
  *                  description: A message about the result
- *                  example: groomer created
+ *                  example: groomer updated
  *                profile:
  *                  $ref: '#/components/schemas/Groomer'
  */

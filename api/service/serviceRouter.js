@@ -1,5 +1,6 @@
 const express = require('express');
 const authRequired = require('./../middleware/authRequired');
+const permissions = require('./../middleware/permissions');
 const ServiceController = require('./serviceController');
 
 const router = express.Router();
@@ -130,7 +131,12 @@ router.get('/:id', authRequired, ServiceController.get.bind(ServiceController));
  *                profile:
  *                  $ref: '#/components/schemas/Service'
  */
-router.post('/', authRequired, ServiceController.post.bind(ServiceController));
+router.post(
+  '/',
+  authRequired,
+  permissions.isGroomer,
+  ServiceController.post.bind(ServiceController)
+);
 /**
  * @swagger
  * /services:
@@ -165,7 +171,12 @@ router.post('/', authRequired, ServiceController.post.bind(ServiceController));
  *                profile:
  *                  $ref: '#/components/schemas/Service'
  */
-router.put('/', authRequired, ServiceController.put.bind(ServiceController));
+router.put(
+  '/',
+  authRequired,
+  permissions.isGroomer,
+  ServiceController.put.bind(ServiceController)
+);
 
 /**
  * @swagger
@@ -197,6 +208,11 @@ router.put('/', authRequired, ServiceController.put.bind(ServiceController));
  *                service:
  *                  $ref: '#/components/schemas/Service'
  */
-router.delete('/', authRequired, ServiceController.del.bind(ServiceController));
+router.delete(
+  '/',
+  authRequired,
+  permissions.isGroomer,
+  ServiceController.del.bind(ServiceController)
+);
 
 module.exports = router;

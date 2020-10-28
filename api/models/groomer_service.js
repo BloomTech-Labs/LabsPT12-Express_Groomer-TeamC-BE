@@ -16,6 +16,10 @@ class GroomerService extends Model {
         service_id: {
           type: 'string',
           oneOf: { key: 'id', target: 'services' },
+          uniqueTogether: {
+            target: this.tableName,
+            attrs: ['groomer_id', 'service_id'],
+          },
         },
         service_hours: { type: 'string' },
       },
