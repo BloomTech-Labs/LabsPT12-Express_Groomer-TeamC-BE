@@ -64,7 +64,6 @@ router.use('/:id/services', gsRouter);
  *      description: return list of groomers
  *      summary: Get a list of groomers
  *      security:
- *          - okta: []
  *      tags:
  *          - groomer
  *      responses:
@@ -110,7 +109,7 @@ router.use('/:id/services', gsRouter);
  *              403:
  *                  $ref: '#/components/responses/UnauthorizedError'
  */
-router.get('/', authRequired, GroomerController.index.bind(GroomerController));
+router.get('/', GroomerController.index.bind(GroomerController));
 
 /**
  * @swagger
