@@ -100,7 +100,7 @@ class Repository {
   async update(id, payload, param) {
     const data = await this.beforeUpdate(id, payload, param);
     const result = await this.model.update(id, data);
-    
+
     return await this.afterUpdate(result, param);
   }
 

@@ -1,7 +1,7 @@
 const router = require('express').Router();
 const authRequired = require('./../middleware/authRequired');
 const AnimalController = require('./animalController');
-const fileUploadHandler = require('./../middleware/multer-s3')
+const fileUploadHandler = require('./../middleware/multer-s3');
 
 /**
  * @swagger
@@ -28,7 +28,7 @@ const fileUploadHandler = require('./../middleware/multer-s3')
  *                  type: string
  *              animal_picture:
  *                  type: object
- *              comment: 
+ *              comment:
  *                  type: file
  *          example:
  *              owner_id: '4a0dd31d-9d2f-48c0-b5ca-a8d307863404'
@@ -38,8 +38,8 @@ const fileUploadHandler = require('./../middleware/multer-s3')
  *              weight: '15kg'
  *              animal_picture: {file: []}
  *              comment: 'lorem ipsum'
- * 
- *  
+ *
+ *
  * /animals:
  *  get:
  *      description: return list of animals
@@ -74,7 +74,7 @@ const fileUploadHandler = require('./../middleware/multer-s3')
  *                                weight: '15kg'
  *                                animal_picture: {file: []}
  *                                comment: 'lorem ipsum'
- * 
+ *
  *              401:
  *                  $ref: '#/components/responses/UnauthorizedError'
  *              403:
@@ -156,7 +156,12 @@ router.get('/:id', authRequired, AnimalController.get.bind(AnimalController));
  *                profile:
  *                  $ref: '#/components/schemas/Animal'
  */
-router.post('/', authRequired, fileUploadHandler.single('animal_picture'), AnimalController.post.bind(AnimalController));
+router.post(
+  '/',
+  authRequired,
+  fileUploadHandler.single('animal_picture'),
+  AnimalController.post.bind(AnimalController)
+);
 
 /**
  * @swagger
@@ -192,7 +197,12 @@ router.post('/', authRequired, fileUploadHandler.single('animal_picture'), Anima
  *                profile:
  *                  $ref: '#/components/schemas/Animal'
  */
-router.put('/', authRequired, fileUploadHandler.single('animal_picture'), AnimalController.put.bind(AnimalController));
+router.put(
+  '/',
+  authRequired,
+  fileUploadHandler.single('animal_picture'),
+  AnimalController.put.bind(AnimalController)
+);
 
 /**
  * @swagger
@@ -224,6 +234,10 @@ router.put('/', authRequired, fileUploadHandler.single('animal_picture'), Animal
  *                animal:
  *                  $ref: '#/components/schemas/Animal'
  */
-router.delete('/:id', authRequired, AnimalController.del.bind(AnimalController));
+router.delete(
+  '/:id',
+  authRequired,
+  AnimalController.del.bind(AnimalController)
+);
 
 module.exports = router;

@@ -108,9 +108,9 @@ class Controller {
         return res.status(400).json({
           message: 'Request does not contain body or "id" is undefined',
         });
-      
+
       // check if the id exists
-      await this.repository.getOne(req.body.id)  
+      await this.repository.getOne(req.body.id);
 
       // call the update method from the repository
       const result = await this.repository.update(body.id, body, {

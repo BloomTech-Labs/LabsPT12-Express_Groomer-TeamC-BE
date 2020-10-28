@@ -3,4 +3,4 @@ const AnimalRepository = require('./animalRepository');
 
 class AnimalController extends Controller {}
 
-module.exports = new AnimalController(AnimalRepository)
+module.exports = new AnimalController(AnimalRepository);
