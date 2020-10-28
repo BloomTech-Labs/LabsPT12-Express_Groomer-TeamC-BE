@@ -1,6 +1,9 @@
 const Repository = require('./../models/Repository');
 const Animal = require('./../models/animal');
 const createHttpError = require('http-errors');
+const { del } = require('../../data/db-config');
+const animal = require('./../models/animal');
+const profile = require('../models/profile');
 
 class AnimalRepository extends Repository {
     constructor() {
@@ -18,9 +21,15 @@ class AnimalRepository extends Repository {
          * Check if file exists in the request object
          * if yes replace picture value by the file link in context file storage
          */
-        if (param.context.file.Location) payload.picture = param.context.file.Location
+        if (param.context.file && param.context.file.Location) payload.picture = param.context.file.Location
         
+        delete payload.animal_picture
+
         return payload
+    }
+
+    afterCreate(result) {
+        return result[0]
     }
 
     async beforeUpdate(id, payload, param) {
@@ -29,8 +38,21 @@ class AnimalRepository extends Repository {
          */
         const authProfileId = param.context.profile.id;
         if (payload.owner_id !== authProfileId) throw createHttpError(403, 'Operation not allowed. You can update this animal.')
-
+        console.log(payload.owner_id)
+        /**
+         * Check if file exists in the request object
+         * if yes replace picture value by the file link in context file storage
+         */
+        if (param.context.file && param.context.file.Location) payload.picture = param.context.file.Location
+        
+        delete payload.animal_picture
+        
         return payload
+    }
+
+    async afterUpdate(result) {
+        console.log(result)
+        return result[0]
     }
 
     async beforeRemove(id, param) {
