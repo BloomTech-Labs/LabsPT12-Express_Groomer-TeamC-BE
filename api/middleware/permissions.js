@@ -48,16 +48,23 @@ const canPerform = async (req, res, next) => {
     // authenticated user
     if (
       req.method === 'PUT' &&
-      (groomer_id !== authGroomer.id ||groomer_id !== req.body.groomer_id)) {
-        if (!req.body.groomer_id || (req.body.groomer_id && (authGroomer.id !== req.body.groomer_id))) {
-          throw createHttpError(400, '"groomer_id" is required in the request body, and should match with the authenticated user.')
-        }
-
+      (groomer_id !== authGroomer.id || groomer_id !== req.body.groomer_id)
+    ) {
+      if (
+        !req.body.groomer_id ||
+        (req.body.groomer_id && authGroomer.id !== req.body.groomer_id)
+      ) {
         throw createHttpError(
-          403,
-          'Access denied. You cannot perform the update operation on this row.'
+          400,
+          '"groomer_id" is required in the request body, and should match with the authenticated user.'
         );
       }
+
+      throw createHttpError(
+        403,
+        'Access denied. You cannot perform the update operation on this row.'
+      );
+    }
 
     if (req.method === 'DELETE' && groomer_id !== authGroomer.id)
       throw createHttpError(
