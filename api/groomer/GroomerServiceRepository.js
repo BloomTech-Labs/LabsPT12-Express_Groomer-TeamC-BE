@@ -4,17 +4,16 @@ const createHttpError = require('http-errors');
 const ServiceRepository = require('./../service/serviceRepository');
 
 class GSRepository extends Repository {
-
   relationMappings = {
     service: {
       relation: 'hasOne',
       repositoryClass: ServiceRepository,
       join: {
         from: 'groomer_services.service_id',
-        to: 'services.id'
-      }
-    }
-  }
+        to: 'services.id',
+      },
+    },
+  };
 
   constructor() {
     super();
@@ -28,7 +27,7 @@ class GSRepository extends Repository {
       'groomer_services.service_hours',
       'groomer_services.created_at',
       'groomer_services.updated_at',
-    ]
+    ];
   }
 
   async get(args) {

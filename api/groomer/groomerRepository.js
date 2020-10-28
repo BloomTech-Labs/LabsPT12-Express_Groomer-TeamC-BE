@@ -7,25 +7,24 @@ const GSRepository = require('./GroomerServiceRepository');
 const ProfileRepository = require('./../profile/profileRepository');
 
 class GroomerRepository extends Repository {
-
   relationMappings = {
     profile: {
       relation: 'hasOne',
       repositoryClass: ProfileRepository,
       join: {
         from: 'groomers.profile_id',
-        to: 'profiles.id'
-      }
+        to: 'profiles.id',
+      },
     },
     services: {
       relation: 'hasMany',
       repositoryClass: GSRepository,
       join: {
         from: 'groomers.id',
-        to: 'groomer_services.groomer_id'
-      }
-    }
-  }
+        to: 'groomer_services.groomer_id',
+      },
+    },
+  };
 
   constructor() {
     super();
@@ -54,7 +53,7 @@ class GroomerRepository extends Repository {
   }
 
   async getOne(id) {
-    const result = await this.relatedOne({profile_id: id});
+    const result = await this.relatedOne({ profile_id: id });
     if (!result) throw new NotFound('Could find groomer with the specified id');
     return result;
   }

@@ -4,17 +4,16 @@ const createHttpError = require('http-errors');
 const UserTypeRepository = require('./../userType/userTypeRepository');
 
 class ProfileRepository extends Repository {
-
   relationMappings = {
     userType: {
       relation: 'hasOne',
       repositoryClass: UserTypeRepository,
       join: {
         from: 'profiles.user_type',
-        to: 'user_types.id'
-      }
-    }
-  }
+        to: 'user_types.id',
+      },
+    },
+  };
 
   constructor() {
     super();
@@ -42,7 +41,7 @@ class ProfileRepository extends Repository {
   }
 
   async getOne(id) {
-    const result = await this.relatedOne({ "profiles.id": id });
+    const result = await this.relatedOne({ 'profiles.id': id });
 
     if (!result) throw new createHttpError(400, 'Profile not found.');
     return result;
