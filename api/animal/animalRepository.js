@@ -1,9 +1,6 @@
 const Repository = require('./../models/Repository');
 const Animal = require('./../models/animal');
 const createHttpError = require('http-errors');
-const { del } = require('../../data/db-config');
-const animal = require('./../models/animal');
-const profile = require('../models/profile');
 
 class AnimalRepository extends Repository {
     constructor() {
