@@ -5,6 +5,7 @@ const UnauthorizedUser = require('../errors/UnauthorizedUser');
 const Profile = require('../models/profile');
 const GSRepository = require('./GroomerServiceRepository');
 const ProfileRepository = require('./../profile/profileRepository');
+const AppointmentRepository = require('./../appointment/appointmentRepository');
 
 class GroomerRepository extends Repository {
   relationMappings = {
@@ -24,6 +25,14 @@ class GroomerRepository extends Repository {
         to: 'groomer_services.groomer_id',
       },
     },
+    appointments: {
+      relation: 'hasMany',
+      repositoryClass: AppointmentRepository,
+      join: {
+        from: 'groomers.profile_id',
+        to: 'appointments.groomer_id'
+      }
+    }
   };
 
   constructor() {

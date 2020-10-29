@@ -1,8 +1,5 @@
 const Repository = require("./../models/Repository");
 const Appointment = require("./../models/appointment");
-const ProfileRepository = require('./../profile/profileRepository'); // As Client Repository
-const GroomerRepository = require('./../groomer/groomerRepository');
-const GSRepository = require('./../groomer/GroomerServiceRepository'); // Groomer Service Repository
 const AnimalRepository = require('./../animal/animalRepository');
 const createHttpError = require("http-errors");
 
