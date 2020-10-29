@@ -1,6 +1,6 @@
 const router = require('express').Router();
-const authRequired = require("./../middleware/authRequired");
-const AppointController = require("./appointmentController");
+const authRequired = require('./../middleware/authRequired');
+const AppointController = require('./appointmentController');
 
 /**
  * @swagger
@@ -36,13 +36,13 @@ const AppointController = require("./appointmentController");
  *      appointmentId:
  *          name: id
  *          in: path
- *          description: ID of the appointment 
+ *          description: ID of the appointment
  *          required: true
  *          example: 750dd31c-9d2f-48c0-b5ca-a8d487863456
  *          schema:
  *              type: string
- * 
- * 
+ *
+ *
  * /appointments/schedule:
  *  post:
  *      summary: Make an appointment
@@ -77,7 +77,11 @@ const AppointController = require("./appointmentController");
  *                              result:
  *                                  $ref: '#/components/schemas/Animal'
  */
-router.post('/schedule', authRequired, AppointController.post.bind(AppointController));
+router.post(
+  '/schedule',
+  authRequired,
+  AppointController.post.bind(AppointController)
+);
 
 /**
  * @swagger
@@ -145,6 +149,10 @@ router.put('/', authRequired, AppointController.put.bind(AppointController));
  *                appointment:
  *                  $ref: '#/components/schemas/Appointment'
  */
-router.delete('/:id/cancel', authRequired, AppointController.del.bind(AppointController))
+router.delete(
+  '/:id/cancel',
+  authRequired,
+  AppointController.del.bind(AppointController)
+);
 
-module.exports = router
+module.exports = router;

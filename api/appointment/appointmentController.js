@@ -1,6 +1,6 @@
-const Controller = require("./../controllers");
-const AppointmentRepository = require("./appointmentRepository");
+const Controller = require('./../controllers');
+const AppointmentRepository = require('./appointmentRepository');
 
 class AppointmentController extends Controller {}
 
-module.exports = new AppointmentController(AppointmentRepository)
+module.exports = new AppointmentController(AppointmentRepository);

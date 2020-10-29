@@ -30,9 +30,9 @@ class GroomerRepository extends Repository {
       repositoryClass: AppointmentRepository,
       join: {
         from: 'groomers.profile_id',
-        to: 'appointments.groomer_id'
-      }
-    }
+        to: 'appointments.groomer_id',
+      },
+    },
   };
 
   constructor() {
