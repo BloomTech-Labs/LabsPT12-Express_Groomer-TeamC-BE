@@ -28,6 +28,7 @@ const searchRouter = require('./search/searchRouter');
 const userTypeRouter = require('./userType/userTypeRouter');
 const serviceRouter = require('./service/serviceRouter');
 const animalRouter = require('./animal/animalRouter');
+const appointmentRouter = require('./appointment/appointmentRouter');
 
 const app = express();
 
@@ -61,6 +62,7 @@ app.use('/search', searchRouter);
 app.use('/user-types', userTypeRouter);
 app.use('/services', serviceRouter);
 app.use('/animals', animalRouter);
+app.use('/appointments', appointmentRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

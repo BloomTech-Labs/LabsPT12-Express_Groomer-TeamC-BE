@@ -5,6 +5,7 @@ const UnauthorizedUser = require('../errors/UnauthorizedUser');
 const Profile = require('../models/profile');
 const GSRepository = require('./GroomerServiceRepository');
 const ProfileRepository = require('./../profile/profileRepository');
+const AppointmentRepository = require('./../appointment/appointmentRepository');
 
 class GroomerRepository extends Repository {
   relationMappings = {
@@ -22,6 +23,14 @@ class GroomerRepository extends Repository {
       join: {
         from: 'groomers.id',
         to: 'groomer_services.groomer_id',
+      },
+    },
+    appointments: {
+      relation: 'hasMany',
+      repositoryClass: AppointmentRepository,
+      join: {
+        from: 'groomers.profile_id',
+        to: 'appointments.groomer_id',
       },
     },
   };
@@ -52,9 +61,13 @@ class GroomerRepository extends Repository {
     return await this.relatedAll();
   }
 
-  async getOne(id) {
-    const result = await this.relatedOne({ profile_id: id });
-    if (!result) throw new NotFound('Could find groomer with the specified id');
+  async getOne(id, params) {
+    const method = params.context.method;
+    const whereClose =
+      method === 'PUT' ? { 'groomers.id': id } : { profile_id: id };
+    const result = await this.relatedOne(whereClose);
+    if (!result)
+      throw new NotFound('Could not find groomer with the specified id');
     return result;
   }
 

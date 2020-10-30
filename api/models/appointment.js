@@ -19,7 +19,7 @@ class Appointment extends Model {
         client_id: { type: 'string', oneOf: { key: 'id', target: 'profiles' } },
         groomer_id: {
           type: 'string',
-          oneOf: { key: 'id', target: 'profiles' },
+          oneOf: { key: 'profile_id', target: 'groomers' },
         },
         service_id: {
           type: 'string',
