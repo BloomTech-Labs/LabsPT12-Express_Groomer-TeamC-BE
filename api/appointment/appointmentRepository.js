@@ -9,6 +9,17 @@ class AppointmentRepository extends Repository {
     this.model = Appointment;
   }
 
+  async getWhere(whereClose) {
+    if (!whereClose)
+      throw createHttpError(500, 'Cannot query where of undefined.');
+
+    return await this.model
+      .query()
+      .where(whereClose)
+      .andWhere({ completed: false })
+      .select(...this.properties);
+  }
+
   async beforeCreate(payload, param) {
     // security check
     await this.cuSecurityCheck(payload, param.context);
@@ -37,7 +48,7 @@ class AppointmentRepository extends Repository {
      */
     const appointment = await this.getOne(id);
 
-    if (appointment.client_id !== param.context.profile.id)
+    if (this.checkAppointmentRelated(appointment, param.context))
       throw createHttpError(
         403,
         'Operation not allowed. You cannot cancel this appointment.'
@@ -55,8 +66,8 @@ class AppointmentRepository extends Repository {
    * @param {object} context request
    */
   async cuSecurityCheck(payload, context) {
-    if (!payload.client_id || !payload.groomer_id)
-      throw createHttpError(400, '"client_id" and "groomer_id" are required.');
+    if (!payload.client_id || !payload.groomer_id || !payload.animal_id)
+      throw createHttpError(400, '"client_id", "groomer_id", "animal_id" are required.');
 
     if (payload.client_id === payload.groomer_id)
       throw createHttpError(
@@ -64,7 +75,7 @@ class AppointmentRepository extends Repository {
         'The "client_id" should be different to the "groomer_id".'
       );
 
-    if (payload.client_id !== context.profile.id)
+    if (this.checkAppointmentRelated(payload, context))
       throw createHttpError(
         403,
         'Operation not allowed. You cannot schedule/reschedule an appointment with a different ID.'
@@ -83,6 +94,19 @@ class AppointmentRepository extends Repository {
         403,
         "Operation not allowed. Only animal's owner can schedule/reschedule appointment with this animal"
       );
+  }
+
+  /**
+   * Appointment related mean, users (groomer and client) that are concern on this appointment
+   * For data security purpose authenticate groomer can create an appointment only for him/her
+   * and same for the authenticate client users, they can make an appointment only for him/her 
+   * Only groomer or client user related to an appointment can delete this appointment
+   * @param {object} payload request body 
+   * @param {object} context request object form controller
+   */
+  checkAppointmentRelated(payload, context) {
+    return ((context.profile.userTypeName === 'client' && payload.client_id !== context.profile.id) || 
+    (context.profile.userTypeName === 'groomer' && payload.groomer_id !== context.profile.id))
   }
 }
 

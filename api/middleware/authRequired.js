@@ -36,10 +36,9 @@ const authRequired = async (req, res, next) => {
           await Profile.query()
             .join('user_types', 'user_types.id', 'profiles.user_type')
             .where({ email })
-            .select('profiles.*', 'user_types.name').first()
+            .select('profiles.*', 'user_types.name as userTypeName').first()
           ) || {};
         req.profile = { ...profile, oktaId: id };
-        console.log(req.profile)
         // const profile = await Profiles.findOrCreateProfile(jwtUserObj);
         // if (profile) {
         //   req.profile = profile;
