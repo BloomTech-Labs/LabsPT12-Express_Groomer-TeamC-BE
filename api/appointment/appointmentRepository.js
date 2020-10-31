@@ -22,7 +22,6 @@ class AppointmentRepository extends Repository {
 
   async beforeUpdate(id, payload, param) {
     // security check
-    console.log(payload);
     await this.cuSecurityCheck(payload, param.context);
 
     return payload;
