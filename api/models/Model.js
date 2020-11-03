@@ -81,17 +81,21 @@ class Model {
     await this.query().where({ id }).del();
     return id;
   }
-  
+
   /**
    * Validate model data based on the validation schema
-   * @param {object} payload 
-   * @param {object} params 
+   * @param {object} payload
+   * @param {object} params
    * @returns {boolean} true in successfully validated data and false in validation failed
    */
-  validateData(payload, params) {
+  async validateData(payload, params) {
     // reset validator
     this.validator = new Validator(knex);
-    return await this.validator.validate(payload, this.validationSchema, params)
+    return await this.validator.validate(
+      payload,
+      this.validationSchema,
+      params
+    );
   }
 }
 
