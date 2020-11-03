@@ -2,22 +2,71 @@ const Repository = require('./../models/Repository');
 const Appointment = require('./../models/appointment');
 const AnimalRepository = require('./../animal/animalRepository');
 const createHttpError = require('http-errors');
+const objectFilter = require('./../utils/object-filter');
+const objectFiler = require('./../utils/object-filter');
 
 class AppointmentRepository extends Repository {
   constructor() {
     super();
     this.model = Appointment;
+    this.properties = [
+      'appointments.id',
+      'appointments.groomer_id',
+      'appointments.service_id',
+      'appointments.animal_id',
+      'appointments.appointment_date',
+      'appointments.location',
+      'appointments.id as clientID',
+      'profiles.name as clientName',
+      'profiles.email as clientEmail',
+      'profiles.address as clientAddress',
+      'profiles.city as clientCity',
+      'profiles.state as clientState',
+      'profiles.zip_code as clientZipCode',
+      'profiles.avatarUrl as clientAvatarUrl',
+    ]
   }
 
-  async getWhere(whereClose) {
+  async get({ context }) {
+    /**
+     * Appointment are linked with 4 different model and 
+     * the groomer table are linked with profile
+     */
+  }
+
+  async getWhere(whereClose, params) {
     if (!whereClose)
       throw createHttpError(500, 'Cannot query where of undefined.');
 
-    return await this.model
+    const result = (await this.model
       .query()
       .where(whereClose)
+      .join('profiles', 'profiles.id', 'appointments.client_id')
       .andWhere({ completed: false })
-      .select(...this.properties);
+      .select(...this.properties));
+
+    const appointments = []
+
+    for (const appointment of result) {
+      // General appointment info
+      const appointmentInfo = {
+        id: appointment.id,
+        appointment_date: appointment.appointment_date,
+        location: appointment.location,
+        created_at: appointment.created_at  
+      }
+      // get client info
+
+      
+      const clientInfo = objectFiler(appointment, (key, value) => key.includes('client'));
+
+      appointments.push({
+        ...appointmentInfo,
+        clientInfo
+      })
+    }
+
+    return appointments;
   }
 
   async beforeCreate(payload, param) {
