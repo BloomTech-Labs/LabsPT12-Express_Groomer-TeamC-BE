@@ -1,10 +1,12 @@
 const faker = require('faker');
+const getLocations = require('./../utils/locations');
 
 exports.seed = function (knex) {
   // Deletes ALL existing entries
   return knex('profiles')
     .del()
-    .then(function () {
+    .then(async function () {
+      const locations = await getLocations();
       // Inserts seed entries
       return knex('profiles').insert([
         {
@@ -14,10 +16,12 @@ exports.seed = function (knex) {
           name: 'Kole Hane',
           user_type: 'dc885650-0de0-11eb-8250-a5697c93ae91',
           phone: '(800) 275-8777',
-          address: '223 W 38th St',
-          city: 'New York',
-          state: 'NY',
-          zip_code: 10018,
+          address: locations[0].address,
+          city: locations[0].city,
+          state: locations[0].state,
+          zip_code: parseInt(locations[0].zip_code),
+          latitude: locations[0].lat,
+          longitude: locations[0].lng,
         },
         {
           id: 'user2_id',
@@ -26,10 +30,12 @@ exports.seed = function (knex) {
           name: 'Lucas King',
           user_type: 'dc885650-0de0-11eb-8250-a5697c93ae91',
           phone: '(800) 275-8777',
-          address: '1300 Evans Ave Ste 30',
-          city: 'San Francisco',
-          state: 'CA',
-          zip_code: 94188,
+          address: locations[1].address,
+          city: locations[1].city,
+          state: locations[1].state,
+          zip_code: parseInt(locations[1].zip_code),
+          latitude: locations[1].lat,
+          longitude: locations[1].lng,
         },
         {
           id: 'user3_id',
@@ -38,10 +44,12 @@ exports.seed = function (knex) {
           name: 'Garland Baumbach',
           user_type: 'dc885650-0de0-11eb-8250-a5697c93ae91',
           phone: '(800) 275-8000',
-          address: '421 8th Ave',
-          city: 'New York',
-          state: 'NY',
-          zip_code: 10001,
+          address: locations[2].address,
+          city: locations[2].city,
+          state: locations[2].state,
+          zip_code: parseInt(locations[2].zip_code),
+          latitude: locations[2].lat,
+          longitude: locations[2].lng,
         },
         {
           id: 'user4_id',
@@ -50,10 +58,12 @@ exports.seed = function (knex) {
           name: 'Arvel Bernier',
           user_type: 'dc885650-0de0-11eb-8250-a5697c93ae91',
           phone: '(800) 555-7790',
-          address: '335 E 14th St',
-          city: 'New York',
-          state: 'NY',
-          zip_code: 10009,
+          address: locations[3].address,
+          city: locations[3].city,
+          state: locations[3].state,
+          zip_code: parseInt(locations[3].zip_code),
+          latitude: locations[3].lat,
+          longitude: locations[3].lng,
         },
         {
           id: 'user5_id',
@@ -62,10 +72,12 @@ exports.seed = function (knex) {
           name: 'Max Goldner',
           user_type: 'dc885650-0de0-11eb-8250-a5697c93ae91',
           phone: '(800) 305-4400',
-          address: '1400 Pine St',
-          city: 'San Francisco',
-          state: 'CA',
-          zip_code: 94109,
+          address: locations[4].address,
+          city: locations[4].city,
+          state: locations[4].state,
+          zip_code: parseInt(locations[4].zip_code),
+          latitude: locations[4].lat,
+          longitude: locations[4].lng,
         },
         {
           id: 'user6_id',
@@ -74,10 +86,12 @@ exports.seed = function (knex) {
           name: 'Tim Leon',
           user_type: 'dc885650-0de0-11eb-8250-a5697c93ae91',
           phone: '',
-          address: '150 Sutter St',
-          city: 'San Francisco',
-          state: 'CA',
-          zip_code: 94104,
+          address: locations[5].address,
+          city: locations[5].city,
+          state: locations[5].state,
+          zip_code: parseInt(locations[5].zip_code),
+          latitude: locations[5].lat,
+          longitude: locations[5].lng,
         },
         {
           id: 'user7_id',
@@ -86,10 +100,12 @@ exports.seed = function (knex) {
           name: 'Martin Mark',
           user_type: '035f3a60-0de0-11eb-93e6-ddb47fc994e4',
           phone: '(415) 643-3790',
-          address: '391 Ellis St',
-          city: 'San Francisco',
-          state: 'CA',
-          zip_code: 94102,
+          address: locations[6].address,
+          city: locations[6].city,
+          state: locations[6].state,
+          zip_code: parseInt(locations[6].zip_code),
+          latitude: locations[6].lat,
+          longitude: locations[6].lng,
         },
         {
           id: 'user8_id',
@@ -98,10 +114,12 @@ exports.seed = function (knex) {
           name: 'Andre Premier',
           user_type: '035f3a60-0de0-11eb-93e6-ddb47fc994e4',
           phone: '',
-          address: '244 E 3rd St',
-          city: 'New York',
-          state: 'NY',
-          zip_code: 10009,
+          address: locations[7].address,
+          city: locations[7].city,
+          state: locations[7].state,
+          zip_code: parseInt(locations[7].zip_code),
+          latitude: locations[7].lat,
+          longitude: locations[7].lng,
         },
       ]);
     });
