@@ -54,13 +54,8 @@ const addresses = [
 
 const limit = addresses.length - 1;
 
-const getLocation = async (index) => {
-  if (index > limit) throw new Error('No location found at this index');
-
-  const address = addresses[index];
-  const rawFormattedAddress = `${address.address}, ${address.city}, ${address.state}`;
-
-  const result = await geocode(rawFormattedAddress);
+const getGeocode = async (address) => {
+  const result = await geocode(address);
 
   return {
     address: result.formatted,
@@ -71,6 +66,22 @@ const getLocation = async (index) => {
     lat: result.geometry.lat,
     lng: result.geometry.lng,
   };
+};
+
+const locations = [];
+
+for (const address of addresses) {
+  const rawFormattedAddress = `${address.address}, ${address.city}, ${address.state}`;
+
+  getGeocode(rawFormattedAddress)
+    .then((data) => locations.push(data))
+    .catch((error) => console.log(error));
+}
+
+const getLocation = (index) => {
+  if (index > limit) throw new Error('No location found at this index');
+
+  return locations[index];
 };
 
 module.exports = getLocation;
