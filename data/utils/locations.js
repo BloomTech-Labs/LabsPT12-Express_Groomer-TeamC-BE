@@ -9,7 +9,7 @@ const addresses = [
     zip_code: 10018,
   },
   {
-    address: '1300 Eva Ave Ste 30',
+    address: '1300 Evans Ave Ste 30',
     city: 'San Francisco',
     state: 'CA',
     zip_code: 94188,
@@ -60,7 +60,17 @@ const getLocation = async (index) => {
   const address = addresses[index];
   const rawFormattedAddress = `${address.address}, ${address.city}, ${address.state}`;
 
-  return await geocode(rawFormattedAddress);
+  const result = await geocode(rawFormattedAddress);
+
+  return {
+    address: result.formatted,
+    city: result.components.city || result.components.town,
+    state: result.components.state_code,
+    zip_code: result.components.postcode,
+    country: result.components.country,
+    lat: result.geometry.lat,
+    lng: result.geometry.lng,
+  };
 };
 
 module.exports = getLocation;
