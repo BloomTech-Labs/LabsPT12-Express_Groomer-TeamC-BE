@@ -68,20 +68,17 @@ const getGeocode = async (address) => {
   };
 };
 
-const locations = [];
+const getLocations = async () => {
+  const locations = [];
 
-for (const address of addresses) {
-  const rawFormattedAddress = `${address.address}, ${address.city}, ${address.state}`;
+  for (const address of addresses) {
+    const rawFormattedAddress = `${address.address}, ${address.city}, ${address.state}`;
 
-  getGeocode(rawFormattedAddress)
-    .then((data) => locations.push(data))
-    .catch((error) => console.log(error));
-}
+    const data = await getGeocode(rawFormattedAddress);
+    locations.push(data);
+  }
 
-const getLocation = (index) => {
-  if (index > limit) throw new Error('No location found at this index');
-
-  return locations[index];
+  return locations;
 };
 
-module.exports = getLocation;
+module.exports = getLocations;
