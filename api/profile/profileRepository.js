@@ -30,6 +30,8 @@ class ProfileRepository extends Repository {
       'profiles.city',
       'profiles.state',
       'profiles.zip_code',
+      'profiles.latitude',
+      'profiles.longitude',
       'profiles.country',
       'profiles.created_at',
       'profiles.updated_at',
@@ -37,7 +39,7 @@ class ProfileRepository extends Repository {
   }
 
   async get() {
-    return await this.relatedAll('user_types.id', 'user_type');
+    return await this.relatedAll();
   }
 
   async getOne(id) {
