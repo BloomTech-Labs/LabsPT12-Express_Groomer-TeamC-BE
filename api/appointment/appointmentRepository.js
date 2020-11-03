@@ -2,8 +2,7 @@ const Repository = require('./../models/Repository');
 const Appointment = require('./../models/appointment');
 const AnimalRepository = require('./../animal/animalRepository');
 const createHttpError = require('http-errors');
-const objectFilter = require('./../utils/object-filter');
-const objectFiler = require('./../utils/object-filter');
+// const objectFilter = require('./../utils/object-filter');
 
 class AppointmentRepository extends Repository {
   constructor() {
@@ -24,28 +23,28 @@ class AppointmentRepository extends Repository {
       'profiles.state as clientState',
       'profiles.zip_code as clientZipCode',
       'profiles.avatarUrl as clientAvatarUrl',
-    ]
+    ];
   }
 
-  async get({ context }) {
+  async get() {
     /**
-     * Appointment are linked with 4 different model and 
+     * Appointment are linked with 4 different model and
      * the groomer table are linked with profile
      */
   }
 
-  async getWhere(whereClose, params) {
+  async getWhere(whereClose) {
     if (!whereClose)
       throw createHttpError(500, 'Cannot query where of undefined.');
 
-    const result = (await this.model
+    const result = await this.model
       .query()
       .where(whereClose)
       .join('profiles', 'profiles.id', 'appointments.client_id')
       .andWhere({ completed: false })
-      .select(...this.properties));
+      .select(...this.properties);
 
-    const appointments = []
+    const appointments = [];
 
     for (const appointment of result) {
       // General appointment info
@@ -53,17 +52,18 @@ class AppointmentRepository extends Repository {
         id: appointment.id,
         appointment_date: appointment.appointment_date,
         location: appointment.location,
-        created_at: appointment.created_at  
-      }
+        created_at: appointment.created_at,
+      };
       // get client info
 
-      
-      const clientInfo = objectFiler(appointment, (key, value) => key.includes('client'));
+      // const clientInfo = objectFilter(appointment, (key, value) =>
+      //   key.includes('client')
+      // );
 
       appointments.push({
         ...appointmentInfo,
-        clientInfo
-      })
+        // clientInfo,
+      });
     }
 
     return appointments;
@@ -116,7 +116,10 @@ class AppointmentRepository extends Repository {
    */
   async cuSecurityCheck(payload, context) {
     if (!payload.client_id || !payload.groomer_id || !payload.animal_id)
-      throw createHttpError(400, '"client_id", "groomer_id", "animal_id" are required.');
+      throw createHttpError(
+        400,
+        '"client_id", "groomer_id", "animal_id" are required.'
+      );
 
     if (payload.client_id === payload.groomer_id)
       throw createHttpError(
@@ -148,14 +151,18 @@ class AppointmentRepository extends Repository {
   /**
    * Appointment related mean, users (groomer and client) that are concern on this appointment
    * For data security purpose authenticate groomer can create an appointment only for him/her
-   * and same for the authenticate client users, they can make an appointment only for him/her 
+   * and same for the authenticate client users, they can make an appointment only for him/her
    * Only groomer or client user related to an appointment can delete this appointment
-   * @param {object} payload request body 
+   * @param {object} payload request body
    * @param {object} context request object form controller
    */
   checkAppointmentRelated(payload, context) {
-    return ((context.profile.userTypeName === 'client' && payload.client_id !== context.profile.id) || 
-    (context.profile.userTypeName === 'groomer' && payload.groomer_id !== context.profile.id))
+    return (
+      (context.profile.userTypeName === 'client' &&
+        payload.client_id !== context.profile.id) ||
+      (context.profile.userTypeName === 'groomer' &&
+        payload.groomer_id !== context.profile.id)
+    );
   }
 }
 

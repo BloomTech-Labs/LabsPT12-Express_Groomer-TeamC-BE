@@ -52,8 +52,6 @@ const addresses = [
   },
 ];
 
-const limit = addresses.length - 1;
-
 const getGeocode = async (address) => {
   const result = await geocode(address);
 

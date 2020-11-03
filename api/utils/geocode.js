@@ -12,7 +12,7 @@ const geocode = async (location) => {
     // if api call status code is different throw an error
     // other wise return the result
     if (result.status.code !== 200)
-      throw new Error(data.status.message || 'open cage api call failed.');
+      throw new Error(result.status.message || 'open cage api call failed.');
 
     return result.results[0];
   } catch (error) {

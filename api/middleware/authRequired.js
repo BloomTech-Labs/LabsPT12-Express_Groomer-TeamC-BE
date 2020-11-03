@@ -32,12 +32,12 @@ const authRequired = async (req, res, next) => {
       .then(async (data) => {
         const jwtUserObj = makeProfileObj(data.claims);
         const { id, email } = jwtUserObj;
-        const profile = (
-          await Profile.query()
+        const profile =
+          (await Profile.query()
             .join('user_types', 'user_types.id', 'profiles.user_type')
             .where({ email })
-            .select('profiles.*', 'user_types.name as userTypeName').first()
-          ) || {};
+            .select('profiles.*', 'user_types.name as userTypeName')
+            .first()) || {};
         req.profile = { ...profile, oktaId: id };
         // const profile = await Profiles.findOrCreateProfile(jwtUserObj);
         // if (profile) {
