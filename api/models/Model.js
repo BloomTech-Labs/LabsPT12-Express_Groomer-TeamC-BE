@@ -14,7 +14,7 @@ class Model {
    * @returns {array} of rows in the table
    */
   query() {
-    return knex(this.tableName);
+    return knex(this.tableName).queryContext({ model: this });
   }
 
   /**
