@@ -17,10 +17,6 @@ module.exports = {
       min: 2,
       max: 10,
     },
-    postProcessResponse: (result, queryContext) => {
-      // return result;
-      return result;
-    },
   },
 
   test: {
