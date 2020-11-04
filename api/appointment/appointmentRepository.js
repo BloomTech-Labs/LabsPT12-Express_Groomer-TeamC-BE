@@ -3,27 +3,28 @@ const Appointment = require('./../models/appointment');
 const AnimalRepository = require('./../animal/animalRepository');
 const createHttpError = require('http-errors');
 // const objectFilter = require('./../utils/object-filter');
+// const GroomerRepository = require('./../groomer/groomerRepository');
 
 class AppointmentRepository extends Repository {
   constructor() {
     super();
     this.model = Appointment;
-    this.properties = [
-      'appointments.id',
-      'appointments.groomer_id',
-      'appointments.service_id',
-      'appointments.animal_id',
-      'appointments.appointment_date',
-      'appointments.location',
-      'appointments.id as clientID',
-      'profiles.name as clientName',
-      'profiles.email as clientEmail',
-      'profiles.address as clientAddress',
-      'profiles.city as clientCity',
-      'profiles.state as clientState',
-      'profiles.zip_code as clientZipCode',
-      'profiles.avatarUrl as clientAvatarUrl',
-    ];
+    // this.properties = [
+    //   'appointments.id',
+    //   'appointments.groomer_id',
+    //   'appointments.service_id',
+    //   'appointments.animal_id',
+    //   'appointments.appointment_date',
+    //   'appointments.location',
+    //   'appointments.id as clientID',
+    //   'profiles.name as clientName',
+    //   'profiles.email as clientEmail',
+    //   'profiles.address as clientAddress',
+    //   'profiles.city as clientCity',
+    //   'profiles.state as clientState',
+    //   'profiles.zip_code as clientZipCode',
+    //   'profiles.avatarUrl as clientAvatarUrl',
+    // ];
   }
 
   async get() {
@@ -33,41 +34,46 @@ class AppointmentRepository extends Repository {
      */
   }
 
-  async getWhere(whereClose) {
-    if (!whereClose)
-      throw createHttpError(500, 'Cannot query where of undefined.');
+  // async getWhere(whereClose, params) {
+  //   if (!whereClose)
+  //     throw createHttpError(500, 'Cannot query where of undefined.');
 
-    const result = await this.model
-      .query()
-      .where(whereClose)
-      .join('profiles', 'profiles.id', 'appointments.client_id')
-      .andWhere({ completed: false })
-      .select(...this.properties);
+  //   const result = await this.model
+  //     .query()
+  //     .where(whereClose)
+  //     .join('profiles', 'profiles.id', 'appointments.client_id')
+  //     .andWhere({ completed: false })
+  //     .select(...this.properties);
 
-    const appointments = [];
+  //   const appointments = [];
 
-    for (const appointment of result) {
-      // General appointment info
-      const appointmentInfo = {
-        id: appointment.id,
-        appointment_date: appointment.appointment_date,
-        location: appointment.location,
-        created_at: appointment.created_at,
-      };
-      // get client info
+  //   for (const appointment of result) {
+  //     // General appointment info
+  //     const appointmentInfo = {
+  //       id: appointment.id,
+  //       appointment_date: appointment.appointment_date,
+  //       location: appointment.location,
+  //       created_at: appointment.created_at,
+  //     };
 
-      // const clientInfo = objectFilter(appointment, (key, value) =>
-      //   key.includes('client')
-      // );
+  //     // get client info
+  //     const clientInfo = objectFilter(appointment, (key) =>
+  //       key.includes('client')
+  //     );
 
-      appointments.push({
-        ...appointmentInfo,
-        // clientInfo,
-      });
-    }
+  //     // get groomer info
+  //     // const groomerInfo = GroomerRepository.getOne(appointment.groomer_id);
 
-    return appointments;
-  }
+  //     console.log();
+
+  //     appointments.push({
+  //       ...appointmentInfo,
+  //       clientInfo,
+  //     });
+  //   }
+
+  //   return appointments;
+  // }
 
   async beforeCreate(payload, param) {
     // security check
