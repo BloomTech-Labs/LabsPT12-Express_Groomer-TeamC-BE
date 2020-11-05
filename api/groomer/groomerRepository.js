@@ -49,8 +49,6 @@ class GroomerRepository extends Repository {
       'profiles.city',
       'profiles.state',
       'profiles.zip_code',
-      'profiles.latitude',
-      'profiles.longitude',
       'profiles.country',
       'groomers.travel',
       'groomers.travel_distance',
