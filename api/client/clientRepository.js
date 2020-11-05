@@ -3,6 +3,7 @@ const Profile = require('./../models/profile');
 const AnimalRepository = require('./../animal/animalRepository');
 const UserTypeRepository = require('./../userType/userTypeRepository');
 const createHttpError = require('http-errors');
+const AppointmentRepository = require('./../appointment/appointmentRepository');
 
 class ClientRepository extends Repository {
   relationMappings = {
@@ -12,6 +13,14 @@ class ClientRepository extends Repository {
       join: {
         from: 'profiles.id',
         to: 'animals.owner_id',
+      },
+    },
+    appointments: {
+      relation: 'hasMany',
+      repositoryClass: AppointmentRepository,
+      join: {
+        from: 'profiles.id',
+        to: 'appointments.client_id',
       },
     },
   };
