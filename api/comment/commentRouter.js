@@ -113,7 +113,7 @@ router.get('/:id', authRequired, CommentController.get.bind(CommentController));
  *    tags:
  *      - comment
  *    requestBody:
- *      description: Comment object to to be added
+ *      description: Comment object to be added
  *      content:
  *        application/json:
  *          schema:

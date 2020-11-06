@@ -60,7 +60,13 @@ class GroomerRepository extends Repository {
   }
 
   async get() {
-    return await this.relatedAll();
+    return (await this.relatedAll()).map((row) => {
+      return {
+        ...row,
+        ratings: 0,
+        ratingCount: 0,
+      };
+    });
   }
 
   async getOne(id, params) {
