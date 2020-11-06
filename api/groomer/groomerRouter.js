@@ -259,4 +259,9 @@ router.delete(
   GroomerController.del.bind(GroomerController)
 );
 
+router.get(
+  '/:groomerProfileId/appointments',
+  GroomerController.getGroomerAppointments.bind(GroomerController)
+);
+
 module.exports = router;
