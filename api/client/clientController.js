@@ -1,6 +1,7 @@
 const Controller = require('./../controllers');
 const ClientRepository = require('./clientRepository');
 const AppointmentRepository = require('./../appointment/appointmentRepository');
+const createHttpError = require('http-errors');
 
 class ClientController extends Controller {
   /**
