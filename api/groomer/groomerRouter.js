@@ -309,41 +309,43 @@ router.delete(
  *    response:
  *      200:
  *        description: array of groomer appointments
- *        schema:
- *            type: array
- *            items:
- *                $ref: '#/components/schemas/AppointmentInfo'
- *            example:
- *                - id: '60436819-9b64-445b-a8e9-0b39c9e0e40b'
- *                  clientId: 'user7_id'
- *                  clientName: 'Martin Mark'
- *                  groomerId: '00ulthapbErVUwVJy4x6'
- *                  serviceId: '9byr1zbnz3vzuqj5y97h'
- *                  animalId: 'animal6_id'
- *                  animalType: 'rabbit'
- *                  animalBreed: 'lionhead rabbit'
- *                  location: 'my address'
- *                  appointmentDate: '2020-10-30T08:50:00.000Z'
- *                  createdAt: '2020-11-04T21:38:06.765Z'
- *                  groomerName: 'Kole Hane'
- *                  groomerEmail: 'llama001@maildrop.cc'
- *                  serviceName: 'Bath & Full Haircut'
- *                  serviceCost: 19.99
- *                - id: '60436819-9b64-445b-a8e9-0b39c9e0e40b'
- *                  clientId: 'user7_id'
- *                  clientName: 'Martin Mark'
- *                  groomerId: '00ulthapbErVUwVJy4x6'
- *                  serviceId: '9byr1zbnz3vzuqj5y97h'
- *                  animalId: 'animal6_id'
- *                  animalType: 'rabbit'
- *                  animalBreed: 'lionhead rabbit'
- *                  location: 'my address'
- *                  appointmentDate: '2020-10-30T08:50:00.000Z'
- *                  createdAt: '2020-11-04T21:38:06.765Z'
- *                  groomerName: 'Kole Hane'
- *                  groomerEmail: 'llama001@maildrop.cc'
- *                  serviceName: 'Full Haircut'
- *                  serviceCost: 9.99
+ *        content:
+ *          application/json:
+ *              schema:
+ *                  type: array
+ *                  items:
+ *                      $ref: '#/components/schemas/AppointmentInfo'
+ *                  example:
+ *                      - id: '60436819-9b64-445b-a8e9-0b39c9e0e40b'
+ *                        clientId: 'user7_id'
+ *                        clientName: 'Martin Mark'
+ *                        groomerId: '00ulthapbErVUwVJy4x6'
+ *                        serviceId: '9byr1zbnz3vzuqj5y97h'
+ *                        animalId: 'animal6_id'
+ *                        animalType: 'rabbit'
+ *                        animalBreed: 'lionhead rabbit'
+ *                        location: 'my address'
+ *                        appointmentDate: '2020-10-30T08:50:00.000Z'
+ *                        createdAt: '2020-11-04T21:38:06.765Z'
+ *                        groomerName: 'Kole Hane'
+ *                        groomerEmail: 'llama001@maildrop.cc'
+ *                        serviceName: 'Bath & Full Haircut'
+ *                        serviceCost: 19.99
+ *                      - id: '60436819-9b64-445b-a8e9-0b39c9e0e40b'
+ *                        clientId: 'user7_id'
+ *                        clientName: 'Martin Mark'
+ *                        groomerId: '00ulthapbErVUwVJy4x6'
+ *                        serviceId: '9byr1zbnz3vzuqj5y97h'
+ *                        animalId: 'animal6_id'
+ *                        animalType: 'rabbit'
+ *                        animalBreed: 'lionhead rabbit'
+ *                        location: 'my address'
+ *                        appointmentDate: '2020-10-30T08:50:00.000Z'
+ *                        createdAt: '2020-11-04T21:38:06.765Z'
+ *                        groomerName: 'Kole Hane'
+ *                        groomerEmail: 'llama001@maildrop.cc'
+ *                        serviceName: 'Full Haircut'
+ *                        serviceCost: 9.99
  *      401:
  *          $ref: '#/components/responses/UnauthorizedError'
  *      403:
