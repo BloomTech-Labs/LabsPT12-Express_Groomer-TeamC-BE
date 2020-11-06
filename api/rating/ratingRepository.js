@@ -29,6 +29,20 @@ class RatingRepository extends Repository {
   afterCreate(result) {
     return result[0];
   }
+
+  async getAverage(userId) {
+    const result = await this.model
+      .query()
+      .avg('rating')
+      .count('user_id')
+      .where({ user_id: userId })
+      .first();
+
+    return {
+      avg: parseFloat((result.avg || 0).toFixed(1)),
+      count: parseInt(result.count),
+    };
+  }
 }
 
 module.exports = new RatingRepository();
