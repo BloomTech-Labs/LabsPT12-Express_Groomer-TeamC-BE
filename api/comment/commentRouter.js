@@ -47,11 +47,15 @@ const CommentController = require('./commentController');
  *                              $ref: '#/components/schemas/Comment'
  *                          example:
  *                              - id: '"e645d740-3256-4f53-9c17-d7545b7cdd74'
- *                                author: 'user7_id'
+ *                                authorId: 'user7_id'
+ *                                authorName: 'Martin Mark'
+ *                                authorAvatar: 'https://s3.amazonaws.com/uifaces/faces/twitter/airskylar/128.jpg'
  *                                groomer_id: 'a5484d769-5896-t456-9c17-d7545b7ccc25'
  *                                bio: 'Nice service and customer service'
  *                              - id: '"e645d740-3256-4f53-9c17-d7545b7cdd74'
- *                                author: 'user8_id'
+ *                                authorId: 'user8_id'
+ *                                authorName: 'Andre Premier'
+ *                                authorAvatar: 'https://s3.amazonaws.com/uifaces/faces/twitter/airskylar/128.jpg'
  *                                groomer_id: 'a5484d769-5896-t456-9c17-d7545b7ccc25'
  *                                bio: 'Very professional, my pet love it.'
  *          401:

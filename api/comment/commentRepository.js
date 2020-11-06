@@ -1,11 +1,46 @@
 const Repository = require('./../models/Repository');
-const Comment = require('./../models/comment');
 const createHttpError = require('http-errors');
+const Comment = require('./../models/comment');
+const ProfileRepository = require('./../profile/profileRepository');
 
 class CommentRepository extends Repository {
+  relationMappings = {
+    author: {
+      relation: 'hasOne',
+      repositoryClass: ProfileRepository,
+      join: {
+        from: 'comments.author',
+        to: 'profiles.id',
+      },
+    },
+  };
+
   constructor() {
     super();
     this.model = Comment;
+    this.properties = [
+      'comments.id',
+      'comments.author as authorId',
+      'profiles.name as authorName',
+      'profiles.avatarUrl as authorAvatar',
+      'comments.groomer_id',
+      'comments.body',
+      'comments.created_at',
+      'comments.updated_at',
+    ];
+  }
+
+  async get() {
+    return await this.relatedAll();
+  }
+
+  async getOne(id) {
+    const result = await this.relatedOne({ 'comments.id': id });
+
+    if (!result)
+      throw createHttpError(404, 'Comment with the specified ID not found.');
+
+    return result;
   }
 
   async afterCreate(result) {
