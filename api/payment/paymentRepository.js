@@ -1,6 +1,7 @@
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 const Repository = require('./../models/Repository');
 const PaymentHistory = require('./../models/payment_history');
+const 
 
 class PaymentRepository extends Repository {
   constructor() {
@@ -9,7 +10,7 @@ class PaymentRepository extends Repository {
   }
 
   async beforeCreate(payload) {
-    const { stripeToken, ...cart } = payload;
+    const { stripeToken, ...services } = payload;
 
     const customer = await stripe.customers.create({
       email: require.profile.email,
