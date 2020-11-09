@@ -1,5 +1,5 @@
 exports.up = function (knex) {
-  knex.schema.createTable('appointment_services', (table) => {
+  return knex.schema.createTable('appointment_services', (table) => {
     table.string('id').notNullable().unique().primary();
     table
       .string('appointment_id')
@@ -13,8 +13,8 @@ exports.up = function (knex) {
       .string('service_id')
       .unsigned()
       .notNullable()
-      .references('service_id')
-      .inTable('groomer_services')
+      .references('id')
+      .inTable('services')
       .onDelete('CASCADE')
       .onUpdate('CASCADE');
     table.timestamps(true, true);
@@ -22,5 +22,5 @@ exports.up = function (knex) {
 };
 
 exports.down = function (knex) {
-  return knex.schema.dropTableIfExists('groomer_services');
+  return knex.schema.dropTableIfExists('appointment_services');
 };

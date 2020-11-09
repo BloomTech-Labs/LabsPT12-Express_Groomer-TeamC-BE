@@ -92,6 +92,7 @@ class Model {
   async validateData(payload, params) {
     // reset validator
     this.validator = new Validator(knex);
+    // validate data
     return await this.validator.validate(
       payload,
       this.validationSchema,

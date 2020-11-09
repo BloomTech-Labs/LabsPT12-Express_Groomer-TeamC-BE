@@ -108,19 +108,13 @@ class AppointmentRepository extends Repository {
    * @param {object} context request
    */
   async cuSecurityCheck(payload, context) {
-    if (!payload.client_id || !payload.groomer_id || !payload.animal_id)
-      throw createHttpError(
-        400,
-        '"client_id", "groomer_id", "animal_id" are required.'
-      );
-
     if (payload.client_id === payload.groomer_id)
       throw createHttpError(
         400,
         'The "client_id" should be different to the "groomer_id".'
       );
 
-    if (this.checkAppointmentRelated(payload, context))
+    if (!this.checkAppointmentRelated(payload, context))
       throw createHttpError(
         403,
         'Operation not allowed. You cannot schedule/reschedule an appointment with a different ID.'
@@ -152,9 +146,9 @@ class AppointmentRepository extends Repository {
   checkAppointmentRelated(payload, context) {
     return (
       (context.profile.userTypeName === 'client' &&
-        payload.client_id !== context.profile.id) ||
+        payload.client_id === context.profile.id) ||
       (context.profile.userTypeName === 'groomer' &&
-        payload.groomer_id !== context.profile.id)
+        payload.groomer_id === context.profile.id)
     );
   }
 }

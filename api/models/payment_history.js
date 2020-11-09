@@ -20,6 +20,7 @@ class PaymentHistory extends Model {
         },
         amount: { type: 'number' },
         payment_method: { type: 'string' },
+        last4: { type: 'string' },
       },
     };
   }
