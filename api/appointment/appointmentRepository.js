@@ -89,10 +89,7 @@ class AppointmentRepository extends Repository {
       // call service create method to insert services
       const insertedServices = await AService.create(services);
       // if errors delete create appointment and return errors
-      if (
-        !insertedServices ||
-        (insertedServices && !('id' in insertedServices))
-      ) {
+      if (!insertedServices) {
         this.remove(result[0].id, params);
         return insertedServices;
       }

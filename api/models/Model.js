@@ -41,14 +41,14 @@ class Model {
    * @returns {object} created data
    */
   async create(payload) {
+    console.log(payload);
     // reset validator
     this.validator = new Validator(knex);
     if (!(await this.validator.validate(payload, this.validationSchema)))
       return this.validator.errors;
-    const data = {
-      id: uuid.v4(),
-      ...this.validator.validatedData,
-    };
+    // generate unique id
+    const data = this.addIds(this.validator.validatedData);
+
     return await this.query().insert(data).returning('*');
   }
 
@@ -98,6 +98,24 @@ class Model {
       this.validationSchema,
       params
     );
+  }
+
+  /**
+   * Generate Ids and add to the the data to be inserted
+   * @param {object} data data to be insert
+   */
+  addIds(data) {
+    if (Array.isArray(data)) {
+      return data.map((item) => ({
+        id: uuid.v4(),
+        ...item,
+      }));
+    }
+    // if is an object
+    return {
+      id: uuid.v4(),
+      ...data,
+    };
   }
 }
 
