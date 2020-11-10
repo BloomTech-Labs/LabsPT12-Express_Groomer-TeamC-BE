@@ -6,6 +6,7 @@ const Profile = require('../models/profile');
 const GSRepository = require('./GroomerServiceRepository');
 const ProfileRepository = require('./../profile/profileRepository');
 const AppointmentRepository = require('./../appointment/appointmentRepository');
+const RatingRepository = require('./../rating/ratingRepository');
 
 class GroomerRepository extends Repository {
   relationMappings = {
@@ -60,7 +61,19 @@ class GroomerRepository extends Repository {
   }
 
   async get() {
-    return await this.relatedAll();
+    const result = await this.relatedAll();
+    const groomers = [];
+    for (const row of result) {
+      const ratings = await RatingRepository.getAverage(row.profile_id);
+
+      groomers.push({
+        ...row,
+        ratings: ratings.avg,
+        ratingCount: ratings.count,
+      });
+    }
+
+    return groomers;
   }
 
   async getOne(id, params) {
@@ -70,7 +83,13 @@ class GroomerRepository extends Repository {
     const result = await this.relatedOne(whereClose);
     if (!result)
       throw new NotFound('Could not find groomer with the specified id');
-    return result;
+
+    const ratings = await RatingRepository.getAverage(result.profile_id);
+    return {
+      ...result,
+      ratings: ratings.avg,
+      ratingCount: ratings.count,
+    };
   }
 
   async beforeCreate(payload) {

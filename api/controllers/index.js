@@ -26,7 +26,7 @@ class Controller {
       console.log(error);
       // get the correct error status code
       // by checking the instance of the error
-      const statusCode = error.errorCode || 500;
+      const statusCode = error.errorCode || error.statusCode || 500;
       // return error if error with status 404 or 500
       return res.status(statusCode).json({ message: error.message });
     }

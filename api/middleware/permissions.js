@@ -85,7 +85,18 @@ const canPerform = async (req, res, next) => {
   }
 };
 
+const hasCommentPermission = async (req, res, next) => {
+  if (!req.profile || (req.profile && req.profile.userTypeName !== 'client'))
+    next(createHttpError(403, 'You are not allowed to post comment.'));
+
+  if (req.method === 'POST' || req.method === 'PUT')
+    req.body.author = req.profile.id;
+
+  next();
+};
+
 module.exports = {
   isGroomer,
   canPerform,
+  hasCommentPermission,
 };

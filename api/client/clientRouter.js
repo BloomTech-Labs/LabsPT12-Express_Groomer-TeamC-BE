@@ -87,4 +87,100 @@ const authRequired = require('./../middleware/authRequired');
  */
 router.get('/:id', authRequired, ClientController.get.bind(ClientController));
 
+/**
+ * @swagger
+ * components:
+ *  schemas:
+ *      AppointmentInfo:
+ *          type: object
+ *          properties:
+ *              id:
+ *                type: string
+ *              clientId:
+ *                type: string
+ *              clientName:
+ *                type: string
+ *              groomerId:
+ *                type: string
+ *              serviceId:
+ *                type: string
+ *              animalId:
+ *                type: string
+ *              animalType:
+ *                type: string
+ *              animalBreed:
+ *                type: string
+ *              location:
+ *                type:string
+ *              appointmentDate:
+ *                type: date-time
+ *              createdAt:
+ *                type: date-time
+ *              groomerName:
+ *                type: string
+ *              groomerEmail:
+ *                type: string
+ *              serviceName:
+ *                type: string
+ *              serviceCost:
+ *                type: string
+ *
+ *
+ * /clients/{clientProfileId}/appointments:
+ *  get:
+ *    description: return list of client appointments
+ *    summary: Get a list of client appointments
+ *    security:
+ *      - okta: []
+ *    tags:
+ *      - client
+ *    response:
+ *      200:
+ *        description: array of client appointments
+ *        schema:
+ *            type: array
+ *            items:
+ *                $ref: '#/components/schemas/AppointmentInfo'
+ *            example:
+ *                - id: '60436819-9b64-445b-a8e9-0b39c9e0e40b'
+ *                  clientId: 'user7_id'
+ *                  clientName: 'Martin Mark'
+ *                  groomerId: '00ulthapbErVUwVJy4x6'
+ *                  serviceId: '9byr1zbnz3vzuqj5y97h'
+ *                  animalId: 'animal6_id'
+ *                  animalType: 'rabbit'
+ *                  animalBreed: 'lionhead rabbit'
+ *                  location: 'my address'
+ *                  appointmentDate: '2020-10-30T08:50:00.000Z'
+ *                  createdAt: '2020-11-04T21:38:06.765Z'
+ *                  groomerName: 'Kole Hane'
+ *                  groomerEmail: 'llama001@maildrop.cc'
+ *                  serviceName: 'Bath & Full Haircut'
+ *                  serviceCost: 19.99
+ *                - id: '60436819-9b64-445b-a8e9-0b39c9e0e40b'
+ *                  clientId: 'user7_id'
+ *                  clientName: 'Martin Mark'
+ *                  groomerId: '00ulthapbErVUwVJy4x6'
+ *                  serviceId: '9byr1zbnz3vzuqj5y97h'
+ *                  animalId: 'animal6_id'
+ *                  animalType: 'rabbit'
+ *                  animalBreed: 'lionhead rabbit'
+ *                  location: 'my address'
+ *                  appointmentDate: '2020-10-30T08:50:00.000Z'
+ *                  createdAt: '2020-11-04T21:38:06.765Z'
+ *                  groomerName: 'Kole Hane'
+ *                  groomerEmail: 'llama001@maildrop.cc'
+ *                  serviceName: 'Full Haircut'
+ *                  serviceCost: 9.99
+ *      401:
+ *          $ref: '#/components/responses/UnauthorizedError'
+ *      403:
+ *          $ref: '#/components/responses/UnauthorizedError'
+ */
+router.get(
+  '/:clientProfileId/appointments',
+  authRequired,
+  ClientController.getClientAppointments.bind(ClientController)
+);
+
 module.exports = router;

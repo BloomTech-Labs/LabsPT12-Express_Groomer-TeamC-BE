@@ -7,6 +7,7 @@ class Model {
     this.tableName = null; // table name as in the databases
     this.validationSchema = {}; // validation schema to validate data
     this.validator = new Validator(knex); // validator instance
+    this.knex = knex;
   }
 
   /** QUERY */

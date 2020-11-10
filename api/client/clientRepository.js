@@ -4,6 +4,7 @@ const AnimalRepository = require('./../animal/animalRepository');
 const UserTypeRepository = require('./../userType/userTypeRepository');
 const createHttpError = require('http-errors');
 const AppointmentRepository = require('./../appointment/appointmentRepository');
+const RatingRepository = require('./../rating/ratingRepository');
 
 class ClientRepository extends Repository {
   relationMappings = {
@@ -55,7 +56,13 @@ class ClientRepository extends Repository {
     });
     if (!result) throw new createHttpError(404, 'Profile not found.');
 
-    return result;
+    const ratings = await RatingRepository.getAverage(result.id);
+
+    return {
+      ...result,
+      ratings: ratings.avg,
+      ratingCount: ratings.count,
+    };
   }
 }
 
