@@ -6,16 +6,18 @@ class AppointmentService extends Model {
     this.tableName = 'appointment_services';
 
     this.validationSchema = {
-      type: 'object',
-      required: ['appointment_id', 'service_id'],
-      properties: {
-        appointment_id: {
-          type: 'string',
-          oneOf: { key: 'id', target: 'appointments' },
-        },
-        service_id: {
-          type: 'string',
-          oneOf: { key: 'id', target: 'services' },
+      type: 'array',
+      items: {
+        required: ['appointment_id', 'service_id'],
+        properties: {
+          appointment_id: {
+            type: 'string',
+            oneOf: { key: 'id', target: 'appointments' },
+          },
+          service_id: {
+            type: 'string',
+            oneOf: { key: 'id', target: 'services' },
+          },
         },
       },
     };

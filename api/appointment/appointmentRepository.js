@@ -1,5 +1,6 @@
 const Repository = require('./../models/Repository');
 const Appointment = require('./../models/appointment');
+const AService = require('./../models/appointment_service'); // AppointmentService model
 const AnimalRepository = require('./../animal/animalRepository');
 const createHttpError = require('http-errors');
 
@@ -12,7 +13,7 @@ class AppointmentRepository extends Repository {
       'appointments.client_id as clientId',
       'profiles.name as clientName',
       'appointments.groomer_id as groomerId',
-      'appointments.service_id as serviceId',
+      // 'appointments.service_id as serviceId',
       'appointments.animal_id as animalId',
       'animals.animal_type as animalType',
       'animals.breed as animalBreed',
@@ -45,39 +46,82 @@ class AppointmentRepository extends Repository {
         .where({ id: appointment.groomerId })
         .first();
 
-      // get service info
-      const serviceInfo = await knex('groomer_services')
-        .join('services', 'services.id', 'groomer_services.service_id')
-        .select('services.name as serviceName', 'services.cost as serviceCost')
-        .where({ 'groomer_services.id': appointment.serviceId })
-        .first();
+      // // get service info
+      // const serviceInfo = await knex('groomer_services')
+      //   .join('services', 'services.id', 'groomer_services.service_id')
+      //   .select('services.name as serviceName', 'services.cost as serviceCost')
+      //   .where({ 'groomer_services.id': appointment.serviceId })
+      //   .first();
 
       appointments.push({
         ...appointment,
         ...groomerInfo,
-        ...serviceInfo,
+        // ...serviceInfo,
       });
     }
 
     return appointments;
   }
 
-  async beforeCreate(payload, param) {
-    // security check
-    await this.cuSecurityCheck(payload, param.context);
+  async beforeCreate(payload, params) {
+    // delete from the payload, it's will retrieve from params after created appointment
+    const { services, ...rest } = payload;
+    // services is an  array, those items will be store in the appointment_service table
+    // after created appointment.
+    // So, first we store the general appointment info
+    // if the create and update security check pass
+    await this.cuSecurityCheck(rest, params.context);
 
-    return payload;
+    return rest;
   }
 
-  async afterCreate(result) {
-    return result[0];
+  async afterCreate(result, params) {
+    try {
+      // get services from the express request object in the params
+      let services = params.context.body.services;
+      // services is an array of string, map services through to convert that to array of object
+      // containing service_id and appointment_id
+      services = services.map((service_id) => ({
+        service_id,
+        appointment_id: result[0].id,
+      }));
+
+      // call service create method to insert services
+      const insertedServices = await AService.create(services);
+      // if errors delete create appointment and return errors
+      if (
+        !insertedServices ||
+        (insertedServices && !('id' in insertedServices))
+      ) {
+        this.remove(result[0].id, params);
+        return insertedServices;
+      }
+      // return created appointment + services
+      return {
+        ...result[0],
+        services: insertedServices,
+      };
+    } catch (error) {
+      // remove crated appointment
+      console.log(error);
+      this.remove(result[0].id, params);
+      // prase message error
+      error.statusCode = error.statusCode || 500;
+      error.message =
+        error.statusCode === 500
+          ? 'An unknown error occurred while trying to process appointment services. Appointment was deleted'
+          : error.message;
+      throw createHttpError(error.statusCode, error.message);
+    }
   }
 
   async beforeUpdate(id, payload, param) {
-    // security check
-    await this.cuSecurityCheck(payload, param.context);
+    try {
+      // security check
+      await this.cuSecurityCheck(payload, param.context);
 
-    return payload;
+      return payload;
+    } catch (error) {}
   }
 
   async afterUpdate(result) {
@@ -90,7 +134,7 @@ class AppointmentRepository extends Repository {
      */
     const appointment = await this.getOne(id);
 
-    if (this.checkAppointmentRelated(appointment, param.context))
+    if (!this.checkAppointmentRelated(appointment, param.context))
       throw createHttpError(
         403,
         'Operation not allowed. You cannot cancel this appointment.'
