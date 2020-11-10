@@ -1,10 +1,22 @@
 const Repository = require('./../models/Repository');
 const Appointment = require('./../models/appointment');
 const AService = require('./../models/appointment_service'); // AppointmentService model
+const ASR = require('./as_repository'); // AppointmentServiceRepository
 const AnimalRepository = require('./../animal/animalRepository');
 const createHttpError = require('http-errors');
 
 class AppointmentRepository extends Repository {
+  relationMappings = {
+    services: {
+      relation: 'hasMany',
+      repositoryClass: ASR, // AppointmentServiceRepository
+      join: {
+        from: 'appointments.id',
+        to: 'appointment_services.appointment_id',
+      },
+    },
+  };
+
   constructor() {
     super();
     this.model = Appointment;
@@ -46,17 +58,15 @@ class AppointmentRepository extends Repository {
         .where({ id: appointment.groomerId })
         .first();
 
-      // // get service info
-      // const serviceInfo = await knex('groomer_services')
-      //   .join('services', 'services.id', 'groomer_services.service_id')
-      //   .select('services.name as serviceName', 'services.cost as serviceCost')
-      //   .where({ 'groomer_services.id': appointment.serviceId })
-      //   .first();
+      // get services info
+      const services = await ASR.relatedAll({
+        'appointment_services.appointment_id': appointment.id,
+      });
 
       appointments.push({
         ...appointment,
         ...groomerInfo,
-        // ...serviceInfo,
+        services,
       });
     }
 
