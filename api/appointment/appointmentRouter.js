@@ -85,42 +85,6 @@ router.post(
 
 /**
  * @swagger
- * /appointments:
- *  put:
- *    summary: Update a appointment
- *    security:
- *      - okta: []
- *    tags:
- *      - appointment
- *    requestBody:
- *      description: Animal object to to be updated
- *      content:
- *        application/json:
- *          schema:
- *            $ref: '#/components/schemas/Appointment'
- *    responses:
- *      401:
- *        $ref: '#/components/responses/UnauthorizedError'
- *      404:
- *        $ref: '#/components/responses/NotFound'
- *      200:
- *        description: A appointment object
- *        content:
- *          application/json:
- *            schema:
- *              type: object
- *              properties:
- *                message:
- *                  type: string
- *                  description: A message about the result
- *                  example: appointment updated
- *                profile:
- *                  $ref: '#/components/schemas/Appointment'
- */
-router.put('/', authRequired, AppointController.put.bind(AppointController));
-
-/**
- * @swagger
  * /appointments/{id}:
  *  delete:
  *    summary: Cancel an appointment

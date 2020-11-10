@@ -122,19 +122,6 @@ class AppointmentRepository extends Repository {
     }
   }
 
-  async beforeUpdate(id, payload, param) {
-    try {
-      // security check
-      await this.cuSecurityCheck(payload, param.context);
-
-      return payload;
-    } catch (error) {}
-  }
-
-  async afterUpdate(result) {
-    return result[0];
-  }
-
   async beforeRemove(id, param) {
     /**
      * Only client who made the appointment can cancel an appointment.
