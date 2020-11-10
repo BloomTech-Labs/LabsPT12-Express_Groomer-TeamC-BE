@@ -11,10 +11,10 @@ const AppointController = require('./appointmentController');
  *          required:
  *              - client_id
  *              - groomer_id
- *              - service_id
  *              - animal_id
  *              - appointment_date
  *              - location
+ *              - services
  *          properties:
  *              client_id:
  *                  type: string
@@ -22,9 +22,11 @@ const AppointController = require('./appointmentController');
  *              groomer_id:
  *                  type: string
  *                  description: The groomer profile id
- *              service_id:
- *                  type: string
- *                  description: The groomer service id from groomer/services
+ *              services:
+ *                  type: array
+ *                  items: {
+ *                    type: string
+ *                  }
  *              animal_id:
  *                  type: string
  *              appointment_date:
@@ -32,6 +34,17 @@ const AppointController = require('./appointmentController');
  *                  description: The date-time format should look like 2018-11-13T20:20:39+00:00
  *              location:
  *                  type: string
+ *          example:
+ *              client_id: 'user7_id'
+ *              groomer_id: '00ulthapbErVUwVJy4x6'
+ *              animal_id: 'animal1_id'
+ *              appointment_date: '2020-11-18T08:20:00+00:00'
+ *              location: 'Mebane NC'
+ *              services: [
+ *                  'service2_id',
+ *                    'service3_id',
+ *                    'service4_id'
+ *                ]
  *  parameters:
  *      appointmentId:
  *          name: id
