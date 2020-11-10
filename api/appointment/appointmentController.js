@@ -18,6 +18,10 @@ class AppointmentController extends Controller {
           .status(400)
           .json({ detail: '"services" is required and should be array type.' });
 
+      // update request body
+      req.body.appointment = bodyRest;
+      req.body.services = services;
+
       return super.post(req, res);
     } catch (error) {
       console.log(error);

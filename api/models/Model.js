@@ -41,7 +41,6 @@ class Model {
    * @returns {object} created data
    */
   async create(payload) {
-    console.log(payload);
     // reset validator
     this.validator = new Validator(knex);
     if (!(await this.validator.validate(payload, this.validationSchema)))

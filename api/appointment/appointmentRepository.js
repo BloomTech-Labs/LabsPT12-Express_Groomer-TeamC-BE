@@ -74,15 +74,25 @@ class AppointmentRepository extends Repository {
   }
 
   async beforeCreate(payload, params) {
-    // delete from the payload, it's will retrieve from params after created appointment
-    const { services, ...rest } = payload;
     // services is an  array, those items will be store in the appointment_service table
     // after created appointment.
     // So, first we store the general appointment info
     // if the create and update security check pass
-    await this.cuSecurityCheck(rest, params.context);
+    await this.cuSecurityCheck(payload.appointment, params.context);
 
-    return rest;
+    // check availability
+    if (
+      !(await this.checkAvailability(
+        payload.appointment_date,
+        payload.groomer_id
+      ))
+    )
+      throw createHttpError(
+        400,
+        'Groomer are not available at this date/time.'
+      );
+
+    return payload.appointment;
   }
 
   async afterCreate(result, params) {
@@ -188,6 +198,19 @@ class AppointmentRepository extends Repository {
       (context.profile.userTypeName === 'groomer' &&
         payload.groomer_id === context.profile.id)
     );
+  }
+
+  /**
+   * Check if groomer is available
+   * @param {string} dateTime
+   * @param {string} groomer_id
+   */
+  async checkAvailability(dateTime, groomer_id) {
+    const result = await this.model
+      .query()
+      .where({ groomer_id, appointment_date: dateTime });
+
+    return result.length ? false : true;
   }
 }
 

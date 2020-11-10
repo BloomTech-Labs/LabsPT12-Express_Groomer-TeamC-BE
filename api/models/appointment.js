@@ -21,7 +21,7 @@ class Appointment extends Model {
           oneOf: { key: 'profile_id', target: 'groomers' },
         },
         animal_id: { type: 'string', oneOf: { key: 'id', target: 'animals' } },
-        appointment_date: { type: 'string', format: 'date-time' }, // 2018-11-13T20:20:39+00:00
+        appointment_date: { type: 'string', format: 'date-time' }, // 2018-11-13T20:20:39+00:00 | rgx "%Y-%m-%dT%H:%M:%S%Z"
         location: { type: 'string' },
       },
     };
