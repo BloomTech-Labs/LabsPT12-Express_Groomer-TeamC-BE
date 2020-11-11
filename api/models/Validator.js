@@ -69,6 +69,21 @@ class Validator {
     /**
      * check if there are custom attributes that db call
      */
+    let isValid = true;
+
+    if (schema.type === 'array') {
+      for (const item of data) {
+        isValid = await this._customValidation(schema.items, item, params);
+      }
+    }
+
+    if (schema.type === 'object')
+      isValid = await this._customValidation(schema, data, params);
+
+    return isValid;
+  }
+
+  async _customValidation(schema, data, params) {
     for (const key of Object.keys(schema.properties)) {
       for (const attr of Object.keys(schema.properties[key])) {
         let obj;
@@ -100,6 +115,7 @@ class Validator {
         }
       }
     }
+
     if (this.errors.length > 0) return false;
     return true;
   }

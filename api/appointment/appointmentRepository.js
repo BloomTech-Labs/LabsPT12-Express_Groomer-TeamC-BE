@@ -1,9 +1,22 @@
 const Repository = require('./../models/Repository');
 const Appointment = require('./../models/appointment');
+const AService = require('./../models/appointment_service'); // AppointmentService model
+const ASR = require('./as_repository'); // AppointmentServiceRepository
 const AnimalRepository = require('./../animal/animalRepository');
 const createHttpError = require('http-errors');
 
 class AppointmentRepository extends Repository {
+  relationMappings = {
+    services: {
+      relation: 'hasMany',
+      repositoryClass: ASR, // AppointmentServiceRepository
+      join: {
+        from: 'appointments.id',
+        to: 'appointment_services.appointment_id',
+      },
+    },
+  };
+
   constructor() {
     super();
     this.model = Appointment;
@@ -12,7 +25,7 @@ class AppointmentRepository extends Repository {
       'appointments.client_id as clientId',
       'profiles.name as clientName',
       'appointments.groomer_id as groomerId',
-      'appointments.service_id as serviceId',
+      // 'appointments.service_id as serviceId',
       'appointments.animal_id as animalId',
       'animals.animal_type as animalType',
       'animals.breed as animalBreed',
@@ -45,43 +58,78 @@ class AppointmentRepository extends Repository {
         .where({ id: appointment.groomerId })
         .first();
 
-      // get service info
-      const serviceInfo = await knex('groomer_services')
-        .join('services', 'services.id', 'groomer_services.service_id')
-        .select('services.name as serviceName', 'services.cost as serviceCost')
-        .where({ 'groomer_services.id': appointment.serviceId })
-        .first();
+      // get services info
+      const services = await ASR.relatedAll({
+        'appointment_services.appointment_id': appointment.id,
+      });
 
       appointments.push({
         ...appointment,
         ...groomerInfo,
-        ...serviceInfo,
+        services,
       });
     }
 
     return appointments;
   }
 
-  async beforeCreate(payload, param) {
-    // security check
-    await this.cuSecurityCheck(payload, param.context);
+  async beforeCreate(payload, params) {
+    // services is an  array, those items will be store in the appointment_service table
+    // after created appointment.
+    // So, first we store the general appointment info
+    // if the create and update security check pass
+    await this.cuSecurityCheck(payload.appointment, params.context);
 
-    return payload;
+    // check availability
+    if (
+      !(await this.checkAvailability(
+        payload.appointment_date,
+        payload.groomer_id
+      ))
+    )
+      throw createHttpError(
+        400,
+        'Groomer are not available at this date/time.'
+      );
+
+    return payload.appointment;
   }
 
-  async afterCreate(result) {
-    return result[0];
-  }
+  async afterCreate(result, params) {
+    try {
+      // get services from the express request object in the params
+      let services = params.context.body.services;
+      // services is an array of string, map services through to convert that to array of object
+      // containing service_id and appointment_id
+      services = services.map((service_id) => ({
+        service_id,
+        appointment_id: result[0].id,
+      }));
 
-  async beforeUpdate(id, payload, param) {
-    // security check
-    await this.cuSecurityCheck(payload, param.context);
-
-    return payload;
-  }
-
-  async afterUpdate(result) {
-    return result[0];
+      // call service create method to insert services
+      const insertedServices = await AService.create(services);
+      // if errors delete create appointment and return errors
+      if (!insertedServices) {
+        this.remove(result[0].id, params);
+        return insertedServices;
+      }
+      // return created appointment + services
+      return {
+        ...result[0],
+        services: insertedServices,
+      };
+    } catch (error) {
+      // remove crated appointment
+      console.log(error);
+      this.remove(result[0].id, params);
+      // prase message error
+      error.statusCode = error.statusCode || 500;
+      error.message =
+        error.statusCode === 500
+          ? 'An unknown error occurred while trying to process appointment services. Appointment was deleted'
+          : error.message;
+      throw createHttpError(error.statusCode, error.message);
+    }
   }
 
   async beforeRemove(id, param) {
@@ -90,7 +138,7 @@ class AppointmentRepository extends Repository {
      */
     const appointment = await this.getOne(id);
 
-    if (this.checkAppointmentRelated(appointment, param.context))
+    if (!this.checkAppointmentRelated(appointment, param.context))
       throw createHttpError(
         403,
         'Operation not allowed. You cannot cancel this appointment.'
@@ -108,19 +156,13 @@ class AppointmentRepository extends Repository {
    * @param {object} context request
    */
   async cuSecurityCheck(payload, context) {
-    if (!payload.client_id || !payload.groomer_id || !payload.animal_id)
-      throw createHttpError(
-        400,
-        '"client_id", "groomer_id", "animal_id" are required.'
-      );
-
     if (payload.client_id === payload.groomer_id)
       throw createHttpError(
         400,
         'The "client_id" should be different to the "groomer_id".'
       );
 
-    if (this.checkAppointmentRelated(payload, context))
+    if (!this.checkAppointmentRelated(payload, context))
       throw createHttpError(
         403,
         'Operation not allowed. You cannot schedule/reschedule an appointment with a different ID.'
@@ -152,10 +194,23 @@ class AppointmentRepository extends Repository {
   checkAppointmentRelated(payload, context) {
     return (
       (context.profile.userTypeName === 'client' &&
-        payload.client_id !== context.profile.id) ||
+        payload.client_id === context.profile.id) ||
       (context.profile.userTypeName === 'groomer' &&
-        payload.groomer_id !== context.profile.id)
+        payload.groomer_id === context.profile.id)
     );
+  }
+
+  /**
+   * Check if groomer is available
+   * @param {string} dateTime
+   * @param {string} groomer_id
+   */
+  async checkAvailability(dateTime, groomer_id) {
+    const result = await this.model
+      .query()
+      .where({ groomer_id, appointment_date: dateTime });
+
+    return result.length ? false : true;
   }
 }
 
