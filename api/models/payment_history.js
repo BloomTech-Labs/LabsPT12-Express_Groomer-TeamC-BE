@@ -7,17 +7,19 @@ class PaymentHistory extends Model {
 
     this.validationSchema = {
       type: 'object',
-      required: ['client_id', 'groomer_id', 'service_id', 'amount'],
+      required: [
+        'payment_id',
+        'appointment_id',
+        'amount',
+        'payment_method',
+        'last4',
+      ],
       properties: {
-        client_id: { type: 'string', oneOf: { key: 'id', target: 'profiles' } },
-        groomer_id: {
+        appointment_id: {
           type: 'string',
-          oneOf: { key: 'profile_id', target: 'groomers' },
+          oneOf: { key: 'id', target: 'appointments' },
         },
-        service_id: {
-          type: 'string',
-          oneOf: { key: 'id', target: 'groomer_services' },
-        },
+        payment_id: { type: 'string' },
         amount: { type: 'number' },
         payment_method: { type: 'string' },
         last4: { type: 'string' },

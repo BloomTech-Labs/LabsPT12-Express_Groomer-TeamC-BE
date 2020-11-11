@@ -95,24 +95,8 @@ const hasCommentPermission = async (req, res, next) => {
   next();
 };
 
-const canMakePayment = (req, res, next) => {
-  try {
-    if (req.body.client_id || req.profile.id)
-      throw createHttpError(403, 'Only authenticate user can make payment');
-    next();
-  } catch (error) {
-    next(
-      createHttpError(
-        error.statusCode || 500,
-        error.message || 'Unknown error occurred while trying start payment'
-      )
-    );
-  }
-};
-
 module.exports = {
   isGroomer,
   canPerform,
   hasCommentPermission,
-  canMakePayment,
 };
