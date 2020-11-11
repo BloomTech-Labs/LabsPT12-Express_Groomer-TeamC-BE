@@ -1,5 +1,3 @@
-const { table } = require('../db-config');
-
 exports.up = function (knex) {
   return knex.schema.alterTable('payment_histories', (table) => {
     table.dropColumn('service_id');

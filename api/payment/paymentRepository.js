@@ -3,7 +3,6 @@ const Repository = require('./../models/Repository');
 const PaymentHistory = require('./../models/payment_history');
 const AS = require('./../models/appointment_service'); // AppointmentServiceModel
 const AP = require('./../models/appointment'); // AppointmentModel
-const services = require('../models/services');
 const createHttpError = require('http-errors');
 
 class PaymentRepository extends Repository {
