@@ -209,7 +209,7 @@ router.put(
  *                  $ref: '#/components/schemas/Service'
  */
 router.delete(
-  '/',
+  '/:id',
   authRequired,
   permissions.isGroomer,
   ServiceController.del.bind(ServiceController)
