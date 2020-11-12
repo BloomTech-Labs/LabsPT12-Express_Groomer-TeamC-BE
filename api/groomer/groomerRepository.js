@@ -137,6 +137,7 @@ class GroomerRepository extends Repository {
           'appointments.id',
           'payment_histories.appointment_id'
         )
+        .select('payment_histories.*')
         .where({ 'appointments.groomer_id': groomerId });
 
       return result;
