@@ -435,7 +435,7 @@ router.get(
  */
 router.get(
   '/:groomerProfileId/payments',
-  // authRequired,
+  authRequired,
   GroomerController.getPaymentHistories.bind(GroomerController)
 );
 
