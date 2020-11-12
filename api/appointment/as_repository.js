@@ -1,6 +1,6 @@
 const Repository = require('./../models/Repository');
 const AS = require('../models/appointment_service'); // AppointmentService Model
-const ServiceRepository = require('./../service/ServiceRepository');
+const ServiceRepository = require('./../service/serviceRepository');
 
 // AppointmentServiceRepository
 class ASRepository extends Repository {
