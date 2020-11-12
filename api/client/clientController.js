@@ -34,6 +34,23 @@ class ClientController extends Controller {
       return res.status(statusCode).json({ message: error.message });
     }
   }
+
+  async getPaymentHistories(req, res) {
+    try {
+      const { clientProfileId } = req.params;
+
+      const result = await this.repository.getPaymentHistories(clientProfileId);
+
+      return res.status(200).json(result);
+    } catch (error) {
+      console.log(error);
+      // get the correct error status code
+      // by checking the instance of the error
+      const statusCode = error.errorCode || error.statusCode || 500;
+      // return error if error with status 404 or 500
+      return res.status(statusCode).json({ message: error.message });
+    }
+  }
 }
 
 module.exports = new ClientController(ClientRepository);

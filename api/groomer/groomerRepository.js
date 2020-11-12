@@ -7,6 +7,8 @@ const GSRepository = require('./GroomerServiceRepository');
 const ProfileRepository = require('./../profile/profileRepository');
 const AppointmentRepository = require('./../appointment/appointmentRepository');
 const RatingRepository = require('./../rating/ratingRepository');
+const PaymentRepository = require('./../payment/paymentRepository');
+const createHttpError = require('http-errors');
 
 class GroomerRepository extends Repository {
   relationMappings = {
@@ -119,6 +121,33 @@ class GroomerRepository extends Repository {
 
   async afterUpdate(result) {
     return result[0];
+  }
+
+  /**
+   * Retrieve payment history by groomer ID
+   * @param {string} groomerId
+   */
+  async getPaymentHistories(groomerId) {
+    try {
+      const PModel = PaymentRepository.model; // Payment history model
+      // Retrieve payment histories
+      const result = await PModel.query()
+        .join(
+          'appointments',
+          'appointments.id',
+          'payment_histories.appointment_id'
+        )
+        .select('payment_histories.*')
+        .where({ 'appointments.groomer_id': groomerId });
+
+      return result;
+    } catch (error) {
+      throw createHttpError(
+        error.statusCode || 500,
+        error.message ||
+          'An unknown error occurred while trying to retrieve payment history.'
+      );
+    }
   }
 }
 
