@@ -136,7 +136,7 @@ router.get('/:id', authRequired, CommentController.get.bind(CommentController));
  *                  type: string
  *                  description: A message about the result
  *                  example: comment created
- *                profile:
+ *                result:
  *                  $ref: '#/components/schemas/Comment'
  */
 router.post(
