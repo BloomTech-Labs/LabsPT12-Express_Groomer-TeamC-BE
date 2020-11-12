@@ -357,4 +357,9 @@ router.get(
   GroomerController.getGroomerAppointments.bind(GroomerController)
 );
 
+router.get(
+  '/:groomerProfileId/payments',
+  GroomerController.getPaymentHistories.bind(GroomerController)
+);
+
 module.exports = router;
