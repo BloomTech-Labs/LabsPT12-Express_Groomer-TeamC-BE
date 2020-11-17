@@ -29,14 +29,14 @@ You can find the deployed project [Here](https://c.expressgroomer.dev/).
 ### Key Features
 
 #### Connect groomers with pet owners 
-- User Login, Account Setup and Profile Update
-- Conditional Homepage and Dashboard Rendering
-- Client Account Management (add/update/delete pets)
-- Groomer Account Management (add/update/delete services)
-- Groomer Search by Area and Location
-- Appointments/Scheduling
-- Payment Services 
-- Groomer Rating System
+- User Login, Account Setup and Profile Update: Completed
+- Conditional Homepage and Dashboard Rendering: Completed
+- Client Account Management (add/update/delete pets): Completed
+- Groomer Account Management (add/update/delete services): Completed
+- Groomer Search by Area and Location: In progess
+- Appointments/Scheduling: Backend-completed / Frontend-in progress
+- Payment Services: Backend-completed / Frontend-not started
+- Groomer Rating System: Backend-completed / Frontend-in progress
 
 <br>
 
