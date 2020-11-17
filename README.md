@@ -2,72 +2,79 @@
 
 For steps on how to work with this repository [please see here](https://docs.labs.lambdaschool.com/labs-spa-starter/)
 
-🚫 Note: All lines that start with 🚫 are instructions and should be deleted before this is posted to your first Pull-Request is merged. This is intended to be a guideline. Feel free to add your own flare to it.
 
 # Project
 
-You can find the deployed project at [🚫URL NAME GOES HERE](🚫copy and paste URL here).
+You can find the deployed project [Here](https://c.expressgroomer.dev/).
 
 ## Contributors
 
-🚫Add contributor info below, make sure add images and edit the social links for each member. Add to or delete these place-holders as needed
 
-|                                                      [Student 1](https://github.com/)                                                       |                                                       [Student 2](https://github.com/)                                                        |                                                      [Student 3](https://github.com/)                                                       |                                                       [Student 4](https://github.com/)                                                        |                                                      [Student 5](https://github.com/)                                                       |
+|                                                      [Ryan Barnhill](https://github.com/74ultra/)                                                       |                                                       [Lydie Cherilus](https://github.com/lydiecherilus)                                                        |                                                      [Daniel Kanangila](https://github.com/danielkanangila)                                                       |                                                       [Ken Ridenour](https://github.com/ken1286/)                                                        |                                                      
 | :-----------------------------------------------------------------------------------------------------------------------------------------: | :-------------------------------------------------------------------------------------------------------------------------------------------: | :-----------------------------------------------------------------------------------------------------------------------------------------: | :-------------------------------------------------------------------------------------------------------------------------------------------: | :-----------------------------------------------------------------------------------------------------------------------------------------: |
-| [<img src="https://www.dalesjewelers.com/wp-content/uploads/2018/10/placeholder-silhouette-male.png" width = "200" />](https://github.com/) | [<img src="https://www.dalesjewelers.com/wp-content/uploads/2018/10/placeholder-silhouette-female.png" width = "200" />](https://github.com/) | [<img src="https://www.dalesjewelers.com/wp-content/uploads/2018/10/placeholder-silhouette-male.png" width = "200" />](https://github.com/) | [<img src="https://www.dalesjewelers.com/wp-content/uploads/2018/10/placeholder-silhouette-female.png" width = "200" />](https://github.com/) | [<img src="https://www.dalesjewelers.com/wp-content/uploads/2018/10/placeholder-silhouette-male.png" width = "200" />](https://github.com/) |
-|                                [<img src="https://github.com/favicon.ico" width="15"> ](https://github.com/)                                |                            [<img src="https://github.com/favicon.ico" width="15"> ](https://github.com/honda0306)                             |                          [<img src="https://github.com/favicon.ico" width="15"> ](https://github.com/Mister-Corn)                           |                          [<img src="https://github.com/favicon.ico" width="15"> ](https://github.com/NandoTheessen)                           |                           [<img src="https://github.com/favicon.ico" width="15"> ](https://github.com/wvandolah)                            |
-|                [ <img src="https://static.licdn.com/sc/h/al2o9zrvru7aqj8e1x2rzsrca" width="15"> ](https://www.linkedin.com/)                |                 [ <img src="https://static.licdn.com/sc/h/al2o9zrvru7aqj8e1x2rzsrca" width="15"> ](https://www.linkedin.com/)                 |                [ <img src="https://static.licdn.com/sc/h/al2o9zrvru7aqj8e1x2rzsrca" width="15"> ](https://www.linkedin.com/)                |                 [ <img src="https://static.licdn.com/sc/h/al2o9zrvru7aqj8e1x2rzsrca" width="15"> ](https://www.linkedin.com/)                 |                [ <img src="https://static.licdn.com/sc/h/al2o9zrvru7aqj8e1x2rzsrca" width="15"> ](https://www.linkedin.com/)                |
+| [<img src="https://avatars0.githubusercontent.com/u/43554945?s=400&u=6b30d3edcae818d70f8df971e4cc7728dfe701b3&v=4" width = "200" />](https://github.com/) | [<img src="https://avatars1.githubusercontent.com/u/57009304?s=400&u=0d7aeac2b88655a2bf00edc309d7755e870c194f&v=4" width = "200" />](https://github.com/) | [<img src="https://avatars2.githubusercontent.com/u/17149997?s=400&u=1ce10eb8aafdd33cb43a1d9fcc3675f8495242f5&v=4" width = "200" />](https://github.com/) | [<img src="https://avatars2.githubusercontent.com/u/44625066?s=400&u=6ccb6e3a428a150c9a6ea22f8a7065ac65e2c924&v=4" width = "200" />](https://github.com/) | 
+|                                [<img src="https://github.com/favicon.ico" width="15"> ](https://github.com/74ultra/)                                |                            [<img src="https://github.com/favicon.ico" width="15"> ](https://github.com/lydiecherilus)                             |                          [<img src="https://github.com/favicon.ico" width="15"> ](https://github.com/danielkanangila)                           |                          [<img src="https://github.com/favicon.ico" width="15"> ](https://github.com/ken1286/)                           |                                                       |
+|                [ <img src="https://static.licdn.com/sc/h/al2o9zrvru7aqj8e1x2rzsrca" width="15"> ](https://www.linkedin.com/in/ryanbarnhill/)                |                 [ <img src="https://static.licdn.com/sc/h/al2o9zrvru7aqj8e1x2rzsrca" width="15"> ](https://www.linkedin.com/in/lydiecherilus/)                 |                [ <img src="https://static.licdn.com/sc/h/al2o9zrvru7aqj8e1x2rzsrca" width="15"> ](https://www.linkedin.com/in/kkanangila/)                |                 [ <img src="https://static.licdn.com/sc/h/al2o9zrvru7aqj8e1x2rzsrca" width="15"> ](https://www.linkedin.com/in/kenridenour/)                 |                               |
 
 <br>
 <br>
 
-🚫 Optional examples of using images with links for your tech stack, make sure to change these to fit your project
 
 ![MIT](https://img.shields.io/packagist/l/doctrine/orm.svg)
 ![node express](https://img.shields.io/node/v-lts/express)
 ![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)
 
-🚫 more info on using badges [here](https://github.com/badges/shields)
+
 
 ### Key Features
 
-- feature one
-- feature two
-- feature three
-- feature four
-- feature five
+#### Connect groomers with pet owners 
+- User Login, Account Setup and Profile Update: Completed
+- Conditional Homepage and Dashboard Rendering: Completed
+- Client Account Management (add/update/delete pets): Completed
+- Groomer Account Management (add/update/delete services): Completed
+- Groomer Search by Area and Location: In progess
+- Appointments/Scheduling: Backend-completed / Frontend-in progress
+- Payment Services: Backend-completed / Frontend-not started
+- Groomer Rating System: Backend-completed / Frontend-in progress
 
-#### Back end deployed to `🚫insert service here`
+<br>
 
-#### [Front end](🚫link to back end repo here) built using:
+#### Back end deployed to [Heroku](https://labspt12-express-groomer-c-api.herokuapp.com/)
 
-#### 🚫 back end framework and key libraries go here
+#### [Back end](https://labspt12-express-groomer-c-api.herokuapp.com/) built using:
 
-- point one
-- point two
-- point three
+- Node
+- Express
+- Nodemon
+- Knex
+- Dotenv
+- Helmet
+- Cors
+- Morgan
+- Okta/jwt-verifier
+- Axios
+- Swagger-jsdoc / Swagger-ui-express
+- Cookie-parser
+- Faker
+- Eslint
+- Jest
+- Supertest
 
-🚫 List the rest of the back end end features and libraries in the same format as the framework above
+<br>
 
 # APIs
 
 ## Authentication API here
+[Swagger Documentation](https://labspt12-express-groomer-c-api.herokuapp.com/api-docs)
 
-🚫Replace text below with a description and link to your API swagger docs
-
-Water's like me. It's laaazy ... Boy, it always looks for the easiest way to do things A little happy sunlight shining through there. Let all these little things happen. Don't fight them. Learn to use them. Even the worst thing we can do here is good.
+<br>
 
 ## Payment API here
 
-🚫Replace text below with a description of the API or delete
+### Stripe
 
-This is the way you take out your flustrations. Get away from those little Christmas tree things we used to make in school. Isn't it fantastic that you can change your mind and create all these happy things? Everything's not great in life, but we can still find beauty in it.
-
-## Misc API here
-
-🚫Replace text below with a description of the API
-
-You can do anything your heart can imagine. In life you need colors. This is where you take out all your hostilities and frustrations. It's better than kicking the puppy dog around and all that so. I'm sort of a softy, I couldn't shoot Bambi except with a camera. Trees get lonely too, so we'll give him a little friend. We'll lay all these little funky little things in there.
+<br>
 
 ## Getting Started
 
@@ -150,4 +157,4 @@ Remember that this project is licensed under the MIT license, and by submitting 
 
 ## Documentation
 
-See [Backend Documentation]([🚫*link to your backend API SWAGGER DOCS here*](https://labspt12-express-groomer-c-api.herokuapp.com/api-docs)) for details on the backend of our project.
+See [Backend Documentation]([https://labspt12-express-groomer-c-api.herokuapp.com/api-docs](https://labspt12-express-groomer-c-api.herokuapp.com/api-docs)) for details on the backend of our project.
