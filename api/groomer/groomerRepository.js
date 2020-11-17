@@ -6,6 +6,9 @@ const Profile = require('../models/profile');
 const GSRepository = require('./GroomerServiceRepository');
 const ProfileRepository = require('./../profile/profileRepository');
 const AppointmentRepository = require('./../appointment/appointmentRepository');
+const RatingRepository = require('./../rating/ratingRepository');
+const PaymentRepository = require('./../payment/paymentRepository');
+const createHttpError = require('http-errors');
 
 class GroomerRepository extends Repository {
   relationMappings = {
@@ -60,7 +63,19 @@ class GroomerRepository extends Repository {
   }
 
   async get() {
-    return await this.relatedAll();
+    const result = await this.relatedAll();
+    const groomers = [];
+    for (const row of result) {
+      const ratings = await RatingRepository.getAverage(row.profile_id);
+
+      groomers.push({
+        ...row,
+        ratings: ratings.avg,
+        ratingCount: ratings.count,
+      });
+    }
+
+    return groomers;
   }
 
   async getOne(id, params) {
@@ -70,7 +85,13 @@ class GroomerRepository extends Repository {
     const result = await this.relatedOne(whereClose);
     if (!result)
       throw new NotFound('Could not find groomer with the specified id');
-    return result;
+
+    const ratings = await RatingRepository.getAverage(result.profile_id);
+    return {
+      ...result,
+      ratings: ratings.avg,
+      ratingCount: ratings.count,
+    };
   }
 
   async beforeCreate(payload) {
@@ -100,6 +121,33 @@ class GroomerRepository extends Repository {
 
   async afterUpdate(result) {
     return result[0];
+  }
+
+  /**
+   * Retrieve payment history by groomer ID
+   * @param {string} groomerId
+   */
+  async getPaymentHistories(groomerId) {
+    try {
+      const PModel = PaymentRepository.model; // Payment history model
+      // Retrieve payment histories
+      const result = await PModel.query()
+        .join(
+          'appointments',
+          'appointments.id',
+          'payment_histories.appointment_id'
+        )
+        .select('payment_histories.*')
+        .where({ 'appointments.groomer_id': groomerId });
+
+      return result;
+    } catch (error) {
+      throw createHttpError(
+        error.statusCode || 500,
+        error.message ||
+          'An unknown error occurred while trying to retrieve payment history.'
+      );
+    }
   }
 }
 

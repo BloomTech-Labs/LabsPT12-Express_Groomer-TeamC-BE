@@ -259,4 +259,184 @@ router.delete(
   GroomerController.del.bind(GroomerController)
 );
 
+/**
+ * @swagger
+ * components:
+ *  parameters:
+ *    groomerProfileId:
+ *      name: groomerProfileId
+ *      in: path
+ *      description: Groomer profile id associated to the data
+ *      required: true
+ *      schema:
+ *        type: string
+ *  schemas:
+ *      AppointmentInfo:
+ *          type: object
+ *          properties:
+ *              id:
+ *                type: string
+ *              clientId:
+ *                type: string
+ *              clientName:
+ *                type: string
+ *              groomerId:
+ *                type: string
+ *              serviceId:
+ *                type: string
+ *              animalId:
+ *                type: string
+ *              animalType:
+ *                type: string
+ *              animalBreed:
+ *                type: string
+ *              location:
+ *                type:string
+ *              appointmentDate:
+ *                type: date-time
+ *              createdAt:
+ *                type: date-time
+ *              groomerName:
+ *                type: string
+ *              groomerEmail:
+ *                type: string
+ *              serviceName:
+ *                type: string
+ *              serviceCost:
+ *                type: string
+ *
+ *
+ * /groomers/{groomerProfileId}/appointments:
+ *  get:
+ *    description: return list of groomer appointments
+ *    summary: Get a list of groomer appointments
+ *    security:
+ *      - okta: []
+ *    tags:
+ *      - groomerAppointment
+ *    parameters:
+ *      - $ref: '#/components/parameters/groomerProfileId'
+ *    response:
+ *      200:
+ *        description: array of groomer appointments
+ *        content:
+ *          application/json:
+ *              schema:
+ *                  type: array
+ *                  items:
+ *                      $ref: '#/components/schemas/AppointmentInfo'
+ *                  example:
+ *                      - id: '60436819-9b64-445b-a8e9-0b39c9e0e40b'
+ *                        clientId: 'user7_id'
+ *                        clientName: 'Martin Mark'
+ *                        groomerId: '00ulthapbErVUwVJy4x6'
+ *                        serviceId: '9byr1zbnz3vzuqj5y97h'
+ *                        animalId: 'animal6_id'
+ *                        animalType: 'rabbit'
+ *                        animalBreed: 'lionhead rabbit'
+ *                        location: 'my address'
+ *                        appointmentDate: '2020-10-30T08:50:00.000Z'
+ *                        createdAt: '2020-11-04T21:38:06.765Z'
+ *                        groomerName: 'Kole Hane'
+ *                        groomerEmail: 'llama001@maildrop.cc'
+ *                        serviceName: 'Bath & Full Haircut'
+ *                        serviceCost: 19.99
+ *                      - id: '60436819-9b64-445b-a8e9-0b39c9e0e40b'
+ *                        clientId: 'user7_id'
+ *                        clientName: 'Martin Mark'
+ *                        groomerId: '00ulthapbErVUwVJy4x6'
+ *                        serviceId: '9byr1zbnz3vzuqj5y97h'
+ *                        animalId: 'animal6_id'
+ *                        animalType: 'rabbit'
+ *                        animalBreed: 'lionhead rabbit'
+ *                        location: 'my address'
+ *                        appointmentDate: '2020-10-30T08:50:00.000Z'
+ *                        createdAt: '2020-11-04T21:38:06.765Z'
+ *                        groomerName: 'Kole Hane'
+ *                        groomerEmail: 'llama001@maildrop.cc'
+ *                        serviceName: 'Full Haircut'
+ *                        serviceCost: 9.99
+ *      401:
+ *          $ref: '#/components/responses/UnauthorizedError'
+ *      403:
+ *          $ref: '#/components/responses/UnauthorizedError'
+ */
+router.get(
+  '/:groomerProfileId/appointments',
+  authRequired,
+  GroomerController.getGroomerAppointments.bind(GroomerController)
+);
+
+/**
+ * @swagger
+ * components:
+ *  schemas:
+ *    PaymentHistory:
+ *      type: object
+ *      properties:
+ *        id:
+ *          type: string
+ *        appointment_id:
+ *          type: string
+ *        payment_id:
+ *          type: string
+ *        amount:
+ *          type: number
+ *        payment_method:
+ *          type: string
+ *        last4:
+ *          type: string
+ *        created_at:
+ *          type: string
+ *        updated_at:
+ *          type: string
+ *
+ *
+ * /groomers/{groomerProfileId}:
+ *  get:
+ *    description: returns list of payments
+ *    summary: Get a list of payments by groomer id
+ *    parameters:
+ *      - $ref: '#/components/parameters/groomerProfileId'
+ *    security:
+ *      - okta: []
+ *    tags:
+ *      - groomerPayment
+ *    responses:
+ *      200:
+ *        description: array of payments
+ *        content:
+ *          application/json:
+ *            schema:
+ *              type: array
+ *              items:
+ *                $ref: '#/components/schemas/PaymentHistory'
+ *              example:
+ *                - id: '73b44011-0c27-4be4-a16c-fedea74860d8'
+ *                  appointment_id: '26aff196-b982-4307-b8d2-d8f51b33931e'
+ *                  payment_id: 'ch_1HmMWFAVYwEBFOXjoSG86stW'
+ *                  amount: 15499
+ *                  payment_method: 'Visa-card'
+ *                  last4: '4242'
+ *                  created_at: '2020-11-11T16:50:04.208Z'
+ *                  updated_at: '2020-11-11T16:50:04.208Z'
+ *                - id: '121aecd0-3f4c-4da5-8fb4-f43d56dc5e69'
+ *                  appointment_id: '26aff196-b982-4307-b8d2-d8f51b33931e'
+ *                  payment_id: 'ch_1HmMTqAVYwEBFOXjDGmXkMkf'
+ *                  amount: 17499
+ *                  payment_method: 'Visa-card'
+ *                  last4: '4242'
+ *                  created_at: '2020-11-11T16:47:35.323Z'
+ *                  updated_at: '2020-11-11T16:47:35.323Z'
+ *      401:
+ *          $ref: '#/components/responses/UnauthorizedError'
+ *      403:
+ *          $ref: '#/components/responses/UnauthorizedError'
+ */
+router.get(
+  '/:groomerProfileId/payments',
+  authRequired,
+  GroomerController.getPaymentHistories.bind(GroomerController)
+);
+
 module.exports = router;
