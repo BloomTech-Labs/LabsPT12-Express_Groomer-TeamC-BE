@@ -28,15 +28,33 @@ You can find the deployed project [Here](https://c.expressgroomer.dev/).
 
 ### Key Features
 
-#### Connect groomers with pet owners 
-- User Login, Account Setup and Profile Update: Completed
-- Conditional Homepage and Dashboard Rendering: Completed
-- Client Account Management (add/update/delete pets): Completed
-- Groomer Account Management (add/update/delete services): Completed
-- Groomer Search by Area and Location: In progress
-- Appointments/Scheduling: Backend-completed / Frontend-in progress
-- Payment Services: Backend-completed / Frontend-not started
-- Groomer Rating System: Backend-completed / Frontend-in progress
+#### Connect groomers with pet owners
+#### Release 1
+- FE and BE: completed
+  - Account creation and login
+    - Users should be able to create an account based on their persona. Account type for the groomer and a seperate account type for the client.
+  - Search Groomer Database
+    - Groomers should be able to set up profile. Based on the groomer profile, users will be able to search groomers.
+#### Release 2
+- FE: in progress
+  - Appointments/Scheduling: in progress
+    - Groomers should be able to manage the request from users, schedule appointments, and have a way to manage their appointments
+  - Enhanced Groomer Search: in progress
+    - Using the mapbox API, provide a way for users to search within an area: completed  
+    - The user should be able to enter an address, provide a search radius, and the output will be a list of   groomers based on the criteria entered: in progress  
+    - The user should also be able to pin the groomers or save for later: not started
+- BE: completed
+  - Appointments/Scheduling
+  - Enhanced Groomer Search
+#### Release 3
+- FE: in progress
+  - Payment Services: not started
+    - Payment integration with Stripe.
+  - Groomer Rating System: in progress
+    - Users will be able to rate groomers based on the experience they had. This rating should be 1-4 stars and an option for the user to provide comments based on thier experience.
+- BE: completed
+  - Payment Services
+  - Groomer Rating System
 
 <br>
 
