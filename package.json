@@ -41,6 +41,7 @@
   },
   "dependencies": {
     "@okta/jwt-verifier": "^1.0.0",
+    "@turf/turf": "^5.1.6",
     "aws-sdk": "^2.776.0",
     "axios": "^0.19.2",
     "cookie-parser": "~1.4.4",

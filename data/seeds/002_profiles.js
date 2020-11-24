@@ -1,5 +1,8 @@
 const faker = require('faker');
 const getLocations = require('./../utils/locations');
+const axios = require('axios');
+
+faker.locale = 'en_US';
 
 exports.seed = function (knex) {
   // Deletes ALL existing entries
@@ -7,120 +10,38 @@ exports.seed = function (knex) {
     .del()
     .then(async function () {
       const locations = await getLocations();
-      // Inserts seed entries
-      return knex('profiles').insert([
-        {
-          id: '00ulthapbErVUwVJy4x6',
-          avatarUrl: faker.image.avatar(),
-          email: 'llama001@maildrop.cc',
-          name: 'Kole Hane',
-          user_type: 'dc885650-0de0-11eb-8250-a5697c93ae91',
-          phone: '(800) 275-8777',
-          address: locations[0].address,
-          city: locations[0].city,
-          state: locations[0].state,
-          zip_code: parseInt(locations[0].zip_code),
-          latitude: locations[0].lat,
-          longitude: locations[0].lng,
-        },
-        {
-          id: 'user2_id',
-          avatarUrl: faker.image.avatar(),
-          email: 'llama002@maildrop.cc',
-          name: 'Lucas King',
-          user_type: 'dc885650-0de0-11eb-8250-a5697c93ae91',
-          phone: '(800) 275-8777',
-          address: locations[1].address,
-          city: locations[1].city,
-          state: locations[1].state,
-          zip_code: parseInt(locations[1].zip_code),
-          latitude: locations[1].lat,
-          longitude: locations[1].lng,
-        },
-        {
-          id: 'user3_id',
-          avatarUrl: faker.image.avatar(),
-          email: 'llama003@maildrop.cc',
-          name: 'Garland Baumbach',
-          user_type: 'dc885650-0de0-11eb-8250-a5697c93ae91',
-          phone: '(800) 275-8000',
-          address: locations[2].address,
-          city: locations[2].city,
-          state: locations[2].state,
-          zip_code: parseInt(locations[2].zip_code),
-          latitude: locations[2].lat,
-          longitude: locations[2].lng,
-        },
-        {
-          id: 'user4_id',
-          avatarUrl: faker.image.avatar(),
-          email: 'llama004@maildrop.cc',
-          name: 'Arvel Bernier',
-          user_type: 'dc885650-0de0-11eb-8250-a5697c93ae91',
-          phone: '(800) 555-7790',
-          address: locations[3].address,
-          city: locations[3].city,
-          state: locations[3].state,
-          zip_code: parseInt(locations[3].zip_code),
-          latitude: locations[3].lat,
-          longitude: locations[3].lng,
-        },
-        {
-          id: 'user5_id',
-          avatarUrl: faker.image.avatar(),
-          email: 'llama005@maildrop.cc',
-          name: 'Max Goldner',
-          user_type: 'dc885650-0de0-11eb-8250-a5697c93ae91',
-          phone: '(800) 305-4400',
-          address: locations[4].address,
-          city: locations[4].city,
-          state: locations[4].state,
-          zip_code: parseInt(locations[4].zip_code),
-          latitude: locations[4].lat,
-          longitude: locations[4].lng,
-        },
-        {
-          id: 'user6_id',
-          avatarUrl: faker.image.avatar(),
-          email: 'llama006@maildrop.cc',
-          name: 'Tim Leon',
-          user_type: 'dc885650-0de0-11eb-8250-a5697c93ae91',
-          phone: '',
-          address: locations[5].address,
-          city: locations[5].city,
-          state: locations[5].state,
-          zip_code: parseInt(locations[5].zip_code),
-          latitude: locations[5].lat,
-          longitude: locations[5].lng,
-        },
-        {
-          id: 'user7_id',
-          avatarUrl: faker.image.avatar(),
-          email: 'llama007@maildrop.cc',
-          name: 'Martin Mark',
-          user_type: '035f3a60-0de0-11eb-93e6-ddb47fc994e4',
-          phone: '(415) 643-3790',
-          address: locations[6].address,
-          city: locations[6].city,
-          state: locations[6].state,
-          zip_code: parseInt(locations[6].zip_code),
-          latitude: locations[6].lat,
-          longitude: locations[6].lng,
-        },
-        {
-          id: 'user8_id',
-          avatarUrl: faker.image.avatar(),
-          email: 'llama008@maildrop.cc',
-          name: 'Andre Premier',
-          user_type: '035f3a60-0de0-11eb-93e6-ddb47fc994e4',
-          phone: '',
-          address: locations[7].address,
-          city: locations[7].city,
-          state: locations[7].state,
-          zip_code: parseInt(locations[7].zip_code),
-          latitude: locations[7].lat,
-          longitude: locations[7].lng,
-        },
-      ]);
+      const faces = (
+        await axios.get('https://uifaces.co/api', {
+          method: 'GET',
+          headers: {
+            'X-API-KEY': 'E268CA33-9EFA419D-BD2C2C9D-ED0AC9D8',
+            Accept: 'application/json',
+            'Cache-Control': 'no-cache',
+          },
+        })
+      ).data;
+      // create data
+      const profiles = [];
+      for (let i = 1; i < 9; i++) {
+        const item = {
+          id: i === 1 ? '00ulthapbErVUwVJy4x6' : `user${i}_id`,
+          avatarUrl: faces[i].photo,
+          email: `llama00${i}@maildrop.cc`,
+          name: `${faker.name.firstName()} ${faker.name.lastName()}`,
+          user_type: Array.from(Array(6), (e, i) => i + 1).includes(i)
+            ? 'dc885650-0de0-11eb-8250-a5697c93ae91'
+            : '035f3a60-0de0-11eb-93e6-ddb47fc994e4',
+          phone: faker.phone.phoneNumber('(###) ###-####'),
+          address: locations[i - 1].address,
+          city: locations[i - 1].city,
+          state: locations[i - 1].state,
+          zip_code: parseInt(locations[i - 1].zip_code),
+          latitude: locations[i - 1].lat,
+          longitude: locations[i - 1].lng,
+        };
+        profiles.push(item);
+      }
+
+      return knex('profiles').insert(profiles);
     });
 };
