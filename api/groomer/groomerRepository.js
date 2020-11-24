@@ -80,9 +80,14 @@ class GroomerRepository extends Repository {
 
   async getOne(id, params) {
     const method = params.context.method;
-    const whereClose =
-      method === 'PUT' ? { 'groomers.id': id } : { profile_id: id };
-    const result = await this.relatedOne(whereClose);
+    // const whereClose =
+    //   method === 'PUT' ? { 'groomers.id': id } : { profile_id: id };
+    const result = await this.relatedOne(() => {
+      this.model
+        .query()
+        .where('groomers.id', id)
+        .orWhere('groomers.profile_id', id);
+    });
     if (!result)
       throw new NotFound('Could not find groomer with the specified id');
 
